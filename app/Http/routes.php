@@ -25,6 +25,19 @@ Route::get('index', function()
     return View::make('index');
 });
 
+Route::group(
+	array('prefix' => 'users','before' => 'Sentry'), function () {
+		Route::get('add', array('as' => 'add/user', 'uses' => 'UsersController@addUsers'));
+        Route::get('/', array('as' => 'banners', 'uses' => 'BannersController@listBanners'));
+		Route::post('add', 'UsersController@createBanner');
+		Route::get('{id}', array('as' => 'banners.show', 'uses' => 'BannersController@show'));
+        Route::get('{id}/edit', array('as' => 'banners.update', 'uses' => 'BannersController@getEdit'));
+		Route::post('{id}/edit', 'BannersController@postEdit');
+		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'BannersController@getDelete'));
+		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/banner', 'uses' => 'BannersController@getModalDelete'));
+	});
+
+
 Route::get('index2', function()
 {
     return View::make('index2');

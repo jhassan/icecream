@@ -327,6 +327,15 @@
                 <li><a href="index2"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
               </ul>
             </li>
+            <li class="active treeview">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Users</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li class="active"><a href="{{ URL::to('users/add') }}"><i class="fa fa-circle-o"></i> Add User</a></li>
+                
+              </ul>
+            </li>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-files-o"></i>
@@ -419,7 +428,7 @@
                 <li><a href="examples/lockscreen"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
                 <li><a href="examples/404"><i class="fa fa-circle-o"></i> 404 Error</a></li>
                 <li><a href="examples/500"><i class="fa fa-circle-o"></i> 500 Error</a></li>
-                <li><a href="examples/blank"><i class="fa fa-circle-o"></i> Blank Page</a></li>
+                <li><a href="{{ URL::to('users/add') }}"><i class="fa fa-circle-o"></i> Blank Page</a></li>
               </ul>
             </li>
             <li class="treeview">

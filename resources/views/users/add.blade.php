@@ -211,17 +211,8 @@
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-              </ul>
-            </li>
-            <li class="active treeview">
-              <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Users</span> <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li class="active"><a href="{{ URL::to('users/add') }}"><i class="fa fa-circle-o"></i> Add User</a></li>
-                <li><a href="index2"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                <li><a href="../../index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li><a href="../../index2"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -382,12 +373,19 @@
               </div>
             </div>
             <div class="box-body">
+            	<!-- errors -->
+                    <div class="has-error">
+                        {!! $errors->first('first_name', '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first('last_name', '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first('password', '<span class="help-block">:message</span>') !!}
+                       
+                    </div>
                <div class="row">
 
                         <div class="col-md-12">
 
                             <!-- BEGIN FORM WIZARD WITH VALIDATION -->
-                            <form class="form-wizard form-horizontal" action="" method="POST" id="wizard" enctype="multipart/form-data">
+                            <form class="form-wizard form-horizontal" action="" method="POST" id="wizard">
                                 <!-- CSRF Token -->
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
@@ -399,7 +397,7 @@
                                     <div class="form-group">
                                         <label for="first_name" class="col-sm-2 control-label">First Name *</label>
                                         <div class="col-sm-10">
-                                            <input id="first_name" name="first_name" type="text" placeholder="First Name" class="form-control required" value="" />
+                                            <input id="first_name" name="first_name" type="text" placeholder="First Name" class="form-control required" value="{{{ Input::old('first_name') }}}" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -453,7 +451,7 @@
                                             <input id="address" name="address" type="text" class="form-control" value="{{{ Input::old('address') }}}" />
                                         </div>
                                     </div>
-                                      <input type="button" id="add_test" class="btn btn-md btn-primary" value="Add User" style="float:right;" />
+                                      <input type="submit" id="add_test" class="btn btn-md btn-primary" value="Add User" style="float:right;" />
                               </section>
                             </div>
                             </div>
