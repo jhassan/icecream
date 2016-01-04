@@ -14,7 +14,7 @@ class ShopsController extends Controller {
 	 */
 	public function index()
 	{
-		//
+		return View('index');
 	}
 
 	/**

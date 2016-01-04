@@ -60,16 +60,16 @@ Route::get('examples/login', function()
     return View::make('examples.login');
 });
 
-// Add shop
-//Route::get('shops/add', function(){ return View::make('shops.add');});
 
-Route::group(['namespace' => 'shops', 'prefix' => 'shops'], function()
+Route::get('shops/add', function(){ return View::make('shops.add');}); // Add shop
+Route::get('shops/show', function(){ return View::make('shops.show');}); // view shop
+/*Route::group(['namespace' => 'shops', 'prefix' => 'shops'], function()
 {
     Route::get('add',['uses' => 'ShopsController@create']);
     Route::get('/',['uses' => 'ShopsController@index']);
    // Route::get('edit', ['uses' => 'UserController@index']);
 
-});
+});*/
 
 
 

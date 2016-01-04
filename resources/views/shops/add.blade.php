@@ -217,6 +217,24 @@
             </li>
             <li class="treeview">
               <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Users Management</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li class="active"><a href="{{ URL::to('users/add') }}"><i class="fa fa-circle-o"></i> Add User</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> View Users</a></li>
+              </ul>
+            </li>  
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Shop Management</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li class="active"><a href="/shops/add"><i class="fa fa-circle-o"></i> Add Shop</a></li>
+                <li><a href="/shops/show"><i class="fa fa-circle-o"></i> View Shops</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
                 <i class="fa fa-files-o"></i>
                 <span>Layout Options</span>
                 <span class="label label-primary pull-right">4</span>
@@ -350,13 +368,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Add User
+            Add Shop
             <small></small>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#">Users</a></li>
-            <li class="active">Add User</li>
+            <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="/shops/show">View Shops</a></li>
           </ol>
         </section>
 
@@ -366,97 +383,43 @@
           <!-- Default box -->
           <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Title</h3>
+              <h3 class="box-title">Shop</h3>
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
               </div>
             </div>
-            <div class="box-body">
-            	<!-- errors -->
-                    <div class="has-error">
-                        {!! $errors->first('first_name', '<span class="help-block">:message</span>') !!}
-                        {!! $errors->first('last_name', '<span class="help-block">:message</span>') !!}
-                        {!! $errors->first('password', '<span class="help-block">:message</span>') !!}
-                       
+            
+             <div class="box box-primary">
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label for="shop_name">Shop Name</label>
+                      <input type="text" name="shop_name" class="form-control" id="shop_name" placeholder="Shop Name">
                     </div>
-               <div class="row">
+                    <div class="form-group">
+                      <label for="shop_address">Shop Address</label>
+                      <input type="text" class="form-control" id="shop_address" placeholder="Shop Address" name="shop_address">
+                    </div>
+                    <div class="form-group">
+                      <label for="shop_code">Shop Code</label>
+                      <input type="text" class="form-control" id="shop_code" maxlength="3" placeholder="Shop Code" name="shop_code" place >
+                    </div>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" name="shop_status" id="shop_status"> Enable/Disable
+                      </label>
+                    </div>
+                  </div><!-- /.box-body -->
 
-                        <div class="col-md-12">
+                  <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div> 
 
-                            <!-- BEGIN FORM WIZARD WITH VALIDATION -->
-                            <form class="form-wizard form-horizontal" action="" method="POST" id="wizard">
-                                <!-- CSRF Token -->
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-
-                                <!-- first tab -->
-                                <h1>User </h1>
-
-                                <section>
-                                
-                                    <div class="form-group">
-                                        <label for="first_name" class="col-sm-2 control-label">First Name *</label>
-                                        <div class="col-sm-10">
-                                            <input id="first_name" name="first_name" type="text" placeholder="First Name" class="form-control required" value="{{{ Input::old('first_name') }}}" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="last_name" class="col-sm-2 control-label">Last Name *</label>
-                                        <div class="col-sm-10">
-                                            <input id="last_name" name="last_name" type="text" placeholder="Last Name" class="form-control required" value="{{{ Input::old('last_name') }}}" />
-                                        </div>
-                                    </div>
-                                
-                                    <div class="form-group">
-                                        <label for="email" class="col-sm-2 control-label">Email *</label>
-                                        <div class="col-sm-10">
-                                            <input id="email" name="email" placeholder="E-Mail" type="text" class="form-control required email" value="{{{ Input::old('email') }}}" />
-                                        </div>
-                                    </div>
-                                
-                                    <div class="form-group">
-                                        <label for="password" class="col-sm-2 control-label">Password *</label>
-                                        <div class="col-sm-10">
-                                            <input id="password" name="password" type="password" placeholder="Password" class="form-control required" value="{{{ Input::old('password') }}}" />
-                                        </div>
-                                    </div>
-                                
-                                    <div class="form-group">
-                                        <label for="password_confirm" class="col-sm-2 control-label">Confirm Password *</label>
-                                        <div class="col-sm-10">
-                                            <input id="password_confirm" name="password_confirm" type="password" placeholder="Confirm Password " class="form-control required" value="{{{ Input::old('password_confirm') }}}" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email" class="col-sm-2 control-label">Gender</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control" title="Select Gender..." name="gender">
-                                                <option value="">Select</option>
-                                                <option value="male" @if(Input::old('gender') === 'male') selected="selected" @endif >MALE</option>
-                                                <option value="female" @if(Input::old('gender') === 'female') selected="selected" @endif >FEMALE</option>
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                     <div class="form-group">
-                                        <label for="city" class="col-sm-2 control-label">City</label>
-                                        <div class="col-sm-10">
-                                            <input id="city" name="city" type="text" class="form-control" value="{{{ Input::old('city') }}}" />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="address" class="col-sm-2 control-label">Address</label>
-                                        <div class="col-sm-10">
-                                            <input id="address" name="address" type="text" class="form-control" value="{{{ Input::old('address') }}}" />
-                                        </div>
-                                    </div>
-                                      <input type="submit" id="add_test" class="btn btn-md btn-primary" value="Add User" style="float:right;" />
-                              </section>
-                            </div>
-                            </div>
-                                    </form>
-            </div><!-- /.box-body -->
             <!--<div class="box-footer">
               Footer
             </div>--><!-- /.box-footer-->
