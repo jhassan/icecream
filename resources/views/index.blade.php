@@ -318,7 +318,7 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="active treeview">
+            <li class="treeview">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
@@ -327,13 +327,22 @@
                 <li><a href="index2"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
               </ul>
             </li>
-            <li class="active treeview">
+            <li class="treeview">
               <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Users</span> <i class="fa fa-angle-left pull-right"></i>
+                <i class="fa fa-dashboard"></i> <span>Users Management</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
                 <li class="active"><a href="{{ URL::to('users/add') }}"><i class="fa fa-circle-o"></i> Add User</a></li>
-                
+                <li><a href="#"><i class="fa fa-circle-o"></i> View Users</a></li>
+              </ul>
+            </li>  
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Shop Management</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li class="active"><a href="shops"><i class="fa fa-circle-o"></i> Add Shop</a></li>
+                <li><a href="index2"><i class="fa fa-circle-o"></i> View Shops</a></li>
               </ul>
             </li>
             <li class="treeview">
