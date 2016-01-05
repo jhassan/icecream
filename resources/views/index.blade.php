@@ -342,7 +342,7 @@
               </a>
               <ul class="treeview-menu">
                 <li class="active"><a href="{{ URL::to('shops/add') }}"><i class="fa fa-circle-o"></i> Add Shop</a></li>
-                <li><a href="index2"><i class="fa fa-circle-o"></i> View Shops</a></li>
+                <li><a href="{{ URL::to('shops') }}"><i class="fa fa-circle-o"></i> View Shops</a></li>
               </ul>
             </li>
             <li class="treeview">

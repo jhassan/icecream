@@ -21,6 +21,10 @@ class ShopsController extends Controller {
 		//return 'test';
 		return View('shops.add');	
 	}
+	public function listShops(){
+		//return 'test';
+		return View('shops.show');	
+	}
 	
 
 	/**
