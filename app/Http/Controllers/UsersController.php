@@ -8,6 +8,7 @@ use DB;
 use Validator;
 use Input;
 use Session;
+use App\Users;
 
 
 
@@ -48,7 +49,7 @@ class UsersController extends Controller {
 			return Redirect::back()->withInput()->withErrors($validator);
         }
 		
-		if ($file = Input::file('pic'))
+		/*if ($file = Input::file('pic'))
         {
             $fileName        = $file->getClientOriginalName();
             $extension       = $file->getClientOriginalExtension() ?: 'png';
@@ -60,15 +61,15 @@ class UsersController extends Controller {
 		
 		// Lets create thumbs of images as well.
 		$img = Image::make($destinationPath.$safeName);
-		$img->resize(200, 200);
-		$img->save($destinationPath."thumbs/thumb_".$safeName);
+		$img->resize(200, 200);*/
+		//$img->save($destinationPath."thumbs/thumb_".$safeName);
 		
-		$data = new Banners();
+		$data = new Users();
 		
-		$data->title = Input::get('title');
-		$data->caption = Input::get('caption');
-		$data->banner_text = Input::get('banner_text');
-		$data->image_name = $safeName;
+		$data->first_name = Input::get('first_name');
+		$data->last_name = Input::get('last_name');
+		$data->password = Input::get('password');
+		//$data->image_name = $safeName;
 		
 		if($data->save()){
 			return Redirect::back()->with('success', Lang::get('banners/message.success.create'));

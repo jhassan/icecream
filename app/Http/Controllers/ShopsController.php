@@ -16,6 +16,12 @@ class ShopsController extends Controller {
 	{
 		return View('index');
 	}
+	
+	public function addShops(){
+		//return 'test';
+		return View('shops.add');	
+	}
+	
 
 	/**
 	 * Show the form for creating a new resource.

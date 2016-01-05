@@ -341,7 +341,7 @@
                 <i class="fa fa-dashboard"></i> <span>Shop Management</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class="active"><a href="shops"><i class="fa fa-circle-o"></i> Add Shop</a></li>
+                <li class="active"><a href="{{ URL::to('shops/add') }}"><i class="fa fa-circle-o"></i> Add Shop</a></li>
                 <li><a href="index2"><i class="fa fa-circle-o"></i> View Shops</a></li>
               </ul>
             </li>
