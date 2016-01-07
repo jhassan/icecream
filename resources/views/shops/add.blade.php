@@ -373,7 +373,7 @@
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="/shops/show">View Shops</a></li>
+            <li><a href="{{ URL::to('/shops/show') }}">View Shops</a></li>
           </ol>
         </section>
 
@@ -393,11 +393,10 @@
              <div class="box box-primary">
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form role="form">
+                <form action="add" method="post">
                   <div class="box-body">
-                    <div class="form-group">
-                      <label for="shop_name">Shop Name</label>
-                      <input type="text" name="shop_name" class="form-control" id="shop_name" placeholder="Shop Name">
+                      <label for="shop_address">Shop Name</label>
+                      <input type="text" class="form-control" id="shop_name" placeholder="Shop Name" name="shop_name">
                     </div>
                     <div class="form-group">
                       <label for="shop_address">Shop Address</label>
