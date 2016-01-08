@@ -333,7 +333,7 @@
               </a>
               <ul class="treeview-menu">
                 <li class="active"><a href="{{ URL::to('users/add') }}"><i class="fa fa-circle-o"></i> Add User</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> View Users</a></li>
+                <li><a href="{{ URL::to('users') }}"><i class="fa fa-circle-o"></i> View Users</a></li>
               </ul>
             </li>  
             <li class="treeview">

@@ -394,24 +394,28 @@
                       <input type="text" class="form-control" id="last_name" placeholder="Last Name" name="last_name" value="{{{ Input::old('last_name') }}}">
                     </div>
                     <div class="form-group">
+                      <label for="login_name">Login Name *</label>
+                      <input type="text" class="form-control" id="login_name" placeholder="Login Name" name="login_name" value="{{{ Input::old('login_name') }}}">
+                    </div>
+                    <div class="form-group">
                       <label for="email">Email *</label>
                       <input type="text" class="form-control" id="email" placeholder="Email" name="email" value="{{{ Input::old('email') }}}">
                     </div>
                     <div class="form-group">
-                      <label for="last_name">Password *</label>
-                      <input type="text" class="form-control" id="password" placeholder="Password" name="password">
+                      <label for="Password">Password *</label>
+                      <input type="password" class="form-control" id="password" placeholder="Password" name="password">
                     </div>
                     <div class="form-group">
-                      <label for="last_name">Confirm Password *</label>
-                      <input type="text" class="form-control" id="confirm_password" placeholder="Confirm Password" name="confirm_password">
+                      <label for="confirm_password">Confirm Password *</label>
+                      <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" name="confirm_password">
                     </div>
                     <div class="dropdown">
                                         <label for="gender" >Gender</label>
                        
                                             <select class="form-control" title="Select Gender..." name="gender">
                                                 <option value="">Select</option>
-                                                <option value="male" @if(Input::old('gender') === 'male') selected="selected" @endif >MALE</option>
-                                                <option value="female" @if(Input::old('gender') === 'female') selected="selected" @endif >FEMALE</option>
+                                                <option value="1" @if(Input::old('gender') === 'male') selected="selected" @endif >MALE</option>
+                                                <option value="2" @if(Input::old('gender') === 'female') selected="selected" @endif >FEMALE</option>
 
                                             </select>
                                     </div>
@@ -420,7 +424,7 @@
                       <input type="text" class="form-control" id="city" placeholder="City" name="city">
                     </div>
                     <div class="form-group">
-                      <label for="last_name">Address</label>
+                      <label for="address">Address</label>
                       <input type="text" class="form-control" id="address" placeholder="Address" name="address">
                     </div>
                   </div><!-- /.box-body -->
