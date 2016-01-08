@@ -8,16 +8,17 @@ use DB;
 use Validator;
 use Input;
 use Session;
-use App\Users;
+use App\User;
 
 
 
 class UsersController extends Controller {
 
-    public function listBanners(){
-		
-		$banners = DB::table('banners')->orderBy('id', 'desc')->get();
-		return View('admin.banners.list', compact('banners'));	
+    public function listUers(){
+		//return 'user list';
+		$users = DB::table('users')->orderBy('id', 'desc')->get();
+		//print_r($users);
+		return View('users.index', compact('users'));	
 	}
 	
 	 public function show($id){
@@ -31,12 +32,17 @@ class UsersController extends Controller {
 		return View('users.add');	
 	}
 	
-	public function createBanner(){
-		//return 'here';
+	public function createUser(){
 		$rules = array(
             'first_name'  => 'required',
             'last_name'  => 'required',
-			'password'  => 'required|min:5'
+			'email'  => 'required',
+			'password'  => 'required|min:5',
+			'login_name'  => 'required',
+			'city'  => 'required',
+			'gender'  => 'required',
+			'address'  => 'required',
+			'confirm_password'  => 'required',
         );
 
         // Create a new validator instance from our validation rules
@@ -45,33 +51,30 @@ class UsersController extends Controller {
         // If validation fails, we'll exit the operation now.
         if ($validator->fails()) {
             // Ooops.. something went wrong
-            //echo "validation issues...";
+          //  echo "validation issues...";
 			return Redirect::back()->withInput()->withErrors($validator);
         }
-		
-		/*if ($file = Input::file('pic'))
-        {
-            $fileName        = $file->getClientOriginalName();
-            $extension       = $file->getClientOriginalExtension() ?: 'png';
-            $folderName      = '/uploads/banners/';
-            $destinationPath = public_path() . $folderName;
-            $safeName        = str_random(10).'.'.$extension;
-            $file->move($destinationPath, $safeName);
-        }
-		
-		// Lets create thumbs of images as well.
-		$img = Image::make($destinationPath.$safeName);
-		$img->resize(200, 200);*/
-		//$img->save($destinationPath."thumbs/thumb_".$safeName);
-		
-		$data = new Users();
+		//return 'i am here';
+		// Input::get('first_name');
+
+		$data = new User();
 		
 		$data->first_name = Input::get('first_name');
 		$data->last_name = Input::get('last_name');
 		$data->password = Input::get('password');
+		$data->login_name = Input::get('login_name');
+		$data->gender = Input::get('gender');
+		$data->email = Input::get('email');
+		$data->city = Input::get('city');
+		$data->address = Input::get('address');
+		//return $data;exit;
 		//$data->image_name = $safeName;
+		//echo '<pre>';
+		//print_r($data);
+		//echo '</pre>';
 		
 		if($data->save()){
+			//echo 'i am in save';
 			return Redirect::back()->with('success', Lang::get('banners/message.success.create'));
 		}
 		else{
@@ -81,9 +84,10 @@ class UsersController extends Controller {
 	
 	public function getEdit($id = null)
     {
+		//return $id;
 		try {
-			$banners = DB::table('banners')->where('id', $id)->first();
-			return View('admin.banners.edit', compact('banners'));
+			$users = DB::table('users')->where('id', $id)->first();
+			return View('users.edit', compact('users'));
 		}
 		catch (TestimonialNotFoundException $e) {
 			$error = Lang::get('banners/message.error.update', compact('id'));
@@ -94,14 +98,20 @@ class UsersController extends Controller {
 	
 	public function postEdit($id = null)
     {
-	
-		$banner = DB::table('banners')->where('id', $id)->first();
+		//$users = DB::table('users')->where('id', $id)->first();
 		
-		$data = new Banners();
+		$data = new User();
 		
 		$rules = array(
-            'title'        => 'required',
-            'banner_text'  => 'required'
+            'first_name'  => 'required',
+            'last_name'  => 'required',
+			'email'  => 'required',
+			'password'  => 'required|min:5',
+			'login_name'  => 'required',
+			'city'  => 'required',
+			'gender'  => 'required',
+			'address'  => 'required',
+			'confirm_password'  => 'required',
         );
 	
 	    // Create a new validator instance from our validation rules
@@ -111,61 +121,42 @@ class UsersController extends Controller {
 			return Redirect::back()->withInput()->withErrors($validator);
         }
 		// is new image uploaded?
-         	if ($file = Input::file('pic'))
-            { 
-				$fileName        = $file->getClientOriginalName();
-                $extension       = $file->getClientOriginalExtension() ?: 'png';
-                $folderName      = '/uploads/banners/';
-                $destinationPath = public_path() . $folderName;
-                $safeName        = str_random(10).'.'.$extension;
-                $file->move($destinationPath, $safeName);
-
-                //delete old pic if exists
-                if(File::exists(public_path() . $folderName.$banner->image_name))
-                {
-                    File::delete(public_path() . $folderName.$banner->image_name);
-					File::delete(public_path() . $folderName."thumbs/thumb_".$banner->image_name);
-                }
-
-                //save new file path into db
-                $data->image_name = $safeName;	
-            	
-				// Lets create thumbs of images as well.
-				$img = Image::make($destinationPath.$safeName);
-				$img->resize(200, 200);
-				$img->save($destinationPath."thumbs/thumb_".$safeName);
-				
-				}
-				else{
-					$data->image_name = $banner->image_name;
-				}
-				
-				$data->title = Input::get('title');
-				$data->caption = Input::get('caption');
-				$data->banner_text = Input::get('banner_text');
-				
-				Banners::where('id', $id)->update(
-				[
-				'title' => $data->title,
-				'caption' => $data->caption,
-				'banner_text' => $data->banner_text,
-				'image_name' => $data->image_name
-				]);
-				return Redirect::back()->with('success', Lang::get('banners/message.success.update'));;	
+		$data->first_name = Input::get('first_name');
+		$data->last_name = Input::get('last_name');
+		$data->password = Input::get('password');
+		$data->login_name = Input::get('login_name');
+		$data->gender = Input::get('gender');
+		$data->email = Input::get('email');
+		$data->city = Input::get('city');
+		$data->address = Input::get('address');
+		print_r($data);
+			
+			User::where('id', $id)->update(
+			[
+			'first_name' => $data->first_name,
+			'last_name' => $data->last_name,
+			'password' => $data->password,
+			'login_name' => $data->login_name,
+			'gender' => $data->gender,
+			'email' => $data->email,
+			'city' => $data->city,
+			'address' => $data->address
+			]);
+			return Redirect::back()->with('success', Lang::get('banners/message.success.update'));
     }
 
 	public function getModalDelete($id = null)
     {
-       $model = 'banners';
+       $model = 'users';
         $confirm_route = $error = null;
         try {
-			$banner = DB::table('banners')->where('id', $id)->first();
+			$banner = DB::table('users')->where('id', $id)->first();
         } catch (UserNotFoundException $e) {
             // Prepare the error message
-            $error = Lang::get('admin/banners/message.error.delete');
+            $error = Lang::get('banners/message.error.delete');
             return View('backend/layouts/modal_confirmation', compact('error', 'model', 'confirm_route'));
         }
-        $confirm_route = route('delete/banner',['id' => $banner->id]);
+        $confirm_route = route('delete/user',['id' => $banner->id]);
         return View('admin/layouts/modal_confirmation', compact('error', 'model', 'confirm_route'));
     }
 	

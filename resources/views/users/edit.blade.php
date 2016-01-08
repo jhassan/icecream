@@ -1,268 +1,635 @@
-@extends('admin/layouts/default')
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Blank Page</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
 
-{{-- Page title --}}
-@section('title')
-Edit User
-@parent
-@stop
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <!-- Site wrapper -->
+    <div class="wrapper">
 
-{{-- page level styles --}}
-@section('header_styles')
-<!--page level css -->
-<link rel="stylesheet" href="{{ asset('assets/vendors/wizard/jquery-steps/css/wizard.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/vendors/wizard/jquery-steps/css/jquery.steps.css') }}">
-<link href="{{ asset('assets/vendors/jasny-bootstrap/css/jasny-bootstrap.css') }}" rel="stylesheet" />
-<!--end of page level css-->
-@stop
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="../../index2.html" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini"><b>A</b>LT</span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>Admin</b>LTE</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <!-- Messages: style can be found in dropdown.less-->
+              <li class="dropdown messages-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-envelope-o"></i>
+                  <span class="label label-success">4</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="header">You have 4 messages</li>
+                  <li>
+                    <!-- inner menu: contains the actual data -->
+                    <ul class="menu">
+                      <li><!-- start message -->
+                        <a href="#">
+                          <div class="pull-left">
+                            <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                          </div>
+                          <h4>
+                            Support Team
+                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                          </h4>
+                          <p>Why not buy a new awesome theme?</p>
+                        </a>
+                      </li><!-- end message -->
+                    </ul>
+                  </li>
+                  <li class="footer"><a href="#">See All Messages</a></li>
+                </ul>
+              </li>
+              <!-- Notifications: style can be found in dropdown.less -->
+              <li class="dropdown notifications-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bell-o"></i>
+                  <span class="label label-warning">10</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="header">You have 10 notifications</li>
+                  <li>
+                    <!-- inner menu: contains the actual data -->
+                    <ul class="menu">
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="footer"><a href="#">View all</a></li>
+                </ul>
+              </li>
+              <!-- Tasks: style can be found in dropdown.less -->
+              <li class="dropdown tasks-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-flag-o"></i>
+                  <span class="label label-danger">9</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="header">You have 9 tasks</li>
+                  <li>
+                    <!-- inner menu: contains the actual data -->
+                    <ul class="menu">
+                      <li><!-- Task item -->
+                        <a href="#">
+                          <h3>
+                            Design some buttons
+                            <small class="pull-right">20%</small>
+                          </h3>
+                          <div class="progress xs">
+                            <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                              <span class="sr-only">20% Complete</span>
+                            </div>
+                          </div>
+                        </a>
+                      </li><!-- end task item -->
+                    </ul>
+                  </li>
+                  <li class="footer">
+                    <a href="#">View all tasks</a>
+                  </li>
+                </ul>
+              </li>
+              <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                  <span class="hidden-xs">Alexander Pierce</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+                    <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <p>
+                      Alexander Pierce - Web Developer
+                      <small>Member since Nov. 2012</small>
+                    </p>
+                  </li>
+                  <!-- Menu Body -->
+                  <li class="user-body">
+                    <div class="row">
+                      <div class="col-xs-4 text-center">
+                        <a href="#">Followers</a>
+                      </div>
+                      <div class="col-xs-4 text-center">
+                        <a href="#">Sales</a>
+                      </div>
+                      <div class="col-xs-4 text-center">
+                        <a href="#">Friends</a>
+                      </div>
+                    </div><!-- /.row -->
+                  </li>
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-left">
+                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                    </div>
+                    <div class="pull-right">
+                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <!-- Control Sidebar Toggle Button -->
+              <li>
+                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
 
+      <!-- =============================================== -->
 
-{{-- Page content --}}
-@section('content')
-<section class="content-header">
-    <h1>Edit user</h1>
-    <ol class="breadcrumb">
-        <li>
-            <a href="{{ route('dashboard') }}"> <i class="livicon" data-name="home" data-size="16" data-color="#000"></i>
-                Dashboard
-            </a>
-        </li>
-        <li>Users</li>
-        <li class="active">Add New User</li>
-    </ol>
-</section>
-<section class="content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"> <i class="livicon" data-name="users" data-size="16" data-c="#fff" data-hc="#fff" data-loop="true"></i>
-                        Editing user : {{{ $user->first_name}}} {{{ $user->last_name}}}
-                    </h3>
-                    <span class="pull-right clickable">
-                        <i class="glyphicon glyphicon-chevron-up"></i>
-                    </span>
-                </div>
-                <div class="panel-body">
+      <!-- Left side column. contains the sidebar -->
+      <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- Sidebar user panel -->
+          <div class="user-panel">
+            <div class="pull-left image">
+              <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+              <p>Alexander Pierce</p>
+              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+          </div>
+          <!-- search form -->
+          <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </form>
+          <!-- /.search form -->
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
+            <li class="header">MAIN NAVIGATION</li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="../../index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li><a href="../../index2"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-files-o"></i>
+                <span>Layout Options</span>
+                <span class="label label-primary pull-right">4</span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="../layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
+                <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
+                <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
+                <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="../widgets.html">
+                <i class="fa fa-th"></i> <span>Widgets</span> <small class="label pull-right bg-green">Hot</small>
+              </a>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-pie-chart"></i>
+                <span>Charts</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="../charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
+                <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
+                <li><a href="../charts/flot.html"><i class="fa fa-circle-o"></i> Flot</a></li>
+                <li><a href="../charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>UI Elements</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>
+                <li><a href="../UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
+                <li><a href="../UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
+                <li><a href="../UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
+                <li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
+                <li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-edit"></i> <span>Forms</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="../forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
+                <li><a href="../forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
+                <li><a href="../forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-table"></i> <span>Tables</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="../tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
+                <li><a href="../tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="../calendar.html">
+                <i class="fa fa-calendar"></i> <span>Calendar</span>
+                <small class="label pull-right bg-red">3</small>
+              </a>
+            </li>
+            <li>
+              <a href="../mailbox/mailbox.html">
+                <i class="fa fa-envelope"></i> <span>Mailbox</span>
+                <small class="label pull-right bg-yellow">12</small>
+              </a>
+            </li>
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-folder"></i> <span>Examples</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
+                <li><a href="profile.html"><i class="fa fa-circle-o"></i> Profile</a></li>
+                <li><a href="login.html"><i class="fa fa-circle-o"></i> Login</a></li>
+                <li><a href="register.html"><i class="fa fa-circle-o"></i> Register</a></li>
+                <li><a href="lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
+                <li><a href="404.html"><i class="fa fa-circle-o"></i> 404 Error</a></li>
+                <li><a href="500.html"><i class="fa fa-circle-o"></i> 500 Error</a></li>
+                <li class="active"><a href="blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-share"></i> <span>Multilevel</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+                <li>
+                  <a href="#"><i class="fa fa-circle-o"></i> Level One <i class="fa fa-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
+                    <li>
+                      <a href="#"><i class="fa fa-circle-o"></i> Level Two <i class="fa fa-angle-left pull-right"></i></a>
+                      <ul class="treeview-menu">
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+              </ul>
+            </li>
+            <li><a href="../../documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+            <li class="header">LABELS</li>
+            <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
 
-                    <!-- errors -->
-                    <div class="has-error">
+      <!-- =============================================== -->
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Add User
+            <small></small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Users</a></li>
+            <li class="active">Add User</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+          <!-- Default box -->
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">User</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            
+             <div class="box box-primary">
+             	<div class="has-error">
                         {!! $errors->first('first_name', '<span class="help-block">:message</span>') !!}
                         {!! $errors->first('last_name', '<span class="help-block">:message</span>') !!}
-                        {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
                         {!! $errors->first('password', '<span class="help-block">:message</span>') !!}
-                        {!! $errors->first('password_confirm', '<span class="help-block">:message</span>') !!}
-                        {!! $errors->first('group', '<span class="help-block">:message</span>') !!}
-                        {!! $errors->first('pic', '<span class="help-block">:message</span>') !!}
+                       
                     </div>
-
-                    <!--main content-->
-                    <div class="row">
-
-                        <div class="col-md-12">
-
-                            <!-- BEGIN FORM WIZARD WITH VALIDATION -->
-                            <form class="form-wizard form-horizontal" action="" method="POST" id="wizard" enctype="multipart/form-data">
-                                <!-- CSRF Token -->
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-
-                                <!-- first tab -->
-                                <h1>User Profile</h1>
-
-                                <section>
-                                
-                                    <div class="form-group">
-                                        <label for="first_name" class="col-sm-2 control-label">First Name *</label>
-                                        <div class="col-sm-10">
-                                            <input id="first_name" name="first_name" type="text" placeholder="First Name" class="form-control required" value="{{{ Input::old('first_name', $user->first_name) }}}" />
-                                        </div>
-                                    </div>
-                                
-                                    <div class="form-group">
-                                        <label for="last_name" class="col-sm-2 control-label">Last Name *</label>
-                                        <div class="col-sm-10">
-                                            <input id="last_name" name="last_name" type="text" placeholder="Last Name" class="form-control required" value="{{{ Input::old('last_name', $user->last_name) }}}" />
-                                        </div>
-                                    </div>
-                                
-                                    <div class="form-group">
-                                        <label for="email" class="col-sm-2 control-label">Email *</label>
-                                        <div class="col-sm-10">
-                                            <input id="email" name="email" placeholder="E-Mail" type="text" class="form-control required email" value="{{{ Input::old('email', $user->email) }}}" />
-                                        </div>
-                                    </div>
-                                
-                                    <div class="form-group">
-                                        <p class="text-warning">If you don't want to change password... please leave them empty</p>
-                                        <label for="password" class="col-sm-2 control-label">Password *</label>
-                                        <div class="col-sm-10">
-                                            <input id="password" name="password" type="password" placeholder="Password" class="form-control" value="{{{ Input::old('password') }}}" />
-                                        </div>
-                                    </div>
-                                
-                                    <div class="form-group">
-                                        <label for="password_confirm" class="col-sm-2 control-label">Confirm Password *</label>
-                                        <div class="col-sm-10">
-                                            <input id="password_confirm" name="password_confirm" type="password" placeholder="Confirm Password " class="form-control" value="{{{ Input::old('password_confirm') }}}" />
-                                        </div>
-                                    </div>
-                                    
-                                    <p>(*) Mandatory</p>
-                                
-                                </section>
-
-                                <!-- second tab -->
-                                <h1>Bio</h1>
-
-                                <section>
-
-                                    
-
-                                    <div class="form-group">
-                                        <label for="dob" class="col-sm-2 control-label">Date of Birth</label>
-                                        <div class="col-sm-10">
-                                            <input id="dob" name="dob" type="text" class="form-control" data-mask="9999-99-99" value="{{{ Input::old('dob', $user->dob) }}}" placeholder="yyyy-mm-dd" />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="pic" class="col-sm-2 control-label">Profile picture</label>
-                                        <div class="col-sm-10">
-                                            <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                <div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
-                                                    @if($user->pic)
-                                                        <img src="{{{ url('/').'/uploads/users/'.$user->pic }}}" alt="profile pic">
-                                                    @else
-                                                        <img src="http://placehold.it/200x200" alt="profile pic">
-                                                    @endif
-                                                </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 200px;"></div>
-                                                <div>
-                                                    <span class="btn btn-default btn-file">
-                                                        <span class="fileinput-new">Select image</span>
-                                                        <span class="fileinput-exists">Change</span>
-                                                        <input id="pic" name="pic" type="file" class="form-control" />
-                                                    </span>
-                                                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    
-
-                                    
-
-                                    <div class="form-group">
-                                        <label for="bio" class="col-sm-2 control-label">Bio <small>(brief intro)</small></label>
-                                        <div class="col-sm-10">
-                                            <textarea name="bio" id="bio" class="form-control" rows="4">{!! Input::old('bio', $user->bio) !!}</textarea>
-                                        </div>
-                                    </div>
-                                
-                                </section>
-
-                                <!-- third tab -->
-                                <h1>Address</h1>
-                                <section>
-
-                                    <div class="form-group">
-                                        <label for="email" class="col-sm-2 control-label">Gender</label>
-                                        <div class="col-sm-10">
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" action="" method="POST">
+                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label for="first_name">First Name *</label>
+                      <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name" value="{{{ $users->first_name }}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="last_name">Last Name *</label>
+                      <input type="text" class="form-control" id="last_name" placeholder="Last Name" name="last_name" value="{{{ $users->last_name }}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="login_name">Login Name *</label>
+                      <input type="text" class="form-control" id="login_name" placeholder="Login Name" name="login_name" value="{{{ $users->login_name }}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email *</label>
+                      <input type="text" class="form-control" id="email" placeholder="Email" name="email" value="{{{ $users->email }}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="Password">Password *</label>
+                      <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+                    </div>
+                    <div class="form-group">
+                      <label for="confirm_password">Confirm Password *</label>
+                      <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" name="confirm_password">
+                    </div>
+                    <div class="dropdown">
+                                        <label for="gender" >Gender</label>
+                       
                                             <select class="form-control" title="Select Gender..." name="gender">
                                                 <option value="">Select</option>
-                                                <option value="male" @if($user->gender === 'male') selected="selected" @endif >MALE</option>
-                                                <option value="female" @if($user->gender === 'female') selected="selected" @endif >FEMALE</option>
-                                                <option value="other" @if($user->gender === 'other') selected="selected" @endif >OTHER</option>
+                                                <option value="1" @if(Input::old('gender')  === 'male') selected="selected" @endif >MALE</option>
+                                                <option value="2" @if(Input::old('gender') === 'female') selected="selected" @endif >FEMALE</option>
 
                                             </select>
-                                        </div>
                                     </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="country" class="col-sm-2 control-label">Country</label>
-                                        <div class="col-sm-10">
-                                            {!! Form::select('country', $countries,Input::old('country',$user->country),array('class' => 'form-control')) !!}
-
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="state" class="col-sm-2 control-label">State</label>
-                                        <div class="col-sm-10">
-                                            <input id="state" name="state" type="text" class="form-control" value="{{{ Input::old('state', $user->state) }}}" />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="city" class="col-sm-2 control-label">City</label>
-                                        <div class="col-sm-10">
-                                            <input id="city" name="city" type="text" class="form-control" value="{{{ Input::old('city', $user->city) }}}" />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="address" class="col-sm-2 control-label">Address</label>
-                                        <div class="col-sm-10">
-                                            <input id="address" name="address" type="text" class="form-control" value="{{{ Input::old('address', $user->address) }}}" />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="postal" class="col-sm-2 control-label">Postal/zip</label>
-                                        <div class="col-sm-10">
-                                            <input id="postal" name="postal" type="text" class="form-control" value="{{{ Input::old('postal', $user->postal) }}}" />
-                                        </div>
-                                    </div>
-                                    
-                                </section>
-
-                                
-                                <!-- fourth tab -->
-                                <h1>User Group</h1>
-
-                                <section>
-
-                                    <p class="text-danger"><strong>Be careful with group selection, if you give admin access.. they can access admin section</strong></p>
-                                    <div class="form-group">
-                                        <label for="group" class="col-sm-2 control-label">Group *</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control " title="Select group..." name="groups[]" id="groups" required>
-                                                <option value="">Select</option>
-                                                @foreach($groups as $group)
-                                                    <option value="{{{ $group->id }}}" {{ (array_key_exists($group->id, $userGroups) ? ' selected="selected"' : '') }}>{{ $group->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="activate" class="col-sm-2 control-label"> Activate User</label>
-                                        <div class="col-sm-10">
-                                            <input id="activate" name="activate" type="checkbox" class="pos-rel p-l-30" value="1" @if(Input::old('activate', $user->isActivated())) checked="checked" @endif  >
-                                        </div>
-                                        <span>If user is not activated, mail will be sent to user with activation link</span>
-                                    </div>
-                                    
-                                
-                                </section>
-                            
-                            </form>
-                            <!-- END FORM WIZARD WITH VALIDATION --> 
-                        </div>
+                    <div class="form-group">
+                      <label for="city">City</label>
+                      <input type="text" class="form-control" id="city" placeholder="City" name="city" value="{{$users->city}}">
                     </div>
-                    <!--main content end--> 
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--row end-->
-</section>
-@stop
+                    <div class="form-group">
+                      <label for="address">Address</label>
+                      <input type="text" class="form-control" id="address" placeholder="Address" name="address" value="{{{$users->address}}}">
+                    </div>
+                  </div><!-- /.box-body -->
 
-{{-- page level scripts --}}
-@section('footer_scripts')
-    <script type="text/javascript" src="{{ asset('assets/vendors/wizard/jquery-steps/js/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('assets/vendors/wizard/jquery-steps/js/jquery.steps.js') }}"></script>
-    <script src="{{ asset('assets/vendors/jasny-bootstrap/js/jasny-bootstrap.js') }}"></script>
-    <script src="{{ asset('assets/js/pages/add_user.js') }}"></script>
-@stop
+                  <div class="box-footer">
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                  </div>
+                </form>
+              </div> 
+
+            <!--<div class="box-footer">
+              Footer
+            </div>--><!-- /.box-footer-->
+          </div>
+          <!-- /.box -->
+
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 2.3.0
+        </div>
+        <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
+      </footer>
+
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- Create the tabs -->
+        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+          <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+
+          <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <!-- Home tab content -->
+          <div class="tab-pane" id="control-sidebar-home-tab">
+            <h3 class="control-sidebar-heading">Recent Activity</h3>
+            <ul class="control-sidebar-menu">
+              <li>
+                <a href="javascript::;">
+                  <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+                    <p>Will be 23 on April 24th</p>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript::;">
+                  <i class="menu-icon fa fa-user bg-yellow"></i>
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
+                    <p>New phone +1(800)555-1234</p>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript::;">
+                  <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
+                    <p>nora@example.com</p>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript::;">
+                  <i class="menu-icon fa fa-file-code-o bg-green"></i>
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
+                    <p>Execution time 5 seconds</p>
+                  </div>
+                </a>
+              </li>
+            </ul><!-- /.control-sidebar-menu -->
+
+            <h3 class="control-sidebar-heading">Tasks Progress</h3>
+            <ul class="control-sidebar-menu">
+              <li>
+                <a href="javascript::;">
+                  <h4 class="control-sidebar-subheading">
+                    Custom Template Design
+                    <span class="label label-danger pull-right">70%</span>
+                  </h4>
+                  <div class="progress progress-xxs">
+                    <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript::;">
+                  <h4 class="control-sidebar-subheading">
+                    Update Resume
+                    <span class="label label-success pull-right">95%</span>
+                  </h4>
+                  <div class="progress progress-xxs">
+                    <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript::;">
+                  <h4 class="control-sidebar-subheading">
+                    Laravel Integration
+                    <span class="label label-warning pull-right">50%</span>
+                  </h4>
+                  <div class="progress progress-xxs">
+                    <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript::;">
+                  <h4 class="control-sidebar-subheading">
+                    Back End Framework
+                    <span class="label label-primary pull-right">68%</span>
+                  </h4>
+                  <div class="progress progress-xxs">
+                    <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+                  </div>
+                </a>
+              </li>
+            </ul><!-- /.control-sidebar-menu -->
+
+          </div><!-- /.tab-pane -->
+          <!-- Stats tab content -->
+          <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div><!-- /.tab-pane -->
+          <!-- Settings tab content -->
+          <div class="tab-pane" id="control-sidebar-settings-tab">
+            <form method="post">
+              <h3 class="control-sidebar-heading">General Settings</h3>
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  Report panel usage
+                  <input type="checkbox" class="pull-right" checked>
+                </label>
+                <p>
+                  Some information about this general settings option
+                </p>
+              </div><!-- /.form-group -->
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  Allow mail redirect
+                  <input type="checkbox" class="pull-right" checked>
+                </label>
+                <p>
+                  Other sets of options are available
+                </p>
+              </div><!-- /.form-group -->
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  Expose author name in posts
+                  <input type="checkbox" class="pull-right" checked>
+                </label>
+                <p>
+                  Allow the user to show his name in blog posts
+                </p>
+              </div><!-- /.form-group -->
+
+              <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  Show me as online
+                  <input type="checkbox" class="pull-right" checked>
+                </label>
+              </div><!-- /.form-group -->
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  Turn off notifications
+                  <input type="checkbox" class="pull-right">
+                </label>
+              </div><!-- /.form-group -->
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  Delete chat history
+                  <a href="javascript::;" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+                </label>
+              </div><!-- /.form-group -->
+            </form>
+          </div><!-- /.tab-pane -->
+        </div>
+      </aside><!-- /.control-sidebar -->
+      <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+
+    <!-- jQuery 2.1.4 -->
+    <script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="../../bootstrap/js/bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="../../plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="../../dist/js/demo.js"></script>
+  </body>
+</html>

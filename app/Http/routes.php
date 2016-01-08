@@ -28,13 +28,13 @@ Route::get('index', function()
 Route::group(
 	array('prefix' => 'users','before' => 'Sentry'), function () {
 		Route::get('add', array('as' => 'add/user', 'uses' => 'UsersController@addUsers'));
-        Route::get('/', array('as' => 'banners', 'uses' => 'BannersController@listBanners'));
-		Route::post('add', 'UsersController@createBanner');
-		Route::get('{id}', array('as' => 'banners.show', 'uses' => 'BannersController@show'));
-        Route::get('{id}/edit', array('as' => 'banners.update', 'uses' => 'BannersController@getEdit'));
-		Route::post('{id}/edit', 'BannersController@postEdit');
-		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'BannersController@getDelete'));
-		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/banner', 'uses' => 'BannersController@getModalDelete'));
+        Route::get('/', array('as' => 'users', 'uses' => 'UsersController@listUers'));
+		Route::post('add', 'UsersController@createUser');
+		Route::get('{id}', array('as' => 'users.show', 'uses' => 'UsersController@show'));
+        Route::get('{id}/edit', array('as' => 'users.update', 'uses' => 'UsersController@getEdit'));
+		Route::post('{id}/edit', 'UsersController@postEdit');
+		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'UsersController@getDelete'));
+		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'UsersController@getModalDelete'));
 	});
 	
 	
@@ -42,7 +42,7 @@ Route::group(
 	array('prefix' => 'shops','before' => 'Sentry'), function () {
 		Route::get('add', array('as' => 'add/shop', 'uses' => 'ShopsController@addShops'));
         Route::get('/', array('as' => 'shops', 'uses' => 'ShopsController@listShops'));
-		Route::post('add', 'UsersController@createBanner');
+		Route::post('add', 'ShopsController@createBanner');
 		Route::get('{id}', array('as' => 'banners.show', 'uses' => 'ShopsController@show'));
         Route::get('{id}/edit', array('as' => 'banners.update', 'uses' => 'BannersController@getEdit'));
 		Route::post('{id}/edit', 'BannersController@postEdit');
