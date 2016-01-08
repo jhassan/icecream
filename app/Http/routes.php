@@ -50,6 +50,10 @@ Route::group(
 		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/banner', 'uses' => 'BannersController@getModalDelete'));
 	});
 
+Route::resource('nerds', 'NerdController');
+Route::get('/nerds/create', function(){ return View::make('nerds.create');}); // Add shop
+
+
 
 Route::get('index2', function()
 {
