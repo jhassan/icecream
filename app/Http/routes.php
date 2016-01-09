@@ -13,6 +13,8 @@
 
 Route::get('/', 'WelcomeController@index');
 
+Route::get('product/index', 'ProductController@index');
+
 Route::get('home', 'HomeController@index');
 
 Route::controllers([
