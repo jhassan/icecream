@@ -1,7 +1,7 @@
-@extends('layout/header')
+@include('layout/header')
 
 
-@extends('layout/sidebar')
+@include('layout/sidebar')
 
 <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -99,11 +99,14 @@
           <!-- /.box -->
 
         </section><!-- /.content -->
+
+
       </div>
+      @include('layout/footer')
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 
-      @extends('layout/jquery')
+      @include('layout/jquery')
 
       </body>
   </html> 
