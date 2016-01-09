@@ -31,6 +31,7 @@ class NerdController extends Controller {
 	 */
 	public function create()
 	{
+		return 'tttt';
 		// load the create form (app/views/nerds/create.blade.php)
         return View::make('nerds.create');
 	}

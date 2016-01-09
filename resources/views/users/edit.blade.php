@@ -350,13 +350,13 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Add User
+            Edit User
             <small></small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="#">Users</a></li>
-            <li class="active">Add User</li>
+            <li class="active">Edit User</li>
           </ol>
         </section>
 
@@ -403,7 +403,7 @@
                     </div>
                     <div class="form-group">
                       <label for="Password">Password *</label>
-                      <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+                      <input type="password" class="form-control" id="password" placeholder="Password" name="password" >
                     </div>
                     <div class="form-group">
                       <label for="confirm_password">Confirm Password *</label>

@@ -75,7 +75,8 @@ class UsersController extends Controller {
 		
 		if($data->save()){
 			//echo 'i am in save';
-			return Redirect::back()->with('success', Lang::get('banners/message.success.create'));
+			return redirect()->route("users")->with('message','Success');
+			//return redirect()->action('HomeController@index');
 		}
 		else{
 			return Redirect::back()->with('error', Lang::get('banners/message.error.create'));;
@@ -142,7 +143,7 @@ class UsersController extends Controller {
 			'city' => $data->city,
 			'address' => $data->address
 			]);
-			return Redirect::back()->with('success', Lang::get('banners/message.success.update'));
+			return Redirect::back();
     }
 
 	public function getModalDelete($id = null)
