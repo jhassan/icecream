@@ -29,7 +29,7 @@
               </div>
             </div>
             
-             <div class="box box-primary">
+             <div class="box box-primarry">
              	<div class="has-error">
                         {!! $errors->first('first_name', '<span class="help-block">:message</span>') !!}
                         {!! $errors->first('last_name', '<span class="help-block">:message</span>') !!}
