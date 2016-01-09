@@ -1,6 +1,7 @@
-@extends('admin/layouts/default')
+@extends('layout/header')
 
-{{-- Page content --}}
+
+@extends('layout/sidebar')
 
 <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -99,3 +100,10 @@
 
         </section><!-- /.content -->
       </div>
+      <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+
+      @extends('layout/jquery')
+
+      </body>
+  </html> 

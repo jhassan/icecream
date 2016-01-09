@@ -80,6 +80,7 @@ Route::get('examples/login', function()
 });
 
 
+Route::get('layouts/header', function(){ return View::make('layouts.header');}); // Add shop
 //Route::get('shops/add', function(){ return View::make('shops.add');}); // Add shop
 //Route::get('shops/show', function(){ return View::make('shops.show');}); // view shop
 /*Route::group(['namespace' => 'shops', 'prefix' => 'shops'], function()
