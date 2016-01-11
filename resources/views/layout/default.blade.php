@@ -297,5 +297,6 @@
     <script src="{{asset('../../dist/js/dashboard.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('../../dist/js/demo.js')}}"></script>
+     @yield('footer_scripts')
       </body>
   </html> 

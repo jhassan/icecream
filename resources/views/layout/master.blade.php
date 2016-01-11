@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
   <head>
     <meta charset="utf-8">
@@ -44,7 +44,7 @@
 
       <header class="main-header">
         <!-- Logo -->
-        <a href="../../index2.html" class="logo">
+        <a href="../../index2" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>LT</span>
           <!-- logo for regular state and mobile devices -->
@@ -224,8 +224,8 @@
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                <li><a href="../../index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li><a href="../../index2"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -253,14 +253,14 @@
                 <span class="label label-primary pull-right">4</span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-                <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+                <li><a href="../layout/top-nav"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
+                <li><a href="../layout/boxed"><i class="fa fa-circle-o"></i> Boxed</a></li>
+                <li><a href="../layout/fixed"><i class="fa fa-circle-o"></i> Fixed</a></li>
+                <li><a href="../layout/collapsed-sidebar"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
               </ul>
             </li>
             <li>
-              <a href="../widgets.html">
+              <a href="../widgets">
                 <i class="fa fa-th"></i> <span>Widgets</span> <small class="label pull-right bg-green">Hot</small>
               </a>
             </li>
@@ -271,10 +271,10 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
-                <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
-                <li><a href="../charts/flot.html"><i class="fa fa-circle-o"></i> Flot</a></li>
-                <li><a href="../charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
+                <li><a href="../charts/chartjs"><i class="fa fa-circle-o"></i> ChartJS</a></li>
+                <li><a href="../charts/morris"><i class="fa fa-circle-o"></i> Morris</a></li>
+                <li><a href="../charts/flot"><i class="fa fa-circle-o"></i> Flot</a></li>
+                <li><a href="../charts/inline"><i class="fa fa-circle-o"></i> Inline charts</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -284,12 +284,12 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>
-                <li><a href="../UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
-                <li><a href="../UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
-                <li><a href="../UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
-                <li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
-                <li><a href="../UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
+                <li><a href="../UI/general"><i class="fa fa-circle-o"></i> General</a></li>
+                <li><a href="../UI/icons"><i class="fa fa-circle-o"></i> Icons</a></li>
+                <li><a href="../UI/buttons"><i class="fa fa-circle-o"></i> Buttons</a></li>
+                <li><a href="../UI/sliders"><i class="fa fa-circle-o"></i> Sliders</a></li>
+                <li><a href="../UI/timeline"><i class="fa fa-circle-o"></i> Timeline</a></li>
+                <li><a href="../UI/modals"><i class="fa fa-circle-o"></i> Modals</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -298,9 +298,9 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
-                <li><a href="../forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
-                <li><a href="../forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+                <li><a href="../forms/general"><i class="fa fa-circle-o"></i> General Elements</a></li>
+                <li><a href="../forms/advanced"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
+                <li><a href="../forms/editors"><i class="fa fa-circle-o"></i> Editors</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -309,18 +309,18 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-                <li><a href="../tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
+                <li><a href="../tables/simple"><i class="fa fa-circle-o"></i> Simple tables</a></li>
+                <li><a href="../tables/data"><i class="fa fa-circle-o"></i> Data tables</a></li>
               </ul>
             </li>
             <li>
-              <a href="../calendar.html">
+              <a href="../calendar">
                 <i class="fa fa-calendar"></i> <span>Calendar</span>
                 <small class="label pull-right bg-red">3</small>
               </a>
             </li>
             <li>
-              <a href="../mailbox/mailbox.html">
+              <a href="../mailbox/mailbox">
                 <i class="fa fa-envelope"></i> <span>Mailbox</span>
                 <small class="label pull-right bg-yellow">12</small>
               </a>
@@ -331,14 +331,14 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
-                <li><a href="profile.html"><i class="fa fa-circle-o"></i> Profile</a></li>
-                <li><a href="login.html"><i class="fa fa-circle-o"></i> Login</a></li>
-                <li><a href="register.html"><i class="fa fa-circle-o"></i> Register</a></li>
-                <li><a href="lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
-                <li><a href="404.html"><i class="fa fa-circle-o"></i> 404 Error</a></li>
-                <li><a href="500.html"><i class="fa fa-circle-o"></i> 500 Error</a></li>
-                <li class="active"><a href="blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
+                <li><a href="invoice"><i class="fa fa-circle-o"></i> Invoice</a></li>
+                <li><a href="profile"><i class="fa fa-circle-o"></i> Profile</a></li>
+                <li><a href="login"><i class="fa fa-circle-o"></i> Login</a></li>
+                <li><a href="register"><i class="fa fa-circle-o"></i> Register</a></li>
+                <li><a href="lockscreen"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
+                <li><a href="404"><i class="fa fa-circle-o"></i> 404 Error</a></li>
+                <li><a href="500"><i class="fa fa-circle-o"></i> 500 Error</a></li>
+                <li class="active"><a href="blank"><i class="fa fa-circle-o"></i> Blank Page</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -364,7 +364,7 @@
                 <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
               </ul>
             </li>
-            <li><a href="../../documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+            <li><a href="../../documentation/index"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
             <li class="header">LABELS</li>
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
@@ -380,11 +380,11 @@
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <!-- Main content -->
-        <section class="content">
+        
          
           @yield('content')
 
-        </section><!-- /.content -->
+        <!-- /.content -->
       </div><!-- /.content-wrapper -->
 
       <footer class="main-footer">

@@ -1,8 +1,7 @@
-@include('layout/header')
+@extends('/layout/default')
 
-
-@include('layout/sidebar')
-
+{{-- Page content --}}
+@section('content')
 <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -99,14 +98,5 @@
           <!-- /.box -->
 
         </section><!-- /.content -->
-
-
       </div>
-      @include('layout/footer')
-      <div class="control-sidebar-bg"></div>
-    </div><!-- ./wrapper -->
-
-      @include('layout/jquery')
-
-      </body>
-  </html> 
+      @stop

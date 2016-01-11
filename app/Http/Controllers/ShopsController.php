@@ -23,7 +23,7 @@ class ShopsController extends Controller {
 	}
 	public function listShops(){
 		//return 'test';
-		return View('shops.show');	
+		return View('shops.index');	
 	}
 	
 
