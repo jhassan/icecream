@@ -44,12 +44,12 @@ Route::group(
 	array('prefix' => 'shops','before' => 'Sentry'), function () {
 		Route::get('add', array('as' => 'add/shop', 'uses' => 'ShopsController@addShops'));
         Route::get('/', array('as' => 'shops', 'uses' => 'ShopsController@listShops'));
-		Route::post('add', 'ShopsController@createBanner');
+		Route::post('add', 'ShopsController@createShop');
 		Route::get('{id}', array('as' => 'banners.show', 'uses' => 'ShopsController@show'));
-        Route::get('{id}/edit', array('as' => 'banners.update', 'uses' => 'BannersController@getEdit'));
+        Route::get('{id}/edit', array('as' => 'shops.update', 'uses' => 'ShopsController@getEdit'));
 		Route::post('{id}/edit', 'BannersController@postEdit');
-		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'BannersController@getDelete'));
-		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/banner', 'uses' => 'BannersController@getModalDelete'));
+		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ShopsController@getDelete'));
+		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/shop', 'uses' => 'BannersController@getModalDelete'));
 	});
 
 //Route::resource('nerds', 'NerdController');

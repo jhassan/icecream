@@ -24,88 +24,30 @@
                 <div class="box-body">
                   <table id="example2" class="table table-bordered table-hover">
                     <thead>
-                      <tr>
-                        <th>Shop Name</th>
-                        <th>Shop Code</th>
-                        <th>Shop Address</th>
-                      </tr>
+                        <tr class="filters">
+                            <th>ID</th>
+                            <th>Shop Name</th>
+                            <th>Shop Address</th>
+                            <th>Shop Code</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 4.0</td>
-                        <td>Win 95+</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 5.0</td>
-                        <td>Win 95+</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 4.0</td>
-                        <td>Win 95+</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 5.0</td>
-                        <td>Win 95+</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 4.0</td>
-                        <td>Win 95+</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 5.0</td>
-                        <td>Win 95+</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 4.0</td>
-                        <td>Win 95+</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 5.0</td>
-                        <td>Win 95+</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 4.0</td>
-                        <td>Win 95+</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 5.0</td>
-                        <td>Win 95+</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 4.0</td>
-                        <td>Win 95+</td>
-                      </tr>
-                      <tr>
-                        <td>Trident</td>
-                        <td>Internet
-                          Explorer 5.0</td>
-                        <td>Win 95+</td>
-                      </tr>
+                    @foreach ($shops as $shop)
+                    	<tr>
+                            <td>{{{ $shop->shop_id }}}</td>
+                    		<td>{{{ $shop->shop_name }}}</td>
+            				<td>{{{ $shop->shop_address }}}</td>
+            				<td>{{{ $shop->shop_code }}}</td>
+            				<td>{{{ $shop->created_at }}}</td> 
+            				<td> <a href="{{ route('shops.update', $shop->shop_id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
+							<a href="{{ route('confirm-delete/shop', $shop->shop_id) }}"><img src="{{asset("dist/img/delete.png")}}" ></a>
+                            </td>
+            			</tr>
+                    @endforeach
+                        
                     </tbody>
-                    <tfoot>
-                    </tfoot>
                   </table>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->

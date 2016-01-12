@@ -10,8 +10,6 @@ use Input;
 use Session;
 use App\User;
 
-
-
 class UsersController extends Controller {
 
     public function listUers(){
@@ -20,12 +18,6 @@ class UsersController extends Controller {
 		//print_r($users);
 		return View('users.index', compact('users'));	
 	}
-	
-	 public function show($id){
-	 	
-	 	$banners = DB::table('banners')->where('id', $id)->first();
-		return View('admin.banners.show', compact('banners'));
-	 }
 	
 	public function addUsers(){
 		//return 'test';

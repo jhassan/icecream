@@ -33,7 +33,8 @@
              <div class="box box-primary">
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form action="add" method="post">
+                <form action="" method="post">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                   <div class="box-body">
                       <label for="shop_address">Shop Name</label>
                       <input type="text" class="form-control" id="shop_name" placeholder="Shop Name" name="shop_name">
@@ -44,7 +45,7 @@
                     </div>
                     <div class="box-body">
                       <label for="shop_code">Shop Code</label>
-                      <input type="text" class="form-control" id="shop_code" maxlength="3" placeholder="Shop Code" name="shop_code" place >
+                      <input type="text" class="form-control" id="shop_code" maxlength="3" placeholder="Shop Code" name="shop_code" >
                     </div>
                     <div class="box-body">
                     <div class="checkbox">
