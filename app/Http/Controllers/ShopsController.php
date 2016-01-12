@@ -3,7 +3,14 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
+use app\Http\Request;
+use View;
+use DB;
+use Validator;
+use Input;
+use Session;
+use App\Shop;
 
 class ShopsController extends Controller {
 
@@ -23,7 +30,9 @@ class ShopsController extends Controller {
 	}
 	public function listShops(){
 		//return 'test';
-		return View('shops.index');	
+		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		//print_r($shops);
+		return View('shops.index', compact('shops'));	
 	}
 	
 
@@ -32,9 +41,40 @@ class ShopsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function createShop()
 	{
-		return View('add');
+		$rules = array(
+            'shop_name'  => 'required',
+            'shop_address'  => 'required',
+			'shop_code'  => 'required',
+        );
+
+        // Create a new validator instance from our validation rules
+        $validator = Validator::make(Input::all(), $rules);
+
+        // If validation fails, we'll exit the operation now.
+        if ($validator->fails()) {
+			return Redirect::back()->withInput()->withErrors($validator);
+        }
+		$data = new Shop();
+		
+		$data->shop_name = Input::get('shop_name');
+		$data->shop_address = Input::get('shop_address');
+		$data->shop_code = Input::get('shop_code');
+		//return $data;exit;
+		//$data->image_name = $safeName;
+		//echo '<pre>';
+		//print_r($data);
+		//echo '</pre>';
+		
+		if($data->save()){
+			//echo 'i am in save';
+			return redirect()->route("shops")->with('message','Success');
+			//return redirect()->action('HomeController@index');
+		}
+		else{
+			return Redirect::back()->with('error', Lang::get('banners/message.error.create'));;
+		}
 	}
 
 	/**
@@ -64,9 +104,17 @@ class ShopsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function getEdit($id)
 	{
 		//
+		try {
+			$users = DB::table('shops')->where('shop_id', $id)->first();
+			return View('shops.edit', compact('shops'));
+		}
+		catch (TestimonialNotFoundException $e) {
+			$error = Lang::get('banners/message.error.update', compact('id'));
+			return Redirect::route('banners')->with('error', $error);
+		}
 	}
 
 	/**
