@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Blank Page</title>
+    <title>Cappellos</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -245,6 +245,15 @@
                 <li><a href="{{ URL::to('shops') }}"><i class="fa fa-circle-o"></i> View Shops</a></li>
               </ul>
             </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Product Management</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li class="active"><a href="{{ URL::to('products/add') }}"><i class="fa fa-circle-o"></i> Add Products</a></li>
+                <li><a href="{{ URL::to('products') }}"><i class="fa fa-circle-o"></i> View Products</a></li>
+              </ul>
+            </li>
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -297,5 +306,6 @@
     <script src="{{asset('../../dist/js/dashboard.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('../../dist/js/demo.js')}}"></script>
+     @yield('footer_scripts')
       </body>
   </html> 

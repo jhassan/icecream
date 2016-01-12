@@ -2,8 +2,14 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Redirect;
 
 use Illuminate\Http\Request;
+use Validator;
+use Input;
+use App\Product;
+use DB;
 
 class ProductsController extends Controller {
 
@@ -24,7 +30,7 @@ class ProductsController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		return View('products.add');
 	}
 
 	/**
@@ -34,7 +40,41 @@ class ProductsController extends Controller {
 	 */
 	public function store()
 	{
-		//
+		$rules = array(
+            'product_name'  => 'required|unique:posts|max:255',
+            'product_price'  => 'required|numeric');
+
+        // Create a new validator instance from our validation rules
+        $validator = Validator::make(Input::all(), $rules);
+
+        // If validation fails, we'll exit the operation now.
+        if ($validator->fails()) {
+            // Ooops.. something went wrong
+          //  echo "validation issues...";
+			return Redirect::back()->withInput()->withErrors($validator);
+        }
+		//return 'i am here';
+		// Input::get('first_name');
+
+		$data = new Product();
+		
+		$data->product_name = Input::get('product_name');
+		$data->product_code = Input::get('product_code');
+		$data->product_price = Input::get('product_price');
+		//return $data;exit;
+		//$data->image_name = $safeName;
+		// echo '<pre>';
+		// print_r($data);
+		// echo '</pre>';
+		
+		if($data->save()){
+			//echo 'i am in save';
+			return redirect()->route("products")->with('message','Success');
+			//return redirect()->action('HomeController@index');
+		}
+		else{
+			return Redirect::back()->with('error', Lang::get('banners/message.error.create'));;
+		}
 	}
 
 	/**
