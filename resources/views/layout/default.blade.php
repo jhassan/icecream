@@ -245,6 +245,15 @@
                 <li><a href="{{ URL::to('shops') }}"><i class="fa fa-circle-o"></i> View Shops</a></li>
               </ul>
             </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Product Management</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li class="active"><a href="{{ URL::to('products/add') }}"><i class="fa fa-circle-o"></i> Add Products</a></li>
+                <li><a href="{{ URL::to('products') }}"><i class="fa fa-circle-o"></i> View Products</a></li>
+              </ul>
+            </li>
           </ul>
         </section>
         <!-- /.sidebar -->

@@ -51,6 +51,19 @@ Route::group(
 		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'BannersController@getDelete'));
 		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/banner', 'uses' => 'BannersController@getModalDelete'));
 	});
+// Product routs
+Route::group(
+	array('prefix' => 'products','before' => 'Sentry'), function () {
+		Route::get('add', array('as' => 'add/products', 'uses' => 'ProductsController@addUsers'));
+        Route::get('/', array('as' => 'products', 'uses' => 'ProductsController@listProducts'));
+		Route::post('add', 'ProductsController@createProduct');
+		Route::get('{id}', array('as' => 'products.show', 'uses' => 'ProductsController@show'));
+        Route::get('{id}/edit', array('as' => 'products.update', 'uses' => 'ProductsController@getEdit'));
+		Route::post('{id}/edit', 'ProductsController@postEdit');
+		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ProductsController@getDelete'));
+		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'ProductsController@getModalDelete'));
+	});
+
 
 //Route::resource('nerds', 'NerdController');
 Route::get('/nerds/create', function(){ return View::make('nerds.create');}); // Add shop

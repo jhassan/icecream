@@ -2,19 +2,17 @@
 
 {{-- Page content --}}
 @section('content')
-
-      <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
+<div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Edit User
+            Add User
             <small></small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="#">Users</a></li>
-            <li class="active">Edit User</li>
+            <li class="active">Add User</li>
           </ol>
         </section>
 
@@ -31,7 +29,7 @@
               </div>
             </div>
             
-             <div class="box box-primary">
+             <div class="box box-primarry">
              	<div class="has-error">
                         {!! $errors->first('first_name', '<span class="help-block">:message</span>') !!}
                         {!! $errors->first('last_name', '<span class="help-block">:message</span>') !!}
@@ -45,23 +43,23 @@
                   <div class="box-body">
                     <div class="form-group">
                       <label for="first_name">First Name *</label>
-                      <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name" value="{{{ $users->first_name }}}">
+                      <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name" value="{{{ Input::old('first_name') }}}">
                     </div>
                     <div class="form-group">
                       <label for="last_name">Last Name *</label>
-                      <input type="text" class="form-control" id="last_name" placeholder="Last Name" name="last_name" value="{{{ $users->last_name }}}">
+                      <input type="text" class="form-control" id="last_name" placeholder="Last Name" name="last_name" value="{{{ Input::old('last_name') }}}">
                     </div>
                     <div class="form-group">
                       <label for="login_name">Login Name *</label>
-                      <input type="text" class="form-control" id="login_name" placeholder="Login Name" name="login_name" value="{{{ $users->login_name }}}">
+                      <input type="text" class="form-control" id="login_name" placeholder="Login Name" name="login_name" value="{{{ Input::old('login_name') }}}">
                     </div>
                     <div class="form-group">
                       <label for="email">Email *</label>
-                      <input type="text" class="form-control" id="email" placeholder="Email" name="email" value="{{{ $users->email }}}">
+                      <input type="text" class="form-control" id="email" placeholder="Email" name="email" value="{{{ Input::old('email') }}}">
                     </div>
                     <div class="form-group">
                       <label for="Password">Password *</label>
-                      <input type="password" class="form-control" id="password" placeholder="Password" name="password" >
+                      <input type="password" class="form-control" id="password" placeholder="Password" name="password">
                     </div>
                     <div class="form-group">
                       <label for="confirm_password">Confirm Password *</label>
@@ -72,18 +70,18 @@
                        
                                             <select class="form-control" title="Select Gender..." name="gender">
                                                 <option value="">Select</option>
-                                                <option value="1" @if(Input::old('gender')  === 'male') selected="selected" @endif >MALE</option>
+                                                <option value="1" @if(Input::old('gender') === 'male') selected="selected" @endif >MALE</option>
                                                 <option value="2" @if(Input::old('gender') === 'female') selected="selected" @endif >FEMALE</option>
 
                                             </select>
                                     </div>
                     <div class="form-group">
                       <label for="city">City</label>
-                      <input type="text" class="form-control" id="city" placeholder="City" name="city" value="{{$users->city}}">
+                      <input type="text" class="form-control" id="city" placeholder="City" name="city">
                     </div>
                     <div class="form-group">
                       <label for="address">Address</label>
-                      <input type="text" class="form-control" id="address" placeholder="Address" name="address" value="{{{$users->address}}}">
+                      <input type="text" class="form-control" id="address" placeholder="Address" name="address">
                     </div>
                   </div><!-- /.box-body -->
 
@@ -100,6 +98,5 @@
           <!-- /.box -->
 
         </section><!-- /.content -->
-      </div><!-- /.content-wrapper -->
-
+      </div>
       @stop
