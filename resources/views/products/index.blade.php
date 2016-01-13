@@ -8,13 +8,13 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            User
+            Products
             <small></small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#">Users</a></li>
-            <li class="active">User</li>
+            <li><a href="#">Products</a></li>
+            <li class="active">Products</li>
           </ol>
         </section>
 
@@ -38,26 +38,19 @@
               	<table id="example2" class="table table-bordered table-hover">
                     <thead>
                         <tr class="filters">
-                            <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>User E-mail</th>
-                            <th>City</th>
-                            <th>Created At</th>
-                            <th>Actions</th>
+                            <th>Product Name</th>
+                            <th>Product Code</th>
+                            <th>Product Price</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach ($users as $user)
+                    @foreach ($products as $product)
                     	<tr>
-                            <td>{{{ $user->id }}}</td>
-                    		<td>{{{ $user->first_name }}}</td>
-            				<td>{{{ $user->last_name }}}</td>
-            				<td>{{{ $user->email }}}</td>
-            				<td>{{{ $user->city }}}</td>
-            				<td>{{{ $user->created_at }}}</td> 
-            				<td> <a href="{{ route('users.update', $user->id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
-							<a href="{{ route('confirm-delete/user', $user->id) }}"><img src="{{asset("dist/img/delete.png")}}" ></a>
+                    		<td>{{{ $product->product_name }}}</td>
+                        <td>{{{ $product->product_code }}}</td>
+                				<td>{{{ $product->product_price }}}</td>
+            				<td> <a href="{{ route('products.update', $product->id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
+							<a href="{{ route('confirm-delete/user', $product->id) }}"><img src="{{asset("dist/img/delete.png")}}" ></a>
                             </td>
             			</tr>
                     @endforeach

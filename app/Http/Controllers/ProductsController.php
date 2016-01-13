@@ -19,8 +19,10 @@ class ProductsController extends Controller {
 	 */
 	public function index()
 	{
-		//
-		return View('products.add');
+		//return 'user list';
+		$products = DB::table('products')->orderBy('id', 'desc')->get();
+		//print_r($users);
+		return View('products.index', compact('products'));
 	}
 
 	/**
