@@ -4,12 +4,11 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Redirect;
-
-use Illuminate\Http\Request;
 use Validator;
 use Input;
 use App\Product;
 use DB;
+use Session;
 
 class ProductsController extends Controller {
 
@@ -21,6 +20,7 @@ class ProductsController extends Controller {
 	public function index()
 	{
 		//
+		return View('products.add');
 	}
 
 	/**
@@ -40,15 +40,17 @@ class ProductsController extends Controller {
 	 */
 	public function store()
 	{
+		//return 'test';
 		$rules = array(
-            'product_name'  => 'required|unique:posts|max:255',
-            'product_price'  => 'required|numeric');
+            'product_name'  => 'required',
+            'product_price'  => 'required');
+			print_r($rules);
 
         // Create a new validator instance from our validation rules
-        $validator = Validator::make(Input::all(), $rules);
+     	 $validator = Validator::make(Input::all(), $rules);
 
         // If validation fails, we'll exit the operation now.
-        if ($validator->fails()) {
+      if ($validator->fails()) {
             // Ooops.. something went wrong
           //  echo "validation issues...";
 			return Redirect::back()->withInput()->withErrors($validator);
@@ -63,9 +65,9 @@ class ProductsController extends Controller {
 		$data->product_price = Input::get('product_price');
 		//return $data;exit;
 		//$data->image_name = $safeName;
-		// echo '<pre>';
-		// print_r($data);
-		// echo '</pre>';
+		 echo '<pre>';
+		 print_r($data);
+		 echo '</pre>';
 		
 		if($data->save()){
 			//echo 'i am in save';

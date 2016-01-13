@@ -55,7 +55,7 @@ Route::group(
 Route::group(
 	array('prefix' => 'products','before' => 'Sentry'), function () {
 		Route::get('add', array('as' => 'add/products', 'uses' => 'ProductsController@create'));
-        Route::get('/', array('as' => 'products', 'uses' => 'ProductsController@listProducts'));
+        Route::get('/', array('as' => 'products', 'uses' => 'ProductsController@index'));
 		Route::post('add', 'ProductsController@store');
 		Route::get('{id}', array('as' => 'products.show', 'uses' => 'ProductsController@show'));
         Route::get('{id}/edit', array('as' => 'products.update', 'uses' => 'ProductsController@getEdit'));
