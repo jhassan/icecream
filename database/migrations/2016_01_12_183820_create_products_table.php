@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration {
 			$table->string('product_name');
 			$table->string('product_code');
 			$table->integer('product_price');
+			$table->tinyInteger('is_active')->default(0);
 			$table->rememberToken();
 			$table->timestamps();
 		});

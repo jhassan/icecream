@@ -31,10 +31,10 @@
             
              <div class="box box-primarry">
              	<div class="has-error">
-                        {!! $errors->first('product_name', '<span class="help-block">:message</span>') !!}
-                        {!! $errors->first('product_price', '<span class="help-block">:message</span>') !!}
-                       
-                    </div>
+                  {!! $errors->first('product_name', '<span class="help-block">:message</span>') !!}
+                  {!! $errors->first('product_price', '<span class="help-block">:message</span>') !!}
+                 
+              </div>
                 <!-- /.box-header -->
                 <!-- form start -->
                 <form role="form" action="" method="POST">
@@ -51,6 +51,13 @@
                     <div class="form-group">
                       <label for="login_name">Product Price  *</label>
                       <input type="text" class="form-control" id="product_price" placeholder="Product Price" name="product_price" value="{{{ Input::old('product_price') }}}">
+                    </div>
+                    <div class="form-group">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" name="is_active" id="is_active"> Enable/Disable
+                      </label>
+                    </div>
                     </div>
                   </div><!-- /.box-body -->
 

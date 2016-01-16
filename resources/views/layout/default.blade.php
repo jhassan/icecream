@@ -227,16 +227,16 @@
                 <li><a href="../../index2"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
               </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview {{ Request::is('users/add') ? 'active' : '' }} {{ Request::is('users') ? 'active' : '' }}">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Users Management</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class="active"><a href="{{ URL::to('users/add') }}"><i class="fa fa-circle-o"></i> Add User</a></li>
+                <li class=""><a href="{{ URL::to('users/add') }}"><i class="fa fa-circle-o"></i> Add User</a></li>
                 <li><a href="{{ URL::to('users') }}"><i class="fa fa-circle-o"></i> View Users</a></li>
               </ul>
             </li>  
-            <li class="treeview">
+            <li class="treeview {{ Request::is('shops/add') ? 'active' : '' }} {{ Request::is('shops') ? 'active' : '' }}">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Shop Management</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
@@ -245,7 +245,7 @@
                 <li><a href="{{ URL::to('shops') }}"><i class="fa fa-circle-o"></i> View Shops</a></li>
               </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview {{ Request::is('products/add') ? 'active' : '' }} {{ Request::is('products') ? 'active' : '' }}">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Product Management</span> <i class="fa fa-angle-left pull-right"></i>
               </a>

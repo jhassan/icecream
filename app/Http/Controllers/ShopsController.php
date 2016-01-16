@@ -61,6 +61,7 @@ class ShopsController extends Controller {
 		$data->shop_name = Input::get('shop_name');
 		$data->shop_address = Input::get('shop_address');
 		$data->shop_code = Input::get('shop_code');
+		//$data->shop_code = Input::get('is_active');
 		//return $data;exit;
 		//$data->image_name = $safeName;
 		//echo '<pre>';

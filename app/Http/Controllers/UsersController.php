@@ -122,7 +122,7 @@ class UsersController extends Controller {
 		$data->email = Input::get('email');
 		$data->city = Input::get('city');
 		$data->address = Input::get('address');
-		print_r($data);
+		//print_r($data);
 			
 			User::where('id', $id)->update(
 			[

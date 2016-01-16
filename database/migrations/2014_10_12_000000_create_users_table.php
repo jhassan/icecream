@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration {
 			$table->string('address');
 			$table->string('email')->unique();
 			$table->string('password', 60);
+			$table->tinyInteger('is_active')->default(0);
 			$table->rememberToken();
 			$table->timestamps();
 		});
