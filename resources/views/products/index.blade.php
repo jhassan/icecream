@@ -41,6 +41,7 @@
                             <th>Product Name</th>
                             <th>Product Code</th>
                             <th>Product Price</th>
+                            <th>Enable/Disable</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,6 +50,7 @@
                     		<td>{{{ $product->product_name }}}</td>
                         <td>{{{ $product->product_code }}}</td>
                 				<td>{{{ $product->product_price }}}</td>
+                        <td>@if($product->is_active == 1) Enable @else Disable @endif</td>
             				<td> <a href="{{ route('products.update', $product->id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
 							<a href="{{ route('confirm-delete/user', $product->id) }}"><img src="{{asset("dist/img/delete.png")}}" ></a>
                             </td>

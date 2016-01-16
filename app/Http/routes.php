@@ -47,9 +47,9 @@ Route::group(
 		Route::post('add', 'ShopsController@createShop');
 		Route::get('{id}', array('as' => 'banners.show', 'uses' => 'ShopsController@show'));
         Route::get('{id}/edit', array('as' => 'shops.update', 'uses' => 'ShopsController@getEdit'));
-		Route::post('{id}/edit', 'BannersController@postEdit');
+		Route::post('{id}/edit', 'ShopsController@postEdit');
 		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ShopsController@getDelete'));
-		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/shop', 'uses' => 'BannersController@getModalDelete'));
+		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/shop', 'uses' => 'ShopsController@getModalDelete'));
 	});
 // Product routs
 Route::group(

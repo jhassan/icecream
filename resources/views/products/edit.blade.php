@@ -52,12 +52,12 @@
                     </div>
                     <div class="form-group">
                       <label for="login_name">Product Price  *</label>
-                      <input type="text" class="form-control" id="product_price" placeholder="Product Price" name="product_price" value="{{{ $products->is_active }}}">
+                      <input type="text" class="form-control" id="product_price" placeholder="Product Price" name="product_price" value="{{{ $products->product_price }}}">
                     </div>
                     <div class="form-group">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" name="is_active" id="is_active" checked="{{{ $products->is_active == 1 ? 'checked' : '' }}}"> Enable/Disable
+                        <input type="checkbox" name="is_active" id="is_active" @if($products->is_active == 1) checked="checked" @endif > Enable/Disable
                       </label>
                     </div>
                     </div>

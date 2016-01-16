@@ -61,6 +61,7 @@ class ShopsController extends Controller {
 		$data->shop_name = Input::get('shop_name');
 		$data->shop_address = Input::get('shop_address');
 		$data->shop_code = Input::get('shop_code');
+		$data->is_active = (Input::has('is_active')) ? 1 : 0;
 		//$data->shop_code = Input::get('is_active');
 		//return $data;exit;
 		//$data->image_name = $safeName;
@@ -109,7 +110,7 @@ class ShopsController extends Controller {
 	{
 		//
 		try {
-			$users = DB::table('shops')->where('shop_id', $id)->first();
+			$shops = DB::table('shops')->where('shop_id', $id)->first();
 			return View('shops.edit', compact('shops'));
 		}
 		catch (TestimonialNotFoundException $e) {
@@ -124,9 +125,45 @@ class ShopsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function postEdit($id = null)
 	{
-		//
+		$rules = array(
+            'shop_name'  => 'required',
+            'shop_address'  => 'required',
+			'shop_code'  => 'required',
+        );
+
+        // Create a new validator instance from our validation rules
+        $validator = Validator::make(Input::all(), $rules);
+
+        // If validation fails, we'll exit the operation now.
+        if ($validator->fails()) {
+			return Redirect::back()->withInput()->withErrors($validator);
+        }
+		$data = new Shop();
+		
+		$data->shop_name = Input::get('shop_name');
+		$data->shop_address = Input::get('shop_address');
+		$data->shop_code = Input::get('shop_code');
+		$data->is_active = (Input::has('is_active')) ? 1 : 0;
+		//$data->shop_code = Input::get('is_active');
+		//return $data;exit;
+		//$data->image_name = $safeName;
+		//echo '<pre>';
+		//print_r($data);
+		//echo '</pre>';
+		
+		Shop::where('shop_id', $id)->update(
+			[
+			'shop_name' => $data->shop_name,
+			'shop_address' => $data->shop_address,
+			'shop_code' => $data->shop_code,
+			'is_active' => $data->is_active
+			]);
+			//return Redirect::back();
+		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		//print_r($users);
+		return View('shops.index', compact('shops'));
 	}
 
 	/**

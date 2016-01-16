@@ -50,7 +50,7 @@
                     <div class="box-body">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" name="shop_status" id="shop_status"> Enable/Disable
+                        <input type="checkbox" name="is_active" id="is_active"> Enable/Disable
                       </label>
                     </div>
                     </div>
