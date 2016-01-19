@@ -1,16 +1,15 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-//use Illuminate\Http\Request;
 use app\Http\Request;
+use App\Http\Requests;
 use View;
 use DB;
 use Validator;
 use Input;
 use Session;
 use App\Shop;
+use Redirect;
 
 class ShopsController extends Controller {
 
@@ -21,18 +20,18 @@ class ShopsController extends Controller {
 	 */
 	public function index()
 	{
-		return View('index');
+		return View('admin.index');
 	}
 	
 	public function addShops(){
 		//return 'test';
-		return View('shops.add');	
+		return View('admin.shops.add');	
 	}
 	public function listShops(){
 		//return 'test';
 		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
 		//print_r($shops);
-		return View('shops.index', compact('shops'));	
+		return View('admin.shops.index', compact('shops'));	
 	}
 	
 
@@ -54,6 +53,8 @@ class ShopsController extends Controller {
 
         // If validation fails, we'll exit the operation now.
         if ($validator->fails()) {
+            // Ooops.. something went wrong
+          //  echo "validation issues...";
 			return Redirect::back()->withInput()->withErrors($validator);
         }
 		$data = new Shop();
@@ -111,7 +112,7 @@ class ShopsController extends Controller {
 		//
 		try {
 			$shops = DB::table('shops')->where('shop_id', $id)->first();
-			return View('shops.edit', compact('shops'));
+			return View('admin.shops.edit', compact('shops'));
 		}
 		catch (TestimonialNotFoundException $e) {
 			$error = Lang::get('banners/message.error.update', compact('id'));
@@ -163,7 +164,7 @@ class ShopsController extends Controller {
 			//return Redirect::back();
 		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
 		//print_r($users);
-		return View('shops.index', compact('shops'));
+		return View('admin.shops.index', compact('shops'));
 	}
 
 	/**

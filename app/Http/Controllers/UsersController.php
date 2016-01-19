@@ -16,12 +16,12 @@ class UsersController extends Controller {
 		//return 'user list';
 		$users = DB::table('users')->orderBy('id', 'desc')->get();
 		//print_r($users);
-		return View('users.index', compact('users'));	
+		return View('admin.users.index', compact('users'));	
 	}
 	
 	public function addUsers(){
 		//return 'test';
-		return View('users.add');	
+		return View('admin.users.add');	
 	}
 	
 	public function createUser(){
@@ -80,7 +80,7 @@ class UsersController extends Controller {
 		//return $id;
 		try {
 			$users = DB::table('users')->where('id', $id)->first();
-			return View('users.edit', compact('users'));
+			return View('admin.users.edit', compact('users'));
 		}
 		catch (TestimonialNotFoundException $e) {
 			$error = Lang::get('banners/message.error.update', compact('id'));

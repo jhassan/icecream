@@ -2,13 +2,14 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\MessageBag;
-use Illuminate\Support\Facades\Redirect;
+use app\Http\Request;
+use View;
+use DB;
 use Validator;
 use Input;
-use App\Product;
-use DB;
 use Session;
+use App\Product;
+
 
 class ProductsController extends Controller {
 
@@ -22,7 +23,7 @@ class ProductsController extends Controller {
 		//return 'user list';
 		$products = DB::table('products')->orderBy('id', 'desc')->get();
 		//print_r($users);
-		return View('products.index', compact('products'));
+		return View('admin.products.index', compact('products'));
 	}
 
 	/**
@@ -32,7 +33,7 @@ class ProductsController extends Controller {
 	 */
 	public function create()
 	{
-		return View('products.add');
+		return View('admin.products.add');
 	}
 
 	/**
@@ -46,7 +47,7 @@ class ProductsController extends Controller {
 		$rules = array(
             'product_name'  => 'required',
             'product_price'  => 'required');
-			print_r($rules);
+			//print_r($rules);
 
         // Create a new validator instance from our validation rules
      	 $validator = Validator::make(Input::all(), $rules);
@@ -98,7 +99,7 @@ class ProductsController extends Controller {
 		//return $id;
 		try {
 			$products = DB::table('products')->where('id', $id)->first();
-			return View('products.edit', compact('products'));
+			return View('admin.products.edit', compact('products'));
 		}
 		catch (TestimonialNotFoundException $e) {
 			$error = Lang::get('banners/message.error.update', compact('id'));
@@ -149,7 +150,7 @@ class ProductsController extends Controller {
 			//return Redirect::back();
 		$products = DB::table('products')->orderBy('id', 'desc')->get();
 		//print_r($users);
-		return View('products.index', compact('products'));
+		return View('admin.products.index', compact('products'));
 	}
 
 	/**
@@ -171,7 +172,7 @@ class ProductsController extends Controller {
 			//return Redirect::back();
 		$products = DB::table('products')->orderBy('id', 'desc')->get();
 		//print_r($users);
-		return View('products.index', compact('products'));
+		return View('admin.products.index', compact('products'));
 	}
 
 }

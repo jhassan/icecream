@@ -1,4 +1,4 @@
-@extends('/layout/default')
+@extends('admin/layout/default')
 
 {{-- Page content --}}
 @section('content')

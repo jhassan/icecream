@@ -227,31 +227,31 @@
                 <li><a href="../../index2"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
               </ul>
             </li>
-            <li class="treeview {{ Request::is('users/add') ? 'active' : '' }} {{ Request::is('users') ? 'active' : '' }}">
+            <li class="treeview {{ Request::is('admin/users/add') ? 'active' : '' }} {{ Request::is('admin/users') ? 'active' : '' }}">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Users Management</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class=""><a href="{{ URL::to('users/add') }}"><i class="fa fa-circle-o"></i> Add User</a></li>
-                <li><a href="{{ URL::to('users') }}"><i class="fa fa-circle-o"></i> View Users</a></li>
+                <li class=""><a href="{{ URL::to('admin/users/add') }}"><i class="fa fa-circle-o"></i> Add User</a></li>
+                <li><a href="{{ URL::to('admin/users') }}"><i class="fa fa-circle-o"></i> View Users</a></li>
               </ul>
             </li>  
-            <li class="treeview {{ Request::is('shops/add') ? 'active' : '' }} {{ Request::is('shops') ? 'active' : '' }}">
+            <li class="treeview {{ Request::is('admin/shops/add') ? 'active' : '' }} {{ Request::is('admin/shops') ? 'active' : '' }}">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Shop Management</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class="active"><a href="{{ URL::to('shops/add') }}"><i class="fa fa-circle-o"></i> Add Shop</a></li>
-                <li><a href="{{ URL::to('shops') }}"><i class="fa fa-circle-o"></i> View Shops</a></li>
+                <li class="active"><a href="{{ URL::to('admin/shops/add') }}"><i class="fa fa-circle-o"></i> Add Shop</a></li>
+                <li><a href="{{ URL::to('admin/shops') }}"><i class="fa fa-circle-o"></i> View Shops</a></li>
               </ul>
             </li>
-            <li class="treeview {{ Request::is('products/add') ? 'active' : '' }} {{ Request::is('products') ? 'active' : '' }}">
+            <li class="treeview {{ Request::is('admin/products/add') ? 'active' : '' }} {{ Request::is('admin/products') ? 'active' : '' }}">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Product Management</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class="active"><a href="{{ URL::to('products/add') }}"><i class="fa fa-circle-o"></i> Add Products</a></li>
-                <li><a href="{{ URL::to('products') }}"><i class="fa fa-circle-o"></i> View Products</a></li>
+                <li class="active"><a href="{{ URL::to('admin/products/add') }}"><i class="fa fa-circle-o"></i> Add Products</a></li>
+                <li><a href="{{ URL::to('admin/products') }}"><i class="fa fa-circle-o"></i> View Products</a></li>
               </ul>
             </li>
           </ul>

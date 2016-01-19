@@ -1,20 +1,18 @@
-@extends('/layout/default')
+@extends('admin/layout/default')
 
 {{-- Page content --}}
 @section('content')
-
-      <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
+<div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Edit Products
+            Add Product
             <small></small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="#">Products</a></li>
-            <li class="active">Edit Product</li>
+            <li class="active">Add Products</li>
           </ol>
         </section>
 
@@ -31,7 +29,7 @@
               </div>
             </div>
             
-             <div class="box box-primary">
+             <div class="box box-primarry">
              	<div class="has-error">
                   {!! $errors->first('product_name', '<span class="help-block">:message</span>') !!}
                   {!! $errors->first('product_price', '<span class="help-block">:message</span>') !!}
@@ -44,20 +42,20 @@
                   <div class="box-body">
                     <div class="form-group">
                       <label for="first_name">Product Name *</label>
-                      <input type="text" name="product_name" class="form-control" id="product_name" placeholder="Product Name" value="{{{ $products->product_name }}}">
+                      <input type="text" name="product_name" class="form-control" id="product_name" placeholder="Product Name" value="{{{ Input::old('product_name') }}}">
                     </div>
                     <div class="form-group">
                       <label for="last_name">Product Code </label>
-                      <input type="text" class="form-control" id="product_code" placeholder="Product Code" name="product_code" value="{{{ $products->product_code }}}">
+                      <input type="text" class="form-control" id="product_code" placeholder="Product Code" name="product_code" value="{{{ Input::old('product_code') }}}">
                     </div>
                     <div class="form-group">
                       <label for="login_name">Product Price  *</label>
-                      <input type="text" class="form-control" id="product_price" placeholder="Product Price" name="product_price" value="{{{ $products->product_price }}}">
+                      <input type="text" class="form-control" id="product_price" placeholder="Product Price" name="product_price" value="{{{ Input::old('product_price') }}}">
                     </div>
                     <div class="form-group">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" name="is_active" id="is_active" @if($products->is_active == 1) checked="checked" @endif > Enable/Disable
+                        <input type="checkbox" name="is_active" id="is_active"> Enable/Disable
                       </label>
                     </div>
                     </div>
@@ -76,6 +74,5 @@
           <!-- /.box -->
 
         </section><!-- /.content -->
-      </div><!-- /.content-wrapper -->
-
+      </div>
       @stop
