@@ -11,11 +11,10 @@
 
     <title>4 Col Portfolio - Start Bootstrap Template</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="css/4-col-portfolio.css" rel="stylesheet">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="{{asset('../../bootstrap/css/bootstrap.min.css')}}">
+	<!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="{{asset('../../bootstrap/css/4-col-portfolio.css')}}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -196,10 +195,10 @@
     <!-- /.container -->
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="{{asset('../../plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="{{asset('../../bootstrap/js/bootstrap.min.js')}}"></script>
 
 </body>
 
