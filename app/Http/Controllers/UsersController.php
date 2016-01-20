@@ -10,26 +10,18 @@ use Input;
 use Session;
 use App\User;
 
-
-
 class UsersController extends Controller {
 
     public function listUers(){
 		//return 'user list';
 		$users = DB::table('users')->orderBy('id', 'desc')->get();
 		//print_r($users);
-		return View('users.index', compact('users'));	
+		return View('admin.users.index', compact('users'));	
 	}
-	
-	 public function show($id){
-	 	
-	 	$banners = DB::table('banners')->where('id', $id)->first();
-		return View('admin.banners.show', compact('banners'));
-	 }
 	
 	public function addUsers(){
 		//return 'test';
-		return View('users.add');	
+		return View('admin.users.add');	
 	}
 	
 	public function createUser(){
@@ -88,7 +80,7 @@ class UsersController extends Controller {
 		//return $id;
 		try {
 			$users = DB::table('users')->where('id', $id)->first();
-			return View('users.edit', compact('users'));
+			return View('admin.users.edit', compact('users'));
 		}
 		catch (TestimonialNotFoundException $e) {
 			$error = Lang::get('banners/message.error.update', compact('id'));
@@ -130,7 +122,7 @@ class UsersController extends Controller {
 		$data->email = Input::get('email');
 		$data->city = Input::get('city');
 		$data->address = Input::get('address');
-		print_r($data);
+		//print_r($data);
 			
 			User::where('id', $id)->update(
 			[

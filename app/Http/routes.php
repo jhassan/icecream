@@ -11,11 +11,13 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+/* ======================== ADMIN ROUTES ============================== */
 
-Route::get('product/index', 'ProductController@index');
+Route::get('/admin/', 'WelcomeController@index');
 
-Route::get('home', 'HomeController@index');
+Route::get('admin/product/index', 'ProductController@index');
+
+Route::get('admin/home', 'HomeController@index');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
@@ -24,11 +26,11 @@ Route::controllers([
 
 Route::get('index', function()
 {
-    return View::make('index');
+    return View::make('admin/index');
 });
 
 Route::group(
-	array('prefix' => 'users','before' => 'Sentry'), function () {
+	array('prefix' => 'admin/users','before' => 'Sentry'), function () {
 		Route::get('add', array('as' => 'add/user', 'uses' => 'UsersController@addUsers'));
         Route::get('/', array('as' => 'users', 'uses' => 'UsersController@listUers'));
 		Route::post('add', 'UsersController@createUser');
@@ -41,20 +43,28 @@ Route::group(
 	
 	
 Route::group(
-	array('prefix' => 'shops','before' => 'Sentry'), function () {
+	array('prefix' => 'admin/shops','before' => 'Sentry'), function () {
 		Route::get('add', array('as' => 'add/shop', 'uses' => 'ShopsController@addShops'));
         Route::get('/', array('as' => 'shops', 'uses' => 'ShopsController@listShops'));
-		Route::post('add', 'ShopsController@createBanner');
+		Route::post('add', 'ShopsController@createShop');
 		Route::get('{id}', array('as' => 'banners.show', 'uses' => 'ShopsController@show'));
-        Route::get('{id}/edit', array('as' => 'banners.update', 'uses' => 'BannersController@getEdit'));
-		Route::post('{id}/edit', 'BannersController@postEdit');
-		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'BannersController@getDelete'));
-		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/banner', 'uses' => 'BannersController@getModalDelete'));
+        Route::get('{id}/edit', array('as' => 'shops.update', 'uses' => 'ShopsController@getEdit'));
+		Route::post('{id}/edit', 'ShopsController@postEdit');
+		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ShopsController@getDelete'));
+		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/shop', 'uses' => 'ShopsController@getModalDelete'));
 	});
-
-//Route::resource('nerds', 'NerdController');
-Route::get('/nerds/create', function(){ return View::make('nerds.create');}); // Add shop
-
+// Product routs
+Route::group(
+	array('prefix' => 'admin/products','before' => 'Sentry'), function () {
+		Route::get('add', array('as' => 'add/products', 'uses' => 'ProductsController@create'));
+        Route::get('/', array('as' => 'products', 'uses' => 'ProductsController@index'));
+		Route::post('add', 'ProductsController@store');
+		Route::get('{id}', array('as' => 'products.show', 'uses' => 'ProductsController@show'));
+        Route::get('{id}/edit', array('as' => 'products.update', 'uses' => 'ProductsController@getEdit'));
+		Route::post('{id}/edit', 'ProductsController@postEdit');
+		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ProductsController@getDelete'));
+		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'ProductsController@getModalDelete'));
+	});
 
 
 Route::get('index2', function()
@@ -81,16 +91,16 @@ Route::get('examples/login', function()
 
 
 Route::get('layouts/header', function(){ return View::make('layouts.header');});
-//Route::get('shops/add', function(){ return View::make('shops.add');}); // Add shop
-//Route::get('shops/show', function(){ return View::make('shops.show');}); // view shop
-/*Route::group(['namespace' => 'shops', 'prefix' => 'shops'], function()
-{
-    Route::get('add',['uses' => 'ShopsController@create']);
-    Route::get('/',['uses' => 'ShopsController@index']);
-   // Route::get('edit', ['uses' => 'UserController@index']);
 
-});*/
+/* ======================== END ADMIN ROUTES ============================== */
 
 
 
+/* ======================== CLIENT ROUTES ============================== */
 
+Route::get('/', 'ClientController@index');
+
+
+
+
+/* ======================== END CLIENT ROUTES ============================== */

@@ -18,7 +18,8 @@ class CreateShops extends Migration {
 
             $table->string('shop_name', 255);
             $table->string('shop_code', 3);
-            $table->string('shop_address', 3);
+            $table->string('shop_address', 255);
+            $table->tinyInteger('is_active')->default(0);
 			$table->timestamps();
 		});
 	}
