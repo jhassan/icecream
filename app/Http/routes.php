@@ -28,9 +28,9 @@ Route::filter('Sentry', function()
  	}
 });
 
-Route::get('admin/product/index', 'ProductController@index');
+//Route::get('admin/product/index', 'ProductController@index');
 
-Route::get('admin/home', 'HomeController@index');
+// Route::get('admin/home', 'HomeController@index');
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
@@ -46,15 +46,15 @@ Route::get('index', function()
 });
 
 Route::group(
-	array('prefix' => 'admin','before' => 'Sentry'), function () {
+	array('prefix' => 'admin/users','before' => 'Sentry'), function () {
 		Route::get('add', array('as' => 'add/user', 'uses' => 'UsersController@addUsers'));
         Route::get('/', array('as' => 'users', 'uses' => 'UsersController@listUers'));
 		Route::post('add', 'UsersController@createUser');
-		Route::get('{id}', array('as' => 'users.show', 'uses' => 'UsersController@show'));
         Route::get('{id}/edit', array('as' => 'users.update', 'uses' => 'UsersController@getEdit'));
 		Route::post('{id}/edit', 'UsersController@postEdit');
 		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'UsersController@getDelete'));
 		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'UsersController@getModalDelete'));
+		//Route::get('{id}', array('as' => 'users.show', 'uses' => 'UsersController@show'));
 	});
 	
 	
@@ -63,7 +63,7 @@ Route::group(
 		Route::get('add', array('as' => 'add/shop', 'uses' => 'ShopsController@addShops'));
         Route::get('/', array('as' => 'shops', 'uses' => 'ShopsController@listShops'));
 		Route::post('add', 'ShopsController@createShop');
-		Route::get('{id}', array('as' => 'banners.show', 'uses' => 'ShopsController@show'));
+		//Route::get('{id}', array('as' => 'banners.show', 'uses' => 'ShopsController@show'));
         Route::get('{id}/edit', array('as' => 'shops.update', 'uses' => 'ShopsController@getEdit'));
 		Route::post('{id}/edit', 'ShopsController@postEdit');
 		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ShopsController@getDelete'));
@@ -75,7 +75,7 @@ Route::group(
 		Route::get('add', array('as' => 'add/products', 'uses' => 'ProductsController@create'));
         Route::get('/', array('as' => 'products', 'uses' => 'ProductsController@index'));
 		Route::post('add', 'ProductsController@store');
-		Route::get('{id}', array('as' => 'products.show', 'uses' => 'ProductsController@show'));
+		//Route::get('{id}', array('as' => 'products.show', 'uses' => 'ProductsController@show'));
         Route::get('{id}/edit', array('as' => 'products.update', 'uses' => 'ProductsController@getEdit'));
 		Route::post('{id}/edit', 'ProductsController@postEdit');
 		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ProductsController@getDelete'));
