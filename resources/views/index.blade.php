@@ -56,10 +56,34 @@
         </p>
         </div>
         <div class="col-md-4">
-          <h2>Heading</h2>
+          <h2 class="text-center" style="font-family:icon">Cappellos</h2>
           <div class="bs-example" data-example-id="simple-table"> 
             <table class="table table table-bordered"> 
-            <caption>Optional table caption.</caption> 
+            <tbody> 
+                <tr> 
+                    <td class="col-md-8">Mark Mark Mark Mark Mark Mark Mark Mark</td> 
+                    <td class="col-md-1 text-center">1</td> 
+                    <td class="col-md-1 text-center">150</td> 
+                </tr> 
+                <tr> 
+                    <td class="col-md-8">Mark Mark Mark Mark Mark Mark Mark Mark</td> 
+                    <td class="col-md-1 text-center">1</td> 
+                    <td class="col-md-1 text-center">150</td> 
+                </tr> 
+                <tr> 
+                    <td class="col-md-8">Mark Mark Mark Mark Mark Mark Mark Mark</td> 
+                    <td class="col-md-1 text-center">1</td> 
+                    <td class="col-md-1 text-center">150</td> 
+                </tr> 
+                <tr> 
+                    <td class="col-md-8">Mark Mark Mark Mark Mark Mark Mark Mark</td> 
+                    <td class="col-md-1 text-center">1</td> 
+                    <td class="col-md-1 text-center">150</td> 
+                </tr>   
+            </tbody>
+            </table>
+            <table class="table table table-bordered"> 
+            <caption align="center" class="text-center">Unitd Mall Multan</caption> 
             <thead> 
                 <tr> 
                     <th class="col-md-4">Description</th> 
