@@ -49,7 +49,7 @@
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>LT</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Admin</b>LTE</span>
+          <span class="logo-lg"><b>Cappellos</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -64,9 +64,9 @@
             <ul class="nav navbar-nav">
               <!-- Messages: style can be found in dropdown.less-->
               <li class="dropdown messages-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-envelope-o"></i>
-                  <span class="label label-success">4</span>
+                <a href="#" class="dropdown-toggle hide" data-toggle="dropdown">
+                  <i class="fa fa-envelope-o hide"></i>
+                  <span class="label label-success hide">4</span>
                 </a>
                 <ul class="dropdown-menu">
                   <li class="header">You have 4 messages</li>
@@ -80,7 +80,7 @@
                           </div>
                           <h4>
                             Support Team
-                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                            <small><i class="fa fa-clock-o hide"></i> 5 mins</small>
                           </h4>
                           <p>Why not buy a new awesome theme?</p>
                         </a>
@@ -92,9 +92,9 @@
               </li>
               <!-- Notifications: style can be found in dropdown.less -->
               <li class="dropdown notifications-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-bell-o"></i>
-                  <span class="label label-warning">10</span>
+                <a href="#" class="dropdown-toggle hide" data-toggle="dropdown">
+                  <i class="fa fa-bell-o hide"></i>
+                  <span class="label label-warning hide">10</span>
                 </a>
                 <ul class="dropdown-menu">
                   <li class="header">You have 10 notifications</li>
@@ -114,11 +114,11 @@
               <!-- Tasks: style can be found in dropdown.less -->
               <li class="dropdown tasks-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-flag-o"></i>
-                  <span class="label label-danger">9</span>
+                  <i class="fa fa-flag-o hide"></i>
+                  <span class="label label-danger hide">9</span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li class="header">You have 9 tasks</li>
+                  <li class="header hide">You have 9 tasks</li>
                   <li>
                     <!-- inner menu: contains the actual data -->
                     <ul class="menu">
@@ -126,7 +126,7 @@
                         <a href="#">
                           <h3>
                             Design some buttons
-                            <small class="pull-right">20%</small>
+                            <small class="pull-right hide">20%</small>
                           </h3>
                           <div class="progress xs">
                             <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
@@ -146,7 +146,7 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs hide">Alexander Pierce</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -218,7 +218,7 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="treeview">
+            <li class="treeview hide">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
