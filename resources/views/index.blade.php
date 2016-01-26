@@ -58,8 +58,8 @@
         <div class="col-md-4" id="InvoiceDiv">
           <h2 class="text-center" style="font-family:icon">Cappellos</h2>
           <div class="bs-example" data-example-id="simple-table"> 
-            <table class="table table table-bordered" width="100%" style="table-layout:fixed; margin-bottom:0px"> 
-            <tbody> 
+            <table class="table table table-bordered" width="100%" style="table-layout:fixed; margin-bottom:0px; font-size:12px; border: 1px solid #000;"> 
+            <tbody class="border"> 
                 <tr> 
                     <td colspan="2" style="overflow: hidden;" class="text-center">Unitd Mall Multan</td>
                 </tr> 
@@ -72,42 +72,62 @@
                 </tr> 
             </tbody>
             </table>
-            <table class="table table table-bordered"> 
-            <thead> 
+            <table class="table table table-bordered" style="font-size:12px; border-top: none !important;"> 
+            <thead class="border"> 
                 <tr> 
                     <th class="col-md-4">Description</th> 
                     <th class="col-md-1">Qty</th> 
                     <th class="col-md-1">Amount</th> 
                 </tr> 
                 </thead> 
-                    <tbody> 
+                    <tbody class="border"> 
                         <tr> 
-                            <td class="col-md-8">Ice Cream</td> 
+                            <td class="col-md-8">Hasnain Ice Cream Wala</td> 
                             <td class="col-md-1 text-center">1</td> 
                             <td class="col-md-1 text-center">150</td> 
                         </tr> 
                         <tr> 
-                            <td class="col-md-8">Ice Cream Ice Cream Ice Cream</td> 
+                            <td class="col-md-8">Kashif Ice Cream Wala</td> 
                             <td class="col-md-1 text-center">1</td> 
                             <td class="col-md-1 text-center">150</td> 
                         </tr> 
                         <tr> 
-                            <td class="col-md-8">Ice Cream</td> 
+                            <td class="col-md-8">Masat Ice Cream Wala</td> 
                             <td class="col-md-1 text-center">1</td> 
                             <td class="col-md-1 text-center">150</td> 
                         </tr> 
                         <tr> 
-                            <td class="col-md-8">Ice Cream</td> 
+                            <td class="col-md-8">Adnan Ice Cream Wala</td> 
+                            <td class="col-md-1 text-center">1</td> 
+                            <td class="col-md-1 text-center">150</td> 
+                        </tr>
+                        <tr> 
+                            <td class="col-md-8">Hasnain Ice Cream Wala</td> 
+                            <td class="col-md-1 text-center">1</td> 
+                            <td class="col-md-1 text-center">150</td> 
+                        </tr> 
+                        <tr> 
+                            <td class="col-md-8">Kashif Ice Cream Wala</td> 
+                            <td class="col-md-1 text-center">1</td> 
+                            <td class="col-md-1 text-center">150</td> 
+                        </tr> 
+                        <tr> 
+                            <td class="col-md-8">Masat Ice Cream Wala</td> 
+                            <td class="col-md-1 text-center">1</td> 
+                            <td class="col-md-1 text-center">150</td> 
+                        </tr> 
+                        <tr> 
+                            <td class="col-md-8">Adnan Ice Cream Wala</td> 
                             <td class="col-md-1 text-center">1</td> 
                             <td class="col-md-1 text-center">150</td> 
                         </tr> 
                         <tr> 
                             <td class="col-md-8"><strong>Net Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><strong>600</strong></td> 
+                            <td class="col-md-1 text-center" colspan="2"><strong>1200</strong></td> 
                         </tr> 
                         <tr> 
                             <td class="col-md-8"><strong>Paid Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><strong>600</strong></td> 
+                            <td class="col-md-1 text-center" colspan="2"><strong>1200</strong></td> 
                         </tr> 
                         <tr> 
                             <td class="col-md-8"><strong>Change Amount:</strong></td> 
@@ -135,6 +155,18 @@
           display: none !important;
        }
     }
+				table {
+    border-collapse: collapse;
+				}
+				
+				table, th, td {
+								border: 2px solid #000 !important;
+								font-family:Verdana;
+				}
+				.border tr td{ border-color: #000 !important;
+				}
+				.border tr th{ border-color: #000 !important;
+				}
     </style>
     <script type="text/javascript">
     function printDiv() {    
