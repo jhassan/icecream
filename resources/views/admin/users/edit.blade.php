@@ -72,8 +72,8 @@
                        
                                             <select class="form-control" title="Select Gender..." name="gender">
                                                 <option value="">Select</option>
-                                                <option value="1" @if(Input::old('gender')  === 'male') selected="selected" @endif >MALE</option>
-                                                <option value="2" @if(Input::old('gender') === 'female') selected="selected" @endif >FEMALE</option>
+                                                <option value="1" @if(Input::old('gender')  === '1') selected="selected" @endif >MALE</option>
+                                                <option value="2" @if(Input::old('gender') === '2') selected="selected" @endif >FEMALE</option>
 
                                             </select>
                                     </div>

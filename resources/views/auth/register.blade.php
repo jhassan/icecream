@@ -35,19 +35,20 @@
         <form action="/auth/register" method="post">
         	<input type="hidden" name="_token" value="{{ csrf_token() }}" />
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Full name">
+            <input type="text" class="form-control" name="name" placeholder="Full name">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="Email">
+            <input type="email" class="form-control" name="email" placeholder="Email">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Password">
+            <input type="password" class="form-control" name="password" placeholder="Password">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
+          <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Retype password">
+            <input type="password" class="form-control" name="password_confirmation" placeholder="Retype password">
             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
           </div>
           <div class="row">
@@ -64,7 +65,7 @@
           </div>
         </form>
 
-        <div class="social-auth-links text-center">
+        <div class="social-auth-links text-center hide">
           <p>- OR -</p>
           <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using Facebook</a>
           <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using Google+</a>

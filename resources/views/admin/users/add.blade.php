@@ -70,8 +70,8 @@
                        
                                             <select class="form-control" title="Select Gender..." name="gender">
                                                 <option value="">Select</option>
-                                                <option value="1" @if(Input::old('gender') === 'male') selected="selected" @endif >MALE</option>
-                                                <option value="2" @if(Input::old('gender') === 'female') selected="selected" @endif >FEMALE</option>
+                                                <option value="1" @if(Input::old('gender') === 1) selected="selected" @endif >MALE</option>
+                                                <option value="2" @if(Input::old('gender') === 2) selected="selected" @endif >FEMALE</option>
 
                                             </select>
                                     </div>
@@ -83,6 +83,18 @@
                       <label for="address">Address</label>
                       <input type="text" class="form-control" id="address" placeholder="Address" name="address">
                     </div>
+                    <div class="dropdown">
+                                        <label for="shop" >Shop</label>
+                       
+                                            <select class="form-control" title="Select Shop..." name="shop">
+                                                <option value="">Select</option>
+                                                @foreach ($shops as $shop)
+                                                <option value="{{{ $shop->shop_id}}}"  >{{{ $shop->shop_name}}}</option>
+                                                @endforeach
+
+                                            </select>
+                                    </div> 
+                    
                   </div><!-- /.box-body -->
 
                   <div class="box-footer">

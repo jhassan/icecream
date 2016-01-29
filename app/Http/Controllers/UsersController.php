@@ -9,6 +9,7 @@ use Validator;
 use Input;
 use Session;
 use App\User;
+use App\Shop;
 
 class UsersController extends Controller {
 
@@ -21,7 +22,8 @@ class UsersController extends Controller {
 	
 	public function addUsers(){
 		//return 'test';
-		return View('admin.users.add');	
+		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		return View('admin.users.add',compact('shops'));	
 	}
 	
 	public function createUser(){
@@ -53,12 +55,13 @@ class UsersController extends Controller {
 		
 		$data->first_name = Input::get('first_name');
 		$data->last_name = Input::get('last_name');
-		$data->password = Input::get('password');
+		$data->password = bcrypt(Input::get('password'));
 		$data->login_name = Input::get('login_name');
 		$data->gender = Input::get('gender');
 		$data->email = Input::get('email');
 		$data->city = Input::get('city');
 		$data->address = Input::get('address');
+		$data->shop = Input::get('shop');
 		//return $data;exit;
 		//$data->image_name = $safeName;
 		//echo '<pre>';

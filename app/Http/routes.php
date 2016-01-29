@@ -24,7 +24,7 @@
 Route::filter('Sentry', function()
 {
 	if ( Auth::guest()) {
- 		return Redirect::to('auth/login')->with('error', 'You must be logged in!');
+ 		return Redirect::to('admin')->with('error', 'You must be logged in!');
  	}
 });
 
@@ -33,22 +33,22 @@ Route::filter('Sentry', function()
 // Route::get('admin/home', 'HomeController@index');
 
 // Authentication routes...
-Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::get('admin', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 // Registration routes...
-/*Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
-Route::get('index', function()
+/*Route::get('index', function()
 {
     return View::make('admin/index');
 });*/
 
 Route::group(
-	array('prefix' => 'admin','before' => 'Sentry'), function () {
-		Route::get('users/add', array('as' => 'add/user', 'uses' => 'UsersController@addUsers'));
-        Route::get('/users', array('as' => 'users', 'uses' => 'UsersController@listUers'));
+	array('prefix' => 'admin/users','before' => 'Sentry'), function () {
+		Route::get('add', array('as' => 'add/user', 'uses' => 'UsersController@addUsers'));
+        Route::get('/', array('as' => 'users', 'uses' => 'UsersController@listUers'));
 		Route::post('add', 'UsersController@createUser');
         Route::get('{id}/edit', array('as' => 'users.update', 'uses' => 'UsersController@getEdit'));
 		Route::post('{id}/edit', 'UsersController@postEdit');
