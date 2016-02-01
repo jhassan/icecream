@@ -115,7 +115,14 @@ Route::get('layouts/header', function(){ return View::make('layouts.header');});
 /* ======================== CLIENT ROUTES ============================== */
 
 Route::get('/', 'ClientController@index');
+// route to show the login form
+Route::get('login', array('uses' => 'ClientController@showLogin'));
 
+// route to process the form
+Route::post('login', array('uses' => 'ClientController@doLogin'));
+
+// Logout
+Route::get('logout', array('uses' => 'ClientController@doLogout'));
 
 
 

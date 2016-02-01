@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterProductsTable extends Migration {
+class CreateLoginsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -11,10 +11,11 @@ class AlterProductsTable extends Migration {
 	 * @return void
 	 */
 	public function up()
-	{	
-		Schema::table('products', function(Blueprint $table)
+	{
+		Schema::create('logins', function(Blueprint $table)
 		{
-			//$table->integer('product_price',200)->change();
+			$table->increments('id');
+			$table->timestamps();
 		});
 	}
 
@@ -25,7 +26,7 @@ class AlterProductsTable extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::drop('logins');
 	}
 
 }

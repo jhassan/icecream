@@ -1,162 +1,57 @@
-@extends('layout/default')
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>4 Col Portfolio - Start Bootstrap Template</title>
+
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="{{asset('../../bootstrap/css/bootstrap.min.css')}}">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="{{asset('../../bootstrap/css/4-col-portfolio.css')}}">
+    <!-- STYLE -->
+    <link rel="stylesheet" href="{{asset('../../bootstrap/css/style.css')}}">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    
 
     <!-- Page Content -->
-    @section('content')
-        <div class="container">
+        <div class="container" style="width:400px;">
 
         <!-- Page Heading -->
-        
+        <form class="form-signin" method="post">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control m-t-10" placeholder="Password" required>
+        <div class="checkbox hide">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block m-t-10" type="submit">Sign in</button>
+      </form>
         <!-- /.row -->
-        <div class="row" style="min-height:200px;">
-        <div class="col-md-8">
-          <p>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-
-        </p>
-        </div>
-        <div class="col-md-4" id="InvoiceDiv">
-          <h2 class="text-center" style="font-family:icon; margin-top:0px;">Cappellos</h2>
-          <div class="bs-example" data-example-id="simple-table"> 
-            <table class="table table table-bordered" width="100%" style="table-layout:fixed; margin-bottom:0px; font-size:12px;"> 
-            <tbody class="border"> 
-                <tr> 
-                    <td colspan="2" style="overflow: hidden;" class="text-center">Unitd Mall Multan</td>
-                </tr> 
-                <tr> 
-                    <td width="45%" class="col-md-6">Invoice#: MUL-01</td> 
-                    <td width="55%" class="col-md-6">Date:25-Jan-2016</td> 
-                </tr> 
-              </tbody>
-            </table>
-            <table class="table table table-bordered" style="font-size:12px; border-top-color:#fff;"> 
-            <thead class="border"> 
-                <tr> 
-                    <th class="col-md-4">Description</th> 
-                    <th class="col-md-1">Qty</th> 
-                    <th class="col-md-1">Amount</th> 
-                </tr> 
-                </thead> 
-                    <tbody class="border"> 
-                        <tr> 
-                            <td class="col-md-8">Hasnain Ice Cream Wala</td> 
-                            <td class="col-md-1 text-center">1</td> 
-                            <td class="col-md-1 text-center">150</td> 
-                        </tr> 
-                        <tr> 
-                            <td class="col-md-8">Kashif Ice Cream Wala</td> 
-                            <td class="col-md-1 text-center">1</td> 
-                            <td class="col-md-1 text-center">150</td> 
-                        </tr>
-                        <tr> 
-                            <td class="col-md-8">Kashif Ice Cream Wala</td> 
-                            <td class="col-md-1 text-center">1</td> 
-                            <td class="col-md-1 text-center">150</td> 
-                        </tr> 
-                        <tr> 
-                            <td class="col-md-8"><strong>Net Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><strong>450</strong></td> 
-                        </tr> 
-                        <tr> 
-                            <td class="col-md-8"><strong>Paid Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><strong>450</strong></td> 
-                        </tr> 
-                        <tr> 
-                            <td class="col-md-8"><strong>Change Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><strong>0</strong></td> 
-                        </tr>
-                        <tr> 
-                            <td class="col-md-12" colspan="3">Thanks for choosing Cappellos</td> 
-                        </tr>
-                        <tr> 
-                            <td class="col-md-12" colspan="3">Developed by: (0334)6026706, (0321)6328470</td> 
-                        </tr> 
-                        <tr class="noprint"> 
-                            <td class="col-md-12" colspan="3" align="right"><button onclick="printDiv();" type="button" class="btn btn-success">Save and Print</button></td> 
-                        </tr>   
-                    </tbody> 
-            </table> 
-        </div>  
-        </div>
-      </div>
-    @stop
-    <style>
-    @page { size: auto;  margin: 0mm; }
-    @media print {
-       .noprint{
-          display: none !important;
-       }
-							body {margin:0px !important; padding: 0px !important;}
-				#InvoiceDiv, #InvoiceDiv * {
-						visibility: visible;
-				}
-				#InvoiceDiv {
-						position: absolute;
-						left: 0px;
-						top: 0px;
-				}
-				body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
-    margin:0;
-    padding:0;
-}
-html,body {
-    margin:0;
-    padding:0;
-}
-    }
-				table {
-    border-collapse: collapse;
-				}
-				
-				table, th, td {
-								border: 2px solid #000 !important;
-								font-family:Verdana;
-				}
-				.border tr td{ border-color: #000 !important; padding: 2px !important;
-				}
-				.border tr th{ border-color: #000 !important; padding: 2px !important;
-				}
-    </style>
-    <script type="text/javascript">
-    function printDiv() {    
-    var printContents = document.getElementById('InvoiceDiv').innerHTML;
-    var originalContents = document.body.innerHTML;
-     document.body.innerHTML = printContents;
-     window.print();
-     document.body.innerHTML = originalContents;
-    }
-</script>
+     </div>   
+    
+</body>
+</html>
