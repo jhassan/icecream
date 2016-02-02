@@ -83,10 +83,10 @@ Route::group(
 	});
 
 
-Route::get('sale', function()
+/*Route::get('sale', function()
 {
     return View::make('sale');
-});
+});*/
 
 // subpage for the posts found at /admin/posts (app/views/admin/posts.blade.php)
 Route::get('layout/top-nav', function()
@@ -123,6 +123,9 @@ Route::post('login', array('uses' => 'ClientController@doLogin'));
 
 // Logout
 Route::get('logout', array('uses' => 'ClientController@doLogout'));
+
+// Show all products in front end
+Route::get('sale', array('uses' => 'SaleController@index'));
 
 
 

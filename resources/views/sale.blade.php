@@ -10,43 +10,10 @@
         <div class="row" style="min-height:200px;">
         <div class="col-md-8">
           <p>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-          <button type="button" class="m-t-10 btn btn-success btn-lg">Ice Cream Falvors</button>
-
+          @foreach ($products as $product)
+	         	<button type="button" onclick="AddProductToSale({{ $product->id }}, '{{ $product->product_name }}',{{ $product->product_price }});" class="m-t-10 btn btn-success btn-lg">{{ $product->product_name }}</button>
+ 	       @endforeach
+          
         </p>
         </div>
         <div class="col-md-4" id="InvoiceDiv">
@@ -59,7 +26,7 @@
                 </tr> 
                 <tr> 
                     <td width="45%" class="col-md-6">Invoice#: MUL-01</td> 
-                    <td width="55%" class="col-md-6">Date:25-Jan-2016</td> 
+                    <td width="55%" class="col-md-6">Date:{{ date('d-M-Y') }}</td> 
                 </tr> 
               </tbody>
             </table>
@@ -71,33 +38,18 @@
                     <th class="col-md-1">Amount</th> 
                 </tr> 
                 </thead> 
-                    <tbody class="border"> 
-                        <tr> 
-                            <td class="col-md-8">Hasnain Ice Cream Wala</td> 
-                            <td class="col-md-1 text-center">1</td> 
-                            <td class="col-md-1 text-center">150</td> 
-                        </tr> 
-                        <tr> 
-                            <td class="col-md-8">Kashif Ice Cream Wala</td> 
-                            <td class="col-md-1 text-center">1</td> 
-                            <td class="col-md-1 text-center">150</td> 
-                        </tr>
-                        <tr> 
-                            <td class="col-md-8">Kashif Ice Cream Wala</td> 
-                            <td class="col-md-1 text-center">1</td> 
-                            <td class="col-md-1 text-center">150</td> 
-                        </tr> 
+                    <tbody class="border" id="ShowSaleProduct"> 
                         <tr> 
                             <td class="col-md-8"><strong>Net Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><strong>450</strong></td> 
+                            <td class="col-md-1 text-center" colspan="2"><strong id="NetAmount">0</strong></td> 
                         </tr> 
                         <tr> 
                             <td class="col-md-8"><strong>Paid Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><strong>450</strong></td> 
+                            <td class="col-md-1 text-center" colspan="2"><strong id="PaidAmount">0</strong></td> 
                         </tr> 
                         <tr> 
                             <td class="col-md-8"><strong>Change Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><strong>0</strong></td> 
+                            <td class="col-md-1 text-center" colspan="2"><strong id="ChangeAmount">0</strong></td> 
                         </tr>
                         <tr> 
                             <td class="col-md-12" colspan="3">Thanks for choosing Cappellos</td> 
@@ -143,13 +95,13 @@ html,body {
 				}
 				
 				table, th, td {
-								border: 2px solid #000 !important;
 								font-family:Verdana;
 				}
-				.border tr td{ border-color: #000 !important; padding: 2px !important;
+				.border tr td{ padding: 2px !important;
 				}
-				.border tr th{ border-color: #000 !important; padding: 2px !important;
+				.border tr th{ padding: 2px !important;
 				}
+				.cursor{ cursor:pointer;}
     </style>
     <script type="text/javascript">
     function printDiv() {    
@@ -159,4 +111,48 @@ html,body {
      window.print();
      document.body.innerHTML = originalContents;
     }
+				
+				// AddProductToSale()
+				function AddProductToSale(id,product_name,product_price)
+				{
+					
+					var AlreadyId = $("#Product_"+id+"").closest('tr').attr('id');
+					if(AlreadyId)
+					{
+					// Net Amount
+					var CurrentValue = $("#NetAmount").html();
+					var NetAmount = parseInt(product_price) + parseInt(CurrentValue);
+					$("#NetAmount").html(NetAmount);
+					// Quantity
+					var Qty = $("#Qty_"+id+"").html();
+					var NetQty = parseInt(1) + parseInt(Qty);
+					$("#Qty_"+id+"").html(NetQty);
+					// Price
+					var ProductPrice = $("#ProductPrice_"+id+"").html();
+					var NetProductPrice = parseInt(product_price) + parseInt(ProductPrice);
+					$("#ProductPrice_"+id+"").html(NetProductPrice);
+					}
+					else
+					{
+					var CurrentValue = $("#NetAmount").html();
+					var NetAmount = parseInt(product_price) + parseInt(CurrentValue);
+					$("#NetAmount").html(NetAmount);
+					var str = "";
+					str = "<tr id='Product_"+id+"' onclick='DeleteProduct("+id+","+product_price+");' class='cursor'>";
+					str += "<td class='col-md-8'>"+product_name+"</td>"; 
+					str += "<td class='col-md-1 text-center' id='Qty_"+id+"'>1</td>"; 
+					str += "<td class='col-md-1 text-center' id='ProductPrice_"+id+"'>"+product_price+"</td>"; 
+					str += "</tr>";
+					$('#ShowSaleProduct').prepend(str); 
+					}
+					
+				}
+				function DeleteProduct(id,product_price)
+				{
+				var ProductPrice = $("#ProductPrice_"+id+"").html();	
+				var CurrentValue = $("#NetAmount").html();
+				var NetAmount = parseInt(CurrentValue) - parseInt(ProductPrice);
+				$("#NetAmount").html(NetAmount);  
+				$("#Product_"+id).remove();
+				}
 </script>
