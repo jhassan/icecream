@@ -54,6 +54,9 @@
                     <li>
                         <a href="#">Contact</a>
                     </li>
+                    <li>
+                        <a href="{{ URL::to('logout') }}">Logout</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

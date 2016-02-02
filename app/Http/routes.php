@@ -83,9 +83,9 @@ Route::group(
 	});
 
 
-Route::get('index2', function()
+Route::get('sale', function()
 {
-    return View::make('index2');
+    return View::make('sale');
 });
 
 // subpage for the posts found at /admin/posts (app/views/admin/posts.blade.php)

@@ -55,7 +55,7 @@ class UsersController extends Controller {
 		
 		$data->first_name = Input::get('first_name');
 		$data->last_name = Input::get('last_name');
-		$data->password = bcrypt(Input::get('password'));
+		$data->password = encrypt(Input::get('password'));
 		$data->login_name = Input::get('login_name');
 		$data->gender = Input::get('gender');
 		$data->email = Input::get('email');
