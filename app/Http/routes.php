@@ -127,6 +127,13 @@ Route::get('logout', array('uses' => 'ClientController@doLogout'));
 // Show all products in front end
 Route::get('sale', array('uses' => 'SaleController@index'));
 
+// insert sale product products in front end
+Route::post('sale_product', array('uses' => 'SaleController@create'));
+
+// Show sale 
+Route::get('all_sale', array('uses' => 'SaleController@all_sale'));
+
+
 
 
 /* ======================== END CLIENT ROUTES ============================== */

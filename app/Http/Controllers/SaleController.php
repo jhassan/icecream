@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
 use DB;
+use App\Sale;
+use App\salesDetails;
 
 class SaleController extends Controller {
 
@@ -16,9 +18,7 @@ class SaleController extends Controller {
 	 */
 	public function index()
 	{
-			//return 'user list';
 		$products = DB::table('products')->orderBy('product_name', 'ASC')->get();
-		//print_r($users);
 		return View('sale', compact('products'));
 	}
 
@@ -29,7 +29,12 @@ class SaleController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		$sale = Sale::insertGetId(array('net_amount' => '200'));
+		
+		$sale = salesDetails::insert(array('sale_id' => $sale));
+		
+		$products = DB::table('products')->orderBy('product_name', 'ASC')->get();
+		return View('sale', compact('products'));
 	}
 
 	/**
@@ -48,9 +53,15 @@ class SaleController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
+	public function all_sale()
+	{
+		
+	return View('all_sale');
+	}
+	
 	public function show($id)
 	{
-		//
+		echo 'jawad'; 
 	}
 
 	/**

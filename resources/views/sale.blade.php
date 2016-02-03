@@ -19,6 +19,8 @@
         <div class="col-md-4" id="InvoiceDiv">
           <h2 class="text-center" style="font-family:icon; margin-top:0px;">Cappellos</h2>
           <div class="bs-example" data-example-id="simple-table"> 
+          	<form class="form-signin" method="post" action="{{ URL::to('sale_product') }}">
+        		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <table class="table table table-bordered" width="100%" style="table-layout:fixed; margin-bottom:0px; font-size:12px;"> 
             <tbody class="border"> 
                 <tr> 
@@ -58,10 +60,11 @@
                             <td class="col-md-12" colspan="3">Developed by: (0334)6026706, (0321)6328470</td> 
                         </tr> 
                         <tr class="noprint"> 
-                            <td class="col-md-12" colspan="3" align="right"><button onclick="printDiv();" type="button" class="btn btn-success">Save and Print</button></td> 
-                        </tr>   
+                            <td class="col-md-12" colspan="3" align="right"><button type="submit" class="btn btn-success">Save and Print</button></td> 
+                        </tr>   <!--onclick="printDiv();"-->
                     </tbody> 
             </table> 
+            </form>
         </div>  
         </div>
       </div>
