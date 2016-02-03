@@ -19,7 +19,7 @@
         <div class="col-md-4" id="InvoiceDiv">
           <h2 class="text-center" style="font-family:icon; margin-top:0px;">Cappellos</h2>
           <div class="bs-example" data-example-id="simple-table"> 
-          	<form class="form-signin" method="post" action="{{ URL::to('sale_product') }}">
+          	<form class="form-signin" id="FormID" method="post" action="{{ URL::to('sale_product') }}">
         		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <table class="table table table-bordered" width="100%" style="table-layout:fixed; margin-bottom:0px; font-size:12px;"> 
             <tbody class="border"> 
@@ -43,15 +43,15 @@
                     <tbody class="border" id="ShowSaleProduct"> 
                         <tr> 
                             <td class="col-md-8"><strong>Net Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><strong id="NetAmount">0</strong></td> 
+                            <td class="col-md-1 text-center" colspan="2"><input type="text" name="net_amount" id="NetAmount" value="0" /></td> 
                         </tr> 
                         <tr> 
                             <td class="col-md-8"><strong>Paid Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><strong id="PaidAmount">0</strong></td> 
+                            <td class="col-md-1 text-center" colspan="2"><input type="text" maxlength="6" name="paid_amount" id="PaidAmount" value="0" /></td> 
                         </tr> 
                         <tr> 
                             <td class="col-md-8"><strong>Change Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><strong id="ChangeAmount">0</strong></td> 
+                            <td class="col-md-1 text-center" colspan="2"><input type="text" maxlength="6" name="ChangeAmount" id="ChangeAmount" value="0" /></td> 
                         </tr>
                         <tr> 
                             <td class="col-md-12" colspan="3">Thanks for choosing Cappellos</td> 
@@ -107,6 +107,9 @@ html,body {
 				.cursor{ cursor:pointer;}
     </style>
     <script type="text/javascript">
+				$(document).ready(function(e) {
+     $('#FormID')[0].reset();
+    });
     function printDiv() {    
     var printContents = document.getElementById('InvoiceDiv').innerHTML;
     var originalContents = document.body.innerHTML;
@@ -123,28 +126,32 @@ html,body {
 					if(AlreadyId)
 					{
 					// Net Amount
-					var CurrentValue = $("#NetAmount").html();
+					var CurrentValue = $("#NetAmount").val();
 					var NetAmount = parseInt(product_price) + parseInt(CurrentValue);
-					$("#NetAmount").html(NetAmount);
+					$("#NetAmount").val(NetAmount);
+					//$("#net_amount").val(NetAmount);
 					// Quantity
 					var Qty = $("#Qty_"+id+"").html();
 					var NetQty = parseInt(1) + parseInt(Qty);
 					$("#Qty_"+id+"").html(NetQty);
+					$("#TotalQty_"+id+"").val(NetQty);
+					
 					// Price
-					var ProductPrice = $("#ProductPrice_"+id+"").html();
+					var ProductPrice = $("#ProductPrice_"+id+"").val();
 					var NetProductPrice = parseInt(product_price) + parseInt(ProductPrice);
-					$("#ProductPrice_"+id+"").html(NetProductPrice);
+					$("#ProductPrice_"+id+"").val(NetProductPrice);
+					$("#TotalProductPrice_"+id+"").html(NetProductPrice);
 					}
 					else
 					{
-					var CurrentValue = $("#NetAmount").html();
+					var CurrentValue = $("#NetAmount").val();
 					var NetAmount = parseInt(product_price) + parseInt(CurrentValue);
-					$("#NetAmount").html(NetAmount);
+					$("#NetAmount").val(NetAmount);
 					var str = "";
 					str = "<tr id='Product_"+id+"' onclick='DeleteProduct("+id+","+product_price+");' class='cursor'>";
-					str += "<td class='col-md-8'>"+product_name+"</td>"; 
-					str += "<td class='col-md-1 text-center' id='Qty_"+id+"'>1</td>"; 
-					str += "<td class='col-md-1 text-center' id='ProductPrice_"+id+"'>"+product_price+"</td>"; 
+					str += "<td class='col-md-8'>"+product_name+"<input type='hidden' name='product_id[]' value='"+id+"' /></td>"; 
+					str += "<td class='col-md-1 text-center'><span id='Qty_"+id+"'>1</span><input id='TotalQty_"+id+"' type='hidden' name='product_qty[]' value='1' /></td>"; 
+					str += "<td class='col-md-1 text-center'><input id='ProductPrice_"+id+"' type='hidden' name='product_price[]' value='"+product_price+"' /><span id='TotalProductPrice_"+id+"'>"+product_price+"</span></td>"; 
 					str += "</tr>";
 					$('#ShowSaleProduct').prepend(str); 
 					}
@@ -152,10 +159,10 @@ html,body {
 				}
 				function DeleteProduct(id,product_price)
 				{
-				var ProductPrice = $("#ProductPrice_"+id+"").html();	
-				var CurrentValue = $("#NetAmount").html();
+				var ProductPrice = $("#ProductPrice_"+id+"").val();	
+				var CurrentValue = $("#NetAmount").val();
 				var NetAmount = parseInt(CurrentValue) - parseInt(ProductPrice);
-				$("#NetAmount").html(NetAmount);  
+				$("#NetAmount").val(NetAmount);  
 				$("#Product_"+id).remove();
 				}
 </script>
