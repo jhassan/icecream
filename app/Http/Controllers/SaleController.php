@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Product;
-use DB,Input;
+use DB,Input,Redirect;
 use App\Sale;
 use App\salesDetails;
 use Carbon\Carbon;
@@ -39,18 +39,18 @@ class SaleController extends Controller {
 		$product_id = Input::get('product_id');
 		for($i=0; $i<count($product_id); $i++)
 		{
-				$arrData[] = array( 
-										"product_price"      => Input::get("product_price.$i"),
-										"product_qty"       => Input::get("product_qty.$i"), 
-										"product_id"       => Input::get("product_id.$i"), 
-										"sale_id"    					=> $last_sale_id,
-										"created_at"    		=> $date               
-						);
+			$arrData[] = array( 
+						"product_price"      => Input::get("product_price.$i"),
+						"product_qty"       => Input::get("product_qty.$i"), 
+						"product_id"       => Input::get("product_id.$i"), 
+						"sale_id"    					=> $last_sale_id,
+						"created_at"    		=> $date               
+					);
 		}
 		$sale = salesDetails::insert($arrData);
 		// Redrect to sale page
-		$products = DB::table('products')->orderBy('product_name', 'ASC')->get();
-		return View('sale', compact('products'));
+		
+		return Redirect::to('sale');
 	}
 
 	/**
@@ -72,7 +72,10 @@ class SaleController extends Controller {
 	public function all_sale()
 	{
 		
-	return View('all_sale');
+	$data = new Sale;
+	$sales = $data->index();	
+		
+	return View('all_sale', compact('sales'));
 	}
 	
 	public function show($id)
