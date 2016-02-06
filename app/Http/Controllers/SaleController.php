@@ -2,10 +2,10 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use App\Product;
-use DB,Input,Redirect;
+use DB,Input,Redirect,paginate;
 use App\Sale;
 use App\salesDetails;
 use Carbon\Carbon;
@@ -71,11 +71,19 @@ class SaleController extends Controller {
 	 */
 	public function all_sale()
 	{
+		$sales = DB::table('sales')
+            ->join('sales_details', 'sales.id', '=', 'sales_details.sale_id')
+            ->select('sales_details.*')
+												//->where('product_qty', '>', 1)->paginate(15)
+												->orderBy('sales_details_id', 'desc')
+            ->get();
 		
-	$data = new Sale;
-	$sales = $data->index();	
-		
-	return View('all_sale', compact('sales'));
+		//$sales = DB::table('sales_details')->get();
+  return View('all_sale', compact('sales'));
+	//$data = new Sale;
+	//$sales = $data->index();
+	//$users = DB::table('users')->paginate(15);	
+	//return View('all_sale', compact('sales'));
 	}
 	
 	public function show($id)

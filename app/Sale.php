@@ -15,7 +15,7 @@ class Sale extends Model {
 
     public function sales_details()
     {
-        return $this->hasMany('App\salesDetails', 'sale_id', 'sale_id');
+        return $this->hasMany('App\salesDetails', 'sale_id', 'id')->orderBy('sales_details_id', 'desc')->get();
     }
 
 }

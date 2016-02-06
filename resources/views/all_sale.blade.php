@@ -1,8 +1,32 @@
-@foreach($sales as $sale)
-{!! $sale->net_amount !!}<br/>
-@foreach($sale->sales_details as $detail)
-	{!! $detail->product_price !!}
-@endforeach
+@extends('layout/default')
 
-
-@endforeach
+    <!-- Page Content -->
+    @section('content')
+    	<div class="container">
+        <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Product Price</th>
+                  <th>Product Quantity</th>
+                  <th>Product Name</th>
+                  <th>Date</th>
+                  <th>Employee</th>
+                </tr>
+              </thead>
+              <tbody>
+              
+                	@foreach($sales as $detail)
+                <tr>
+                  <td>{{ $detail->product_price }}</td>
+                  <td>{{ $detail->product_qty }}</td>
+                  <td>{{ $detail->product_id }}</td>
+                  <td>{{ date("Y-M-d",strtotime($detail->created_at)) }}</td>
+                  <td>Jawad</td>
+                </tr>
+																@endforeach
+              </tbody>
+            </table>
+          </div>
+     </div>     
+    @stop

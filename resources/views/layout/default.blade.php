@@ -75,6 +75,8 @@
 
     <!-- Bootstrap 3.3.5 -->
     <script src="{{asset('../../bootstrap/js/bootstrap.min.js')}}"></script>
+    
+    @yield('footer_scripts')
 
 </body>
 

@@ -116,7 +116,7 @@ Route::get('layouts/header', function(){ return View::make('layouts.header');});
 
 Route::get('/', 'ClientController@index');
 // route to show the login form
-Route::get('login', array('uses' => 'ClientController@showLogin'));
+//Route::get('login', array('uses' => 'ClientController@showLogin'));
 
 // route to process the form
 Route::post('login', array('uses' => 'ClientController@doLogin'));

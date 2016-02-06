@@ -42,16 +42,28 @@
                 </thead> 
                     <tbody class="border" id="ShowSaleProduct"> 
                         <tr> 
+                            <td class="col-md-2">Discount:<span id="txtDiscountAmount" class="p-l-10">0</span></td> 
+                            <td class="col-md-2" colspan="2">Net Amount:<span id="txtNetAmount" class="p-l-10">0</span></td> 
+                        </tr>
+                        <tr> 
+                            <td class="col-md-2">Paid:<span id="txtPaidAmount" class="p-l-10">0</span></td> 
+                            <td class="col-md-2" colspan="2">Change:<span id="txtChangeAmount" class="p-l-10">0</span></td> 
+                        </tr>
+                        <tr class="noprint"> 
+                            <td class="col-md-8 noprint"><strong>Discount Amount:</strong></td> 
+                            <td class="col-md-1 noprint text-center" colspan="2"><input type="text" maxlength="3" name="discount_amount" id="DiscountAmount" value="0" class="number_only noprint" /></td> 
+                        </tr>
+                        <tr class="noprint"> 
                             <td class="col-md-8"><strong>Net Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><input type="text" name="net_amount" id="NetAmount" value="0" /></td> 
-                        </tr> 
-                        <tr> 
+                            <td class="col-md-1 text-center" colspan="2"><input maxlength="6" type="text" name="net_amount" id="NetAmount" value="0" class="number_only" /></td> 
+                        </tr>
+                        <tr class="noprint"> 
                             <td class="col-md-8"><strong>Paid Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><input type="text" maxlength="6" name="paid_amount" id="PaidAmount" value="0" /></td> 
+                            <td class="col-md-1 text-center" colspan="2"><input type="text" maxlength="6" maxlength="6" name="paid_amount" id="PaidAmount" value="0" class="number_only" onkeyup="GetAmount();" /></td> 
                         </tr> 
-                        <tr> 
+                        <tr class="noprint"> 
                             <td class="col-md-8"><strong>Change Amount:</strong></td> 
-                            <td class="col-md-1 text-center" colspan="2"><input type="text" maxlength="6" name="ChangeAmount" id="ChangeAmount" value="0" /></td> 
+                            <td class="col-md-1 text-center" colspan="2"><input type="text" maxlength="6" maxlength="6" name="ChangeAmount" id="ChangeAmount" value="0" class="number_only" /></td> 
                         </tr>
                         <tr> 
                             <td class="col-md-12" colspan="3">Thanks for choosing Cappellos</td> 
@@ -60,7 +72,7 @@
                             <td class="col-md-12" colspan="3">Developed by: (0334)6026706, (0321)6328470</td> 
                         </tr> 
                         <tr class="noprint"> 
-                            <td class="col-md-12" colspan="3" align="right"><button type="submit" class="btn btn-success">Save and Print</button></td> 
+                            <td class="col-md-12" colspan="3" align="right"><button onclick="printDiv();" type="submit" class="btn btn-success">Save and Print</button></td> 
                         </tr>   <!--onclick="printDiv();"-->
                     </tbody> 
             </table> 
@@ -69,7 +81,8 @@
         </div>
       </div>
     @stop
-    <style>
+    @section('footer_scripts')
+    <style type="text/css">
     @page { size: auto;  margin: 0mm; }
     @media print {
        .noprint{
@@ -109,7 +122,63 @@ html,body {
     <script type="text/javascript">
 				$(document).ready(function(e) {
      $('#FormID')[0].reset();
-    });
+					
+					// Numeric only control handler
+		jQuery.fn.ForceNumericOnly =
+		function()
+		{
+			return this.each(function()
+			{
+				$(this).keydown(function(e)
+				{
+					var key = e.charCode || e.keyCode || 0;
+					// allow backspace, tab, delete, enter, arrows, numbers and keypad numbers ONLY
+					// home, end, period, and numpad decimal
+					return (
+						key == 8 || 
+						key == 9 ||
+						key == 13 ||
+						key == 46 ||
+						key == 110 ||
+						key == 190 ||
+						(key >= 35 && key <= 40) ||
+						(key >= 48 && key <= 57) ||
+						(key >= 96 && key <= 105));
+				});
+			});
+		};   
+		
+		// Call Only numbers
+		$(".number_only").ForceNumericOnly();
+		
+		// Keypress add commas in numbers
+		 $('input.number_only').keyup(function(event){
+			  // skip for arrow keys
+			  if(event.which >= 37 && event.which <= 40){
+				  event.preventDefault();
+			  }
+			  var $this = $(this);
+			  var num = $this.val().replace(/,/gi, "").split("").reverse().join("");
+			  var num2 = RemoveRougeChar(num.replace(/(.{3})/g,"$1,").split("").reverse().join(""));
+			  // the following line has been simplified. Revision history contains original.
+			  $this.val(num2);
+		  });
+				
+				$('input.number_only')
+				.on('focus', function(){
+								var $this = $(this);
+								if($this.val() == 0){
+												$this.val('');
+								}
+				})
+				.on('blur', function(){
+								var $this = $(this);
+								if($this.val() == ''){
+												$this.val(0);
+								}
+				})
+					
+}); // End ready
     function printDiv() {    
     var printContents = document.getElementById('InvoiceDiv').innerHTML;
     var originalContents = document.body.innerHTML;
@@ -165,4 +234,28 @@ html,body {
 				$("#NetAmount").val(NetAmount);  
 				$("#Product_"+id).remove();
 				}
+				
+				function RemoveRougeChar(convertString)
+				{
+					if(convertString.substring(0,1) == ",")
+					{
+						return convertString.substring(1, convertString.length)            
+					}
+					return convertString;
+				}
+				function GetAmount()
+				{
+					var PaidAmount = $("#PaidAmount").val();
+					$("#txtPaidAmount").html(PaidAmount);
+					PaidAmount = PaidAmount.replace(',', '');
+					var NetAmount = $("#NetAmount").val();
+						$("#txtNetAmount").html(NetAmount);
+					var DiscountAmount = $("#DiscountAmount").val();
+					$("#txtDiscountAmount").html(DiscountAmount);
+						var TotalAmount = parseInt(PaidAmount) - (parseInt(NetAmount) - parseInt(DiscountAmount));
+						TotalAmount = (isNaN(TotalAmount)) ? 0 : TotalAmount;
+							$("#ChangeAmount").val(TotalAmount);
+							$("#txtChangeAmount").html(TotalAmount);	
+				}
 </script>
+@stop
