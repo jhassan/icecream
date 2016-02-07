@@ -130,8 +130,11 @@ Route::get('sale', array('uses' => 'SaleController@index'));
 // insert sale product products in front end
 Route::post('sale_product', array('uses' => 'SaleController@create'));
 
-// Show sale 
+// Show all sale 
 Route::get('all_sale', array('uses' => 'SaleController@all_sale'));
+
+// Show today sale 
+Route::get('today_sale', array('uses' => 'SaleController@today_sale'));
 
 
 

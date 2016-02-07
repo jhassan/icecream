@@ -49,10 +49,7 @@
                         <a href="all_sale">All Sale</a>
                     </li>
                     <li>
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
+                        <a href="today_sale">Today Sale</a>
                     </li>
                     <li>
                         <a href="{{ URL::to('logout') }}">Logout</a>

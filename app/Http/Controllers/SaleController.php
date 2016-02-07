@@ -19,7 +19,7 @@ class SaleController extends Controller {
 	 */
 	public function index()
 	{
-		$products = DB::table('products')->orderBy('product_name', 'ASC')->get();
+		$products = DB::table('products')->where('is_active',1)->orderBy('product_name', 'ASC')->get();
 		return View('sale', compact('products'));
 	}
 
@@ -71,19 +71,16 @@ class SaleController extends Controller {
 	 */
 	public function all_sale()
 	{
-		$sales = DB::table('sales')
-            ->join('sales_details', 'sales.id', '=', 'sales_details.sale_id')
-            ->select('sales_details.*')
-												//->where('product_qty', '>', 1)->paginate(15)
-												->orderBy('sales_details_id', 'desc')
-            ->get();
-		
-		//$sales = DB::table('sales_details')->get();
-  return View('all_sale', compact('sales'));
-	//$data = new Sale;
-	//$sales = $data->index();
-	//$users = DB::table('users')->paginate(15);	
-	//return View('all_sale', compact('sales'));
+	$data = new Sale;
+	$sales = $data->all_sale();
+	return View('all_sale', compact('sales'));
+	}
+	
+	public function today_sale()
+	{
+			$data = new Sale;
+	  $sales = $data->today_sale();
+			return View('today_sale', compact('sales'));
 	}
 	
 	public function show($id)

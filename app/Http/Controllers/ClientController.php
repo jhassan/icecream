@@ -54,7 +54,7 @@ class ClientController extends Controller {
 		'password'  => Input::get('password')
 		);
 		
-		//echo $password = Hash::make('123456'); die;
+	//	echo $password = Hash::make('test'); die;
 	//print_r($userdata); die;
 		// attempt to do the login
 		if (Auth::attempt($userdata,true)) {

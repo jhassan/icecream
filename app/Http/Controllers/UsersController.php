@@ -13,7 +13,14 @@ use App\Shop;
 
 class UsersController extends Controller {
 
-    public function listUers(){
+  public function index(){
+		//return 'user list';
+		$users = DB::table('users')->orderBy('id', 'desc')->get();
+		//print_r($users);
+		return View('admin.users.index', compact('users'));	
+	}
+				
+				public function listUers(){
 		//return 'user list';
 		$users = DB::table('users')->orderBy('id', 'desc')->get();
 		//print_r($users);
