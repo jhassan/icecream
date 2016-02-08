@@ -35,13 +35,13 @@ class Sale extends Model {
 					// All Sale
 					public function all_sale()
 					{
-						$sales = DB::table('sales')
+						$sales['total_sale'] = DB::table('sales')
 																->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
 																->join('products', 'products.id', '=', 'sales_details.product_id')
 																->select('sales_details.*','product_name')
 																//->where('product_qty', '>', 1)->paginate(15)
 																->orderBy('sales_details_id', 'desc')
-																->get();
+																->paginate(5);
 						return $sales;
 					}
 

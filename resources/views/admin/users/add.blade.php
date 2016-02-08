@@ -86,7 +86,7 @@
                     <div class="dropdown">
                                         <label for="shop" >Shop</label>
                        
-                                            <select class="form-control" title="Select Shop..." name="shop">
+                                            <select class="form-control" title="Select Shop..." name="shop_id">
                                                 <option value="">Select</option>
                                                 @foreach ($shops as $shop)
                                                 <option value="{{{ $shop->shop_id}}}"  >{{{ $shop->shop_name}}}</option>

@@ -46,10 +46,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="all_sale">All Sale</a>
+                        <a href="/all_sale">All Sale</a>
                     </li>
                     <li>
-                        <a href="today_sale">Today Sale</a>
+                        <a href="/today_sale">Today Sale</a>
                     </li>
                     <li>
                         <a href="{{ URL::to('logout') }}">Logout</a>

@@ -27,6 +27,7 @@
 																@endforeach
               </tbody>
             </table>
+            {!! $sales->render() !!}
           </div>
      </div>     
     @stop

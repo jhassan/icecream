@@ -73,7 +73,12 @@ class SaleController extends Controller {
 	{
 	$data = new Sale;
 	$sales = $data->all_sale();
+	$sales = $sales['total_sale'];
+	$total = 50;
+	//print_r($sales['total_sale']);
+	//return View('all_sale', compact('total'));
 	return View('all_sale', compact('sales'));
+	
 	}
 	
 	public function today_sale()

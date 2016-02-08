@@ -58,10 +58,10 @@ class ClientController extends Controller {
 	//print_r($userdata); die;
 		// attempt to do the login
 		if (Auth::attempt($userdata,true)) {
-			echo "sss"; die;
 			$user = Auth::getUser(); 
-			Session::set('user_id', $user->id);
-			//print_r($t); die;
+			Session::put('user_id', $user->id);
+			$value = Session::get('user_id');
+			//print_r($value); die;
 			
 		return Redirect::to('sale');
 		// validation successful!
