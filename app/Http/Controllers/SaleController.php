@@ -73,19 +73,36 @@ class SaleController extends Controller {
 	{
 	$data = new Sale;
 	$sales = $data->all_sale();
-	$sales = $sales['total_sale'];
-	$total = 50;
-	//print_r($sales['total_sale']);
-	//return View('all_sale', compact('total'));
-	return View('all_sale', compact('sales'));
-	
+	$detail_sale = $sales['total_sale'];
+	$sum_sale = $sales['sum_sale'];
+	$TotalSale = $sum_sale[0]->TotalPrice;
+	$TotalQty = $sum_sale[0]->TotalQty;
+	/*$TotalSale = "";
+				$TotalQty = "";
+				foreach($sales as $sale)
+				{
+						$TotalSale += $sale->product_price;
+						$TotalQty += $sale->product_qty;
+				}	*/
+	return View('all_sale', compact('detail_sale','TotalSale','TotalQty'));
 	}
 	
 	public function today_sale()
 	{
 			$data = new Sale;
 	  $sales = $data->today_sale();
-			return View('today_sale', compact('sales'));
+			$detail_sale = $sales['total_sale'];
+	$sum_sale = $sales['sum_sale'];
+	$TotalSale = $sum_sale[0]->TotalPrice;
+	$TotalQty = $sum_sale[0]->TotalQty;
+				/*$TotalSale = "";
+				$TotalQty = "";
+				foreach($sales as $sale)
+				{
+						$TotalSale += $sale->product_price;
+						$TotalQty += $sale->product_qty;
+				}	*/
+			return View('today_sale', compact('detail_sale','TotalSale','TotalQty'));
 	}
 	
 	public function show($id)

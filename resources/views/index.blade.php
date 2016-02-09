@@ -30,7 +30,12 @@
 <body>
 
     <!-- Navigation -->
-    
+    	
+     @if($errors->has())
+    @foreach ($errors->all() as $error)
+        <div>{{ $error }}</div>
+    @endforeach
+@endif
 
     <!-- Page Content -->
         <div class="container" style="width:400px;">

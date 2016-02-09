@@ -4,7 +4,7 @@
     @section('content')
     	<div class="container">
         <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped m-b-0">
               <thead>
                 <tr>
                   <th>Product Price</th>
@@ -16,7 +16,7 @@
               </thead>
               <tbody>
               
-                	@foreach($sales as $detail)
+                	@foreach($detail_sale as $detail)
                 <tr>
                   <td>{{ $detail->product_price }}</td>
                   <td>{{ $detail->product_qty }}</td>
@@ -27,7 +27,18 @@
 																@endforeach
               </tbody>
             </table>
-            {!! $sales->render() !!}
+            <table class="table table-striped m-b-0">
+              <thead>
+                <tr>
+                  <td style="width:162px; font-weight:bold;">Total Sale : {{ $TotalSale }}</td>
+                  <td style="font-weight:bold;">Total Quantity : {{ $TotalQty }}</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+              </thead>
+           </table>
+            {!! $detail_sale->render() !!}
           </div>
      </div>     
     @stop

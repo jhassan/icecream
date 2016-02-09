@@ -74,7 +74,7 @@ class ClientController extends Controller {
 	//	echo "fail"; die;      
 
 		// validation not successful, send back to form 
-		return Redirect::to('/');
+		return Redirect::to('/')->with('message', 'Register Failed');;
 		
 		}
 		
