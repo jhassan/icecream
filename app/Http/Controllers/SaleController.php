@@ -9,6 +9,7 @@ use DB,Input,Redirect,paginate;
 use App\Sale;
 use App\salesDetails;
 use Carbon\Carbon;
+use Session;
 
 class SaleController extends Controller {
 
@@ -20,7 +21,11 @@ class SaleController extends Controller {
 	public function index()
 	{
 		$products = DB::table('products')->where('is_active',1)->orderBy('product_name', 'ASC')->get();
-		return View('sale', compact('products'));
+		// Get max invoice id
+		$data = new Sale;
+	 $invoice_id = $data->get_invoice_id();
+		$invoice_id++;
+		return View('sale', compact('products','invoice_id'));
 	}
 
 	/**
@@ -30,11 +35,21 @@ class SaleController extends Controller {
 	 */
 	public function create()
 	{
+		// Get Max invoice id
+		$data = new Sale;
+		$invoice_id = $data->get_invoice_id();
+		$invoice_id++;
+		
 		$mytime = Carbon::now();
 		$date = $mytime->toDateTimeString();
 		// Insert in sale table
 		$net_amount = Input::get('net_amount');
-		$last_sale_id = Sale::insertGetId(array('net_amount' => $net_amount, "created_at" => $date));
+		$user_id = Session::get('user_id');
+		$arrayInsert = array('net_amount' => $net_amount, 
+																							"created_at" => $date,
+																							"invoice_id" => $invoice_id,
+																							"user_id" => $user_id);
+		$last_sale_id = Sale::insertGetId($arrayInsert);
 		// Insert in sale detail table
 		$product_id = Input::get('product_id');
 		for($i=0; $i<count($product_id); $i++)
@@ -71,38 +86,32 @@ class SaleController extends Controller {
 	 */
 	public function all_sale()
 	{
+	$user_type = Session::get('user_type');
 	$data = new Sale;
 	$sales = $data->all_sale();
 	$detail_sale = $sales['total_sale'];
 	$sum_sale = $sales['sum_sale'];
-	$TotalSale = $sum_sale[0]->TotalPrice;
-	$TotalQty = $sum_sale[0]->TotalQty;
-	/*$TotalSale = "";
-				$TotalQty = "";
-				foreach($sales as $sale)
-				{
-						$TotalSale += $sale->product_price;
-						$TotalQty += $sale->product_qty;
-				}	*/
-	return View('all_sale', compact('detail_sale','TotalSale','TotalQty'));
+	$TotalSale = number_format($sum_sale[0]->TotalPrice,0);
+	$TotalQty = number_format($sum_sale[0]->TotalQty,0);
+	if($user_type == 2)			
+			return View('all_sale', compact('detail_sale','TotalSale','TotalQty'));
+	else
+			return View('admin/reports/all_sale', compact('detail_sale','TotalSale','TotalQty'));		
 	}
 	
 	public function today_sale()
 	{
+		$user_type = Session::get('user_type');
 			$data = new Sale;
 	  $sales = $data->today_sale();
 			$detail_sale = $sales['total_sale'];
 	$sum_sale = $sales['sum_sale'];
-	$TotalSale = $sum_sale[0]->TotalPrice;
-	$TotalQty = $sum_sale[0]->TotalQty;
-				/*$TotalSale = "";
-				$TotalQty = "";
-				foreach($sales as $sale)
-				{
-						$TotalSale += $sale->product_price;
-						$TotalQty += $sale->product_qty;
-				}	*/
+	$TotalSale = number_format($sum_sale[0]->TotalPrice);
+	$TotalQty = number_format($sum_sale[0]->TotalQty);
+		if($user_type == 2)
 			return View('today_sale', compact('detail_sale','TotalSale','TotalQty'));
+		else
+			return View('admin/reports/today_sale', compact('detail_sale','TotalSale','TotalQty'));	
 	}
 	
 	public function show($id)

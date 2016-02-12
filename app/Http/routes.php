@@ -82,6 +82,11 @@ Route::group(
 		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'ProductsController@getModalDelete'));
 	});
 
+// Show all sale 
+Route::get('admin/reports/all_sale', array('uses' => 'SaleController@all_sale'));
+
+// Show today sale 
+Route::get('admin/reports/today_sale', array('uses' => 'SaleController@today_sale'));
 
 /*Route::get('sale', function()
 {

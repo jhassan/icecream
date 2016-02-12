@@ -60,6 +60,7 @@ class ClientController extends Controller {
 		if (Auth::attempt($userdata,true)) {
 			$user = Auth::getUser(); 
 			Session::put('user_id', $user->id);
+			Session::put('user_type', $user->user_type);
 			$value = Session::get('user_id');
 			//print_r($value); die;
 			

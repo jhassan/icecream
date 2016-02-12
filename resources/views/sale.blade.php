@@ -27,7 +27,7 @@
                     <td colspan="2" style="overflow: hidden;" class="text-center">Unitd Mall Multan</td>
                 </tr> 
                 <tr> 
-                    <td width="45%" class="col-md-6">Invoice#: MUL-01</td> 
+                    <td width="45%" class="col-md-6">Invoice#: MUL-{{ $invoice_id }}</td> 
                     <td width="55%" class="col-md-6">Date:{{ date('d-M-Y') }}</td> 
                 </tr> 
               </tbody>
@@ -72,7 +72,7 @@
                             <td class="col-md-12" colspan="3">Developed by: (0334)6026706, (0321)6328470</td> 
                         </tr> 
                         <tr class="noprint"> 
-                            <td class="col-md-12" colspan="3" align="right"><button onclick="printDiv();" type="submit" class="btn btn-success">Save and Print</button></td> 
+                            <td class="col-md-12" colspan="3" align="right"><button type="submit" class="btn btn-success">Save and Print</button></td> 
                         </tr>   <!--onclick="printDiv();"-->
                     </tbody> 
             </table> 

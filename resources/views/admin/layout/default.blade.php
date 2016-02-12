@@ -45,7 +45,7 @@
 
       <header class="main-header">
         <!-- Logo -->
-        <a href="../../index2.html" class="logo">
+        <a href="../../admin/users" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>LT</span>
           <!-- logo for regular state and mobile devices -->
@@ -252,6 +252,15 @@
               <ul class="treeview-menu">
                 <li class="active"><a href="{{ URL::to('admin/products/add') }}"><i class="fa fa-circle-o"></i> Add Products</a></li>
                 <li><a href="{{ URL::to('admin/products') }}"><i class="fa fa-circle-o"></i> View Products</a></li>
+              </ul>
+            </li>
+            <li class="treeview {{ Request::is('admin/reports/all_sale') ? 'active' : '' }} {{ Request::is('admin/reports/today_sale') ? 'active' : '' }}">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Report Management</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li class="active"><a href="{{ URL::to('admin/reports/all_sale') }}"><i class="fa fa-circle-o"></i> All Sale Report</a></li>
+                <li><a href="{{ URL::to('admin/reports/today_sale') }}"><i class="fa fa-circle-o"></i> Today Sale</a></li>
               </ul>
             </li>
           </ul>

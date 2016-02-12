@@ -22,7 +22,7 @@
                   <td>{{ $detail->product_qty }}</td>
                   <td>{{ $detail->product_name }}</td>
                   <td>{{ date("d-M-Y",strtotime($detail->created_at)) }}</td>
-                  <td>Jawad</td>
+                  <td>{{ $detail->first_name }}</td>
                 </tr>
 																@endforeach
               </tbody>
