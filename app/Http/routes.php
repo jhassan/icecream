@@ -88,6 +88,27 @@ Route::get('admin/reports/all_sale', array('uses' => 'SaleController@all_sale'))
 // Show today sale 
 Route::get('admin/reports/today_sale', array('uses' => 'SaleController@today_sale'));
 
+// Load COA 
+Route::get('admin/accounts/index_coa', array('uses' => 'AccountController@index'));
+
+// Add COA 
+//Route::get('add_coa', array('uses' => 'AccountController@add_coa'));
+
+// COA routs
+Route::group(
+	array('prefix' => 'admin/accounts','before' => 'Sentry'), function () {
+		Route::post('add_coa', array('as' => 'add_coa', 'uses' => 'AccountController@add_coa'));
+        Route::get('show_coa', array('as' => 'show_coa', 'uses' => 'AccountController@view_coa'));
+		Route::post('add', 'ProductsController@store');
+		//Route::get('{id}', array('as' => 'products.show', 'uses' => 'ProductsController@show'));
+        Route::get('{id}/edit', array('as' => 'coa.update', 'uses' => 'AccountController@update'));
+		Route::post('{id}/edit', 'AccountController@postEdit');
+		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ProductsController@getDelete'));
+		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'ProductsController@getModalDelete'));
+	});
+
+
+
 /*Route::get('sale', function()
 {
     return View::make('sale');

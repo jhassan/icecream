@@ -263,6 +263,15 @@
                 <li><a href="{{ URL::to('admin/reports/today_sale') }}"><i class="fa fa-circle-o"></i> Today Sale</a></li>
               </ul>
             </li>
+            <li class="treeview {{ Request::is('admin/accounts/index_coa') ? 'active' : '' }} {{ Request::is('admin/reports/today_sale') ? 'active' : '' }}">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Account Management</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li class="active"><a href="{{ URL::to('admin/accounts/index_coa') }}"><i class="fa fa-circle-o"></i> Add COA</a></li>
+                <li><a href="{{ URL::to('admin/accounts/show_coa') }}"><i class="fa fa-circle-o"></i> View COA</a></li>
+              </ul>
+            </li>
           </ul>
         </section>
         <!-- /.sidebar -->

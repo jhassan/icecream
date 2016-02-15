@@ -112,7 +112,6 @@ class Sale extends Model {
 					public function get_invoice_id()
 					{
 							$date = date('Y-m-d');
-							//$max_id =		DB::table('sales')->where('invoice_id1', DB::raw("(select max(`invoice_id`) as invoice_id from sales)"))->get();
 							$max_id = DB::table('sales')
 																	->where('created_at', '=' ,$date)
 																	->max('invoice_id');
