@@ -10,6 +10,7 @@
                   <th>Product Price</th>
                   <th>Product Quantity</th>
                   <th>Product Name</th>
+                  <th>Invoice #</th>
                   <th>Date</th>
                   <th>Employee</th>
                 </tr>
@@ -21,6 +22,7 @@
                   <td>{{ $detail->product_price }}</td>
                   <td>{{ $detail->product_qty }}</td>
                   <td>{{ $detail->product_name }}</td>
+                  <td>{{ $detail->shop_name }}-{{ $detail->invoice_id }}</td>
                   <td>{{ date("d-M-Y",strtotime($detail->created_at)) }}</td>
                   <td>{{ $detail->first_name }}</td>
                 </tr>
@@ -42,3 +44,14 @@
           </div>
      </div>     
     @stop
+         <script src="{{asset('../../plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var isAuth = "<?php echo Auth::check(); ?>";
+									if (isAuth != 1) 
+									{
+													window.location = "/";
+									}
+    });
+</script>

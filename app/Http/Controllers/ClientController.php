@@ -51,7 +51,8 @@ class ClientController extends Controller {
 		// create our user data for the authentication
 		$userdata = array(
 		'email'     => Input::get('email'),
-		'password'  => Input::get('password')
+		'password'  => Input::get('password'),
+		'user_type' => 2 
 		);
 		
 	//	echo $password = Hash::make('test'); die;
@@ -84,6 +85,7 @@ class ClientController extends Controller {
 	
 	public function doLogout()
 	{
+		Session::flush();
 		Auth::logout(); // log the user out of our application
 		return Redirect::to('/'); // redirect the user to the login screen
 	}

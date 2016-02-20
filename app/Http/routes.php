@@ -88,8 +88,25 @@ Route::get('admin/reports/all_sale', array('uses' => 'SaleController@all_sale'))
 // Show today sale 
 Route::get('admin/reports/today_sale', array('uses' => 'SaleController@today_sale'));
 
-// Load COA 
-Route::get('admin/accounts/index_coa', array('uses' => 'AccountController@index'));
+
+
+// account routs
+Route::group(
+	array('prefix' => 'admin/accounts','before' => 'Sentry'), function () {
+		Route::get('trial_balance', array('as' => 'trial_balance', 'uses' => 'AccountController@trial_balance'));
+		// Load COA 
+		Route::get('index_coa', array('as' => 'index_coa', 'uses' => 'AccountController@index'));
+		// Bank Pay Vouchers 
+		Route::get('bank_pay', array('as' => 'bank_pay', 'uses' => 'AccountController@bank_pay'));
+		// Bank Receipt Vouchers 
+		Route::get('bank_receipt', array('as' => 'bank_receipt', 'uses' => 'AccountController@bank_receipt'));
+		// Cash Pay Vouchers 
+		Route::get('cash_pay', array('as' => 'cash_pay', 'uses' => 'AccountController@cash_pay'));
+		// Cash Receipt Vouchers 
+		Route::get('cash_receipt', array('as' => 'cash_receipt', 'uses' => 'AccountController@cash_receipt'));
+	});
+
+
 
 // Add COA 
 //Route::get('add_coa', array('uses' => 'AccountController@add_coa'));
@@ -98,6 +115,7 @@ Route::get('admin/accounts/index_coa', array('uses' => 'AccountController@index'
 Route::group(
 	array('prefix' => 'admin/accounts','before' => 'Sentry'), function () {
 		Route::post('add_coa', array('as' => 'add_coa', 'uses' => 'AccountController@add_coa'));
+		Route::post('add_accounts', array('as' => 'add_accounts', 'uses' => 'AccountController@add_accounts'));
         Route::get('show_coa', array('as' => 'show_coa', 'uses' => 'AccountController@view_coa'));
 		Route::post('add', 'ProductsController@store');
 		//Route::get('{id}', array('as' => 'products.show', 'uses' => 'ProductsController@show'));
@@ -144,24 +162,33 @@ Route::get('/', 'ClientController@index');
 // route to show the login form
 //Route::get('login', array('uses' => 'ClientController@showLogin'));
 
+// Client end routs
+Route::group(
+	array('prefix' => 'client','before' => 'Sentry'), function () {
+		Route::post('add_coa', array('as' => 'add_coa', 'uses' => 'AccountController@add_coa'));
+	});
+
 // route to process the form
 Route::post('login', array('uses' => 'ClientController@doLogin'));
 
 // Logout
 Route::get('logout', array('uses' => 'ClientController@doLogout'));
 
+// Client end group 
+Route::group(array('before' => 'auth', 'after' => 'no-cache'), function()
+{
 // Show all products in front end
-Route::get('sale', array('uses' => 'SaleController@index'));
+Route::get('sale', array('as' => 'sale', 'uses' => 'SaleController@index'));
 
 // insert sale product products in front end
-Route::post('sale_product', array('uses' => 'SaleController@create'));
+Route::post('sale_product', array('as' => 'sale_product', 'uses' => 'SaleController@create'));
 
 // Show all sale 
-Route::get('all_sale', array('uses' => 'SaleController@all_sale'));
+Route::get('all_sale', array('as' => 'all_sale', 'uses' => 'SaleController@all_sale'));
 
 // Show today sale 
-Route::get('today_sale', array('uses' => 'SaleController@today_sale'));
-
+Route::get('today_sale', array('as' => 'today_sale', 'uses' => 'SaleController@today_sale'));
+});
 
 
 

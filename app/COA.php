@@ -22,5 +22,14 @@ class COA extends Model {
 					$arrayCoa = COA::all(); //->where('parent_id','!=',0);
 					return $arrayCoa;
 	}
+	
+	public function seleted_coa($str)
+	{
+					$arrayCoa = DB::table('coa')
+																->whereRaw('coa_id IN ('.$str.') OR parent_id IN ('.$str.')')
+																->orderBy('coa_code', 'asc')
+                ->get();
+					return $arrayCoa;
+	}
 
 }

@@ -31,7 +31,8 @@ class Sale extends Model {
 															->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
 															->join('products', 'products.id', '=', 'sales_details.product_id')
 															->join('users', 'users.id', '=', 'sales.user_id')
-															->select('sales_details.*','product_name','first_name')
+															->join('shops', 'shops.shop_id', '=', 'users.shop_id')
+															->select('sales_details.*','product_name','first_name','invoice_id','shop_name')
 															->whereRaw('sales.created_at >= CURRENT_DATE() AND (sales.created_at < CURDATE() + INTERVAL 1 DAY) AND sales.user_id = '.(int)$user_id.'')
 															->orderBy('sales_details_id', 'desc')
 															->paginate(10); //,DB::raw('SUM(sales_details.product_price) AS Total')
@@ -40,7 +41,7 @@ class Sale extends Model {
 																->join('products', 'products.id', '=', 'sales_details.product_id')
 																->select(DB::raw('SUM(sales_details.product_price) as TotalPrice, SUM(sales_details.product_qty) as TotalQty'))
 																->whereRaw('sales.created_at >= CURRENT_DATE() AND (sales.created_at < CURDATE() + INTERVAL 1 DAY) AND sales.user_id = '.(int)$user_id.'')
-																->groupBy('sales_details.`product_id`')
+																//->groupBy('sales_details.product_id')
 																->orderBy('sales_details_id', 'desc')
 																->get();									
 						}

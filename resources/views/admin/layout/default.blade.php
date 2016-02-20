@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="{{asset('../../plugins/jvectormap/jquery-jvectormap-1.2.2.css')}}">
     <!-- Date Picker -->
     <link rel="stylesheet" href="{{asset('../../plugins/datepicker/datepicker3.css')}}">
+    <link rel="stylesheet" href="{{asset('../../plugins/datepicker/bootstrap-datetimepicker.css')}}">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{asset('../../plugins/daterangepicker/daterangepicker-bs3.css')}}">
     <!-- bootstrap wysihtml5 - text editor -->
@@ -142,8 +143,13 @@
                   </li>
                 </ul>
               </li>
+              <li>
+              <div class="pull-right" style="margin:10px 20px 0px 0px !important;">
+                      <a href="{{ URL::to('auth/logout') }}" class="btn btn-default btn-flat">Sign out</a>
+                    </div>
+              </li>
               <!-- User Account: style can be found in dropdown.less -->
-              <li class="dropdown user user-menu">
+              <li class="dropdown user user-menu hide">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
                   <span class="hidden-xs hide">Alexander Pierce</span>
@@ -183,7 +189,7 @@
                 </ul>
               </li>
               <!-- Control Sidebar Toggle Button -->
-              <li>
+              <li class="hide">
                 <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
               </li>
             </ul>
@@ -196,7 +202,7 @@
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- Sidebar user panel -->
-          <div class="user-panel">
+          <div class="user-panel hide">
             <div class="pull-left image">
               <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
@@ -206,7 +212,7 @@
             </div>
           </div>
           <!-- search form -->
-          <form action="#" method="get" class="sidebar-form">
+          <form action="#" method="get" class="sidebar-form hide">
             <div class="input-group">
               <input type="text" name="q" class="form-control" placeholder="Search...">
               <span class="input-group-btn">
@@ -263,13 +269,26 @@
                 <li><a href="{{ URL::to('admin/reports/today_sale') }}"><i class="fa fa-circle-o"></i> Today Sale</a></li>
               </ul>
             </li>
-            <li class="treeview {{ Request::is('admin/accounts/index_coa') ? 'active' : '' }} {{ Request::is('admin/reports/today_sale') ? 'active' : '' }}">
+            <li class="treeview {{ Request::is('admin/accounts/index_coa') ? 'active' : '' }} {{ Request::is('admin/accounts/show_coa') ? 'active' : '' }}">
               <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Account Management</span> <i class="fa fa-angle-left pull-right"></i>
+                <i class="fa fa-dashboard"></i> <span>COA Management</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
                 <li class="active"><a href="{{ URL::to('admin/accounts/index_coa') }}"><i class="fa fa-circle-o"></i> Add COA</a></li>
                 <li><a href="{{ URL::to('admin/accounts/show_coa') }}"><i class="fa fa-circle-o"></i> View COA</a></li>
+              </ul>
+            </li>
+            <li class="treeview {{ Request::is('admin/accounts/bank_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/bank_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/trial_balance') ? 'active' : '' }}">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Account Management</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li class="active"><a href="{{ URL::to('admin/accounts/bank_pay') }}"><i class="fa fa-circle-o"></i> Bank Pay Voucher</a></li>
+                <li class="active"><a href="{{ URL::to('admin/accounts/bank_receipt') }}"><i class="fa fa-circle-o"></i> Bank Receipt Voucher</a></li>
+                <li class="active"><a href="{{ URL::to('admin/accounts/cash_pay') }}"><i class="fa fa-circle-o"></i> Cash Pay Voucher</a></li>
+                <li class="active"><a href="{{ URL::to('admin/accounts/cash_receipt') }}"><i class="fa fa-circle-o"></i> Cash Receipt Voucher</a></li>
+                <li class="active"><a href="{{ URL::to('admin/accounts/trial_balance') }}"><i class="fa fa-circle-o"></i> Trial Balance</a></li>
+                
               </ul>
             </li>
           </ul>
@@ -283,7 +302,7 @@
 <div class="pull-right hidden-xs">
   <b>Version</b> 2.3.0
 </div>
-<strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
+<strong class="hide">Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
 </footer>
   <div class="control-sidebar-bg"></div>
 </div><!-- ./wrapper -->
@@ -312,6 +331,7 @@
     <script src="{{asset('../../plugins/daterangepicker/daterangepicker.js')}}"></script>
     <!-- datepicker -->
     <script src="{{asset('../../plugins/datepicker/bootstrap-datepicker.js')}}"></script>
+    <script src="{{asset('../../plugins/datepicker/bootstrap-datetimepicker.js')}}"></script>
     <!-- Bootstrap WYSIHTML5 -->
     <script src="{{asset('../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
     <!-- Slimscroll -->
@@ -324,6 +344,15 @@
     <script src="{{asset('../../dist/js/dashboard.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('../../dist/js/demo.js')}}"></script>
+    <script>
+				$(function() {
+						$( ".datepicker" ).datepicker({
+								changeMonth: true,
+								changeYear: true
+						});
+						$(".date-pick").datepicker('setDate', new Date());
+				});
+  </script>
      @yield('footer_scripts')
       </body>
   </html> 

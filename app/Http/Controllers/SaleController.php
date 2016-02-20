@@ -106,8 +106,9 @@ class SaleController extends Controller {
 	  $sales = $data->today_sale();
 			$detail_sale = $sales['total_sale'];
 	$sum_sale = $sales['sum_sale'];
-	$TotalSale = number_format($sum_sale[0]->TotalPrice);
-	$TotalQty = number_format($sum_sale[0]->TotalQty);
+	$TotalSale = number_format((int)$sum_sale[0]->TotalPrice);
+	$TotalQty = number_format((int)$sum_sale[0]->TotalQty);
+	//var_dump($detail_sale[0]->shop_name); die;
 		if($user_type == 2)
 			return View('today_sale', compact('detail_sale','TotalSale','TotalQty'));
 		else

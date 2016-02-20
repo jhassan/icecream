@@ -120,6 +120,15 @@ html,body {
 				.cursor{ cursor:pointer;}
     </style>
     <script type="text/javascript">
+    $(document).ready(function() {
+        var isAuth = "<?php echo Auth::check(); ?>";
+									if (isAuth != 1) 
+									{
+													window.location = "/";
+									}
+    });
+</script>
+    <script type="text/javascript">
 				$(document).ready(function(e) {
      $('#FormID')[0].reset();
 					

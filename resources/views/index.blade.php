@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>4 Col Portfolio - Start Bootstrap Template</title>
+    <title>Cappellos</title>
 
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="{{asset('../../bootstrap/css/bootstrap.min.css')}}">
@@ -57,6 +57,5 @@
       </form>
         <!-- /.row -->
      </div>   
-    
 </body>
 </html>
