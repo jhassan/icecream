@@ -35,7 +35,10 @@
              	<div class="has-error">
                         {!! $errors->first('first_name', '<span class="help-block">:message</span>') !!}
                         {!! $errors->first('last_name', '<span class="help-block">:message</span>') !!}
-                        {!! $errors->first('password', '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first('login_name', '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first('gender', '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first('user_type', '<span class="help-block">:message</span>') !!}
                        
                     </div>
                 <!-- /.box-header -->
@@ -43,52 +46,74 @@
                 <form role="form" action="" method="POST">
                  <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                   <div class="box-body">
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="first_name">First Name *</label>
                       <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name" value="{{{ $users->first_name }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="last_name">Last Name *</label>
                       <input type="text" class="form-control" id="last_name" placeholder="Last Name" name="last_name" value="{{{ $users->last_name }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="login_name">Login Name *</label>
                       <input type="text" class="form-control" id="login_name" placeholder="Login Name" name="login_name" value="{{{ $users->login_name }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="email">Email *</label>
                       <input type="text" class="form-control" id="email" placeholder="Email" name="email" value="{{{ $users->email }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="Password">Password *</label>
                       <input type="password" class="form-control" id="password" placeholder="Password" name="password" >
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="confirm_password">Confirm Password *</label>
                       <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" name="confirm_password">
                     </div>
-                    <div class="dropdown">
+                    <div class="dropdown col-sm-4">
                                         <label for="gender" >Gender</label>
                        
                                             <select class="form-control" title="Select Gender..." name="gender">
                                                 <option value="">Select</option>
-                                                <option value="1" @if(Input::old('gender')  === '1') selected="selected" @endif >MALE</option>
-                                                <option value="2" @if(Input::old('gender') === '2') selected="selected" @endif >FEMALE</option>
+                                                <option value="1" <?php if($users->gender == 1) echo $selected = "selected"; else echo $selected = ""; ?>>MALE</option>
+                                                <option value="2" <?php if($users->gender == 2) echo $selected = "selected"; else echo $selected = ""; ?>>FEMALE</option>
 
                                             </select>
                                     </div>
-                    <div class="form-group">
+                                    <div class="dropdown col-sm-4">
+                                        <label for="gender" >User Type</label>
+                       
+                                            <select class="form-control" title="Select User Type..." name="user_type">
+                                                <option value="">Select User Type</option>
+                                                <option value="2" <?php if($users->user_type == 2) echo $selected = "selected"; else echo $selected = ""; ?>>Admin</option>
+                                                <option value="1" <?php if($users->user_type == 1) echo $selected = "selected"; else echo $selected = ""; ?>>Client</option>
+
+                                            </select>
+                                    </div>
+                    <div class="form-group col-sm-4">
                       <label for="city">City</label>
                       <input type="text" class="form-control" id="city" placeholder="City" name="city" value="{{$users->city}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="address">Address</label>
                       <input type="text" class="form-control" id="address" placeholder="Address" name="address" value="{{{$users->address}}}">
                     </div>
+                    <div class="dropdown col-sm-4">
+                                        <label for="shop" >Shop</label>
+                       																		
+                                            <select class="form-control" title="Select Shop..." name="shop_id">
+                                                <option value="">Select</option>
+                                                @foreach ($shops as $shop)
+                                                <?php if($users->shop_id == $shop->shop_id) $selected = "selected"; else $selected = ""; ?>
+                                                <option value="{{{ $shop->shop_id}}}" <?php echo $selected; ?>>{{{ $shop->shop_name}}}</option>
+                                                @endforeach
+
+                                            </select>
+                                    </div>
                   </div><!-- /.box-body -->
 
                   <div class="box-footer">
-                    <input type="submit" class="btn btn-primary" value="Submit">
+                    <input type="submit" class="btn btn-primary" value="Edit User">
                   </div>
                 </form>
               </div> 

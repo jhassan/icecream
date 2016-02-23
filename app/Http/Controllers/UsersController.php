@@ -37,7 +37,7 @@ class UsersController extends Controller {
 		$rules = array(
             'first_name'  => 'required',
             'last_name'  => 'required',
-												'email'  => 'required',
+												'email'  => 'required|email|unique:users',
 												'password'  => 'required|min:5',
 												'login_name'  => 'required',
 												'gender'  => 'required',
@@ -85,7 +85,8 @@ class UsersController extends Controller {
 		//return $id;
 		try {
 			$users = DB::table('users')->where('id', $id)->first();
-			return View('admin.users.edit', compact('users'));
+			$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+			return View('admin.users.edit', compact('users','shops'));
 		}
 		catch (TestimonialNotFoundException $e) {
 			$error = Lang::get('banners/message.error.update', compact('id'));
@@ -103,13 +104,12 @@ class UsersController extends Controller {
 		$rules = array(
             'first_name'  => 'required',
             'last_name'  => 'required',
-			'email'  => 'required',
-			'password'  => 'required|min:5',
-			'login_name'  => 'required',
-			'city'  => 'required',
-			'gender'  => 'required',
-			'address'  => 'required',
-			'confirm_password'  => 'required',
+												'email'  => 'required|email|unique:users',
+												'login_name'  => 'required',
+												'city'  => 'required',
+												'gender'  => 'required',
+												'address'  => 'required',
+												'user_type'  => 'required',
         );
 	
 	    // Create a new validator instance from our validation rules
@@ -121,12 +121,14 @@ class UsersController extends Controller {
 		// is new image uploaded?
 		$data->first_name = Input::get('first_name');
 		$data->last_name = Input::get('last_name');
+		if(!empty(Input::get('password')))
 		$data->password = Input::get('password');
 		$data->login_name = Input::get('login_name');
 		$data->gender = Input::get('gender');
 		$data->email = Input::get('email');
 		$data->city = Input::get('city');
 		$data->address = Input::get('address');
+		$data->user_type = (int)Input::get('user_type');
 		//print_r($data);
 			
 			User::where('id', $id)->update(
@@ -138,6 +140,7 @@ class UsersController extends Controller {
 			'gender' => $data->gender,
 			'email' => $data->email,
 			'city' => $data->city,
+			'user_type' => $data->user_type,
 			'address' => $data->address
 			]);
 			return Redirect::back();
