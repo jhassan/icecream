@@ -52,7 +52,7 @@ class ClientController extends Controller {
 		$userdata = array(
 		'email'     => Input::get('email'),
 		'password'  => Input::get('password'),
-		'user_type' => 2 
+		'user_type' => 1 
 		);
 		
 	//	echo $password = Hash::make('test'); die;

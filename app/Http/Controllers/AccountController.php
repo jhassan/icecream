@@ -110,6 +110,8 @@ class AccountController extends Controller {
 	// Add accounts data
 	public function add_accounts()
 	{
+		
+		DB::transaction(function () {
 		// Insert in master table
 		$vm_amount = Input::get('vm_amount');
 		$vm_date = Input::get('vm_date');
@@ -140,6 +142,8 @@ class AccountController extends Controller {
 						"vd_credit" => $tran["credit"]);
 			$sale = VoucherDetail::insert($arrayInsertDetail);
 		}
+		});
+		$vm_type = Input::get('vm_type');
 		// Redrect to sale page
 		if($vm_type == "BP")
 			return Redirect::to('admin/accounts/bank_pay');

@@ -35,6 +35,7 @@ class SaleController extends Controller {
 	 */
 	public function create()
 	{
+		DB::transaction(function () {
 		// Get Max invoice id
 		$data = new Sale;
 		$invoice_id = $data->get_invoice_id();
@@ -42,6 +43,7 @@ class SaleController extends Controller {
 		
 		$mytime = Carbon::now();
 		$date = $mytime->toDateTimeString();
+		
 		// Insert in sale table
 		$net_amount = Input::get('net_amount');
 		$user_id = Session::get('user_id');
@@ -63,9 +65,12 @@ class SaleController extends Controller {
 					);
 		}
 		$sale = salesDetails::insert($arrData);
-		// Redrect to sale page
+		});
+		// Redirect to sale page
 		
 		return Redirect::to('sale');
+		
+		
 	}
 
 	/**

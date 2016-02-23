@@ -37,13 +37,12 @@ class UsersController extends Controller {
 		$rules = array(
             'first_name'  => 'required',
             'last_name'  => 'required',
-			'email'  => 'required',
-			'password'  => 'required|min:5',
-			'login_name'  => 'required',
-			'city'  => 'required',
-			'gender'  => 'required',
-			'address'  => 'required',
-			'confirm_password'  => 'required',
+												'email'  => 'required',
+												'password'  => 'required|min:5',
+												'login_name'  => 'required',
+												'gender'  => 'required',
+												'user_type'  => 'required',
+												'confirm_password'  => 'required',
         );
 
         // Create a new validator instance from our validation rules
@@ -69,11 +68,7 @@ class UsersController extends Controller {
 		$data->city = Input::get('city');
 		$data->address = Input::get('address');
 		$data->shop_id = (int)Input::get('shop_id');
-		//return $data;exit;
-		//$data->image_name = $safeName;
-		//echo '<pre>';
-		//print_r($data);
-		//echo '</pre>';
+		$data->user_type = (int)Input::get('user_type');
 		
 		if($data->save()){
 			//echo 'i am in save';

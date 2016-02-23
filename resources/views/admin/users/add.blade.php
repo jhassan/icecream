@@ -34,6 +34,11 @@
                         {!! $errors->first('first_name', '<span class="help-block">:message</span>') !!}
                         {!! $errors->first('last_name', '<span class="help-block">:message</span>') !!}
                         {!! $errors->first('password', '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first('login_name', '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first('gender', '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first('user_type', '<span class="help-block">:message</span>') !!}
+                        {!! $errors->first('confirm_password', '<span class="help-block">:message</span>') !!}
                        
                     </div>
                 <!-- /.box-header -->
@@ -41,31 +46,31 @@
                 <form role="form" action="" method="POST">
                  <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                   <div class="box-body">
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="first_name">First Name *</label>
                       <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name" value="{{{ Input::old('first_name') }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="last_name">Last Name *</label>
                       <input type="text" class="form-control" id="last_name" placeholder="Last Name" name="last_name" value="{{{ Input::old('last_name') }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="login_name">Login Name *</label>
                       <input type="text" class="form-control" id="login_name" placeholder="Login Name" name="login_name" value="{{{ Input::old('login_name') }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="email">Email *</label>
                       <input type="text" class="form-control" id="email" placeholder="Email" name="email" value="{{{ Input::old('email') }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="Password">Password *</label>
                       <input type="password" class="form-control" id="password" placeholder="Password" name="password">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="confirm_password">Confirm Password *</label>
                       <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" name="confirm_password">
                     </div>
-                    <div class="dropdown">
+                    <div class="dropdown col-sm-4">
                                         <label for="gender" >Gender</label>
                        
                                             <select class="form-control" title="Select Gender..." name="gender">
@@ -75,15 +80,25 @@
 
                                             </select>
                                     </div>
-                    <div class="form-group">
+                     <div class="dropdown col-sm-4">
+                                        <label for="gender" >User Type</label>
+                       
+                                            <select class="form-control" title="Select User Type..." name="user_type">
+                                                <option value="">Select User Type</option>
+                                                <option value="2">Admin</option>
+                                                <option value="1">Client</option>
+
+                                            </select>
+                                    </div>               
+                    <div class="form-group col-sm-4">
                       <label for="city">City</label>
                       <input type="text" class="form-control" id="city" placeholder="City" name="city">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="address">Address</label>
                       <input type="text" class="form-control" id="address" placeholder="Address" name="address">
                     </div>
-                    <div class="dropdown">
+                    <div class="dropdown col-sm-4">
                                         <label for="shop" >Shop</label>
                        
                                             <select class="form-control" title="Select Shop..." name="shop_id">
@@ -98,7 +113,7 @@
                   </div><!-- /.box-body -->
 
                   <div class="box-footer">
-                    <input type="submit" class="btn btn-primary" value="Submit">
+                    <input type="submit" class="btn btn-primary" value="Save User">
                   </div>
                 </form>
               </div> 
