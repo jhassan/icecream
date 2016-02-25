@@ -278,7 +278,7 @@
                 <li><a href="{{ URL::to('admin/accounts/show_coa') }}"><i class="fa fa-circle-o"></i> View COA</a></li>
               </ul>
             </li>
-            <li class="treeview {{ Request::is('admin/accounts/bank_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/bank_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/trial_balance') ? 'active' : '' }}">
+            <li class="treeview {{ Request::is('admin/accounts/bank_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/bank_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/trial_balance') ? 'active' : '' }} {{ Request::is('admin/accounts/all_vouchers') ? 'active' : '' }}">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Account Management</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
@@ -288,6 +288,7 @@
                 <li class="active"><a href="{{ URL::to('admin/accounts/cash_pay') }}"><i class="fa fa-circle-o"></i> Cash Pay Voucher</a></li>
                 <li class="active"><a href="{{ URL::to('admin/accounts/cash_receipt') }}"><i class="fa fa-circle-o"></i> Cash Receipt Voucher</a></li>
                 <li class="active"><a href="{{ URL::to('admin/accounts/trial_balance') }}"><i class="fa fa-circle-o"></i> Trial Balance</a></li>
+                <li class="active"><a href="{{ URL::to('admin/accounts/all_vouchers') }}"><i class="fa fa-circle-o"></i> View Vouchers</a></li>
                 
               </ul>
             </li>
@@ -309,10 +310,10 @@
 <!-- jQuery 2.1.4 -->
     <script src="{{asset('../../plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
     <!-- jQuery UI 1.11.4 -->
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js')}}"></script>
+    <script src="{{asset('../../plugins/jQueryUI/jquery-ui.min.js')}}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
-      $.widget.bridge('uibutton', $.ui.button);
+      //$.widget.bridge('uibutton', $.ui.button);
     </script>
     <!-- Bootstrap 3.3.5 -->
     <script src="{{asset('../../bootstrap/js/bootstrap.min.js')}}"></script>
@@ -341,9 +342,10 @@
     <!-- AdminLTE App -->
     <script src="{{asset('../../dist/js/app.min.js')}}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{{asset('../../dist/js/dashboard.js')}}"></script>
+    <!--<script src="{{asset('../../dist/js/dashboard.js')}}"></script>-->
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('../../dist/js/demo.js')}}"></script>
+    
     <script>
 				$(function() {
 						$( ".datepicker" ).datepicker({

@@ -104,6 +104,11 @@ Route::group(
 		Route::get('cash_pay', array('as' => 'cash_pay', 'uses' => 'AccountController@cash_pay'));
 		// Cash Receipt Vouchers 
 		Route::get('cash_receipt', array('as' => 'cash_receipt', 'uses' => 'AccountController@cash_receipt'));
+		// All Vouchers 
+		Route::get('all_vouchers', array('as' => 'all_vouchers', 'uses' => 'AccountController@all_vouchers'));
+		// View Voucher Details
+		//Route::post('{id}/edit', array('as' => 'view_vouchers', 'uses' => 'AccountController@view_vouchers'));
+		Route::post('view_vouchers', array('as'=>'view_vouchers', 'uses' => 'AccountController@view_vouchers'));
 	});
 
 

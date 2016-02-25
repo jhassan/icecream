@@ -161,6 +161,27 @@ class AccountController extends Controller {
 	{
 		return View('admin/accounts/trial_balance');
 	}
+	
+	// all_vouchers
+	public function all_vouchers()
+	{
+		$data = new coa;
+	 $arrayVouchers = $data->all_vouchers();
+		return View('admin/accounts/all_vouchers',compact('arrayVouchers'));
+	}
+	// view_vouchers
+	public function view_vouchers()
+	{
+ 	$ID = Input::get('ID');
+		$data = new coa;
+	 $SelectedVoucher = $data->seleted_voucher($ID);
+		return response()->json($SelectedVoucher);
+		//var_dump($SelectedVoucher); die;
+		//return json_encode($SelectedVoucher); die;
+	//	print_r($SelectedVoucher);
+		//return View('admin/accounts/all_vouchers',compact('SelectedVoucher'));
+		
+	}
 
 	/**
 	 * Store a newly created resource in storage.

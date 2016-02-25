@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use DB,Input,Redirect,paginate;
 use Session;
+use App\VoucherMaster;
 
 class COA extends Model {
 
@@ -31,5 +32,23 @@ class COA extends Model {
                 ->get();
 					return $arrayCoa;
 	}
-
+	// View All Vouchers
+	public function all_vouchers()
+	{
+				$arrayVouchers = DB::table('vouchermaster')
+                ->orderBy('vm_id', 'desc')
+                ->get();
+					return $arrayVouchers;
+	}
+	// Select Voucher
+	public function seleted_voucher($id)
+	{
+					$arrayVoucher = DB::table('voucherdetail')
+															->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
+															->select('voucherdetail.*','coa_account')
+															->where('voucherdetail.vd_vm_id', '=' ,(int)$id)
+															->get();
+														//	var_dump($arrayVoucher); die;
+					return $arrayVoucher;
+	}
 }
