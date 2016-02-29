@@ -98,7 +98,7 @@
                   </div><!-- /.box-body -->
 
                   <div class="box-footer clear" style="clear:both !important;">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                   </div>
                 </form>
               </div> 

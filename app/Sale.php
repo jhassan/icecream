@@ -25,7 +25,7 @@ class Sale extends Model {
 				{
 					$user_id = Session::get('user_id');
 					$user_type = Session::get('user_type');
-						if($user_type == 2)
+						if($user_type == 1)
 						{
 					$sales['total_sale'] = DB::table('sales')
 															->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
@@ -33,14 +33,14 @@ class Sale extends Model {
 															->join('users', 'users.id', '=', 'sales.user_id')
 															->join('shops', 'shops.shop_id', '=', 'users.shop_id')
 															->select('sales_details.*','product_name','first_name','invoice_id','shop_name')
-															->whereRaw('sales.created_at >= CURRENT_DATE() AND (sales.created_at < CURDATE() + INTERVAL 1 DAY) AND sales.user_id = '.(int)$user_id.'')
+															->whereRaw('sales.created_at =  SUBDATE(CURDATE(),0) AND sales.user_id = '.(int)$user_id.'')
 															->orderBy('sales_details_id', 'desc')
 															->paginate(10); //,DB::raw('SUM(sales_details.product_price) AS Total')
 						$sales['sum_sale'] = DB::table('sales')
 																->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
 																->join('products', 'products.id', '=', 'sales_details.product_id')
 																->select(DB::raw('SUM(sales_details.product_price) as TotalPrice, SUM(sales_details.product_qty) as TotalQty'))
-																->whereRaw('sales.created_at >= CURRENT_DATE() AND (sales.created_at < CURDATE() + INTERVAL 1 DAY) AND sales.user_id = '.(int)$user_id.'')
+																->whereRaw('sales.created_at =  SUBDATE(CURDATE(),0) AND sales.user_id = '.(int)$user_id.'')
 																//->groupBy('sales_details.product_id')
 																->orderBy('sales_details_id', 'desc')
 																->get();									
@@ -52,7 +52,7 @@ class Sale extends Model {
 															->join('products', 'products.id', '=', 'sales_details.product_id')
 															->join('users', 'users.id', '=', 'sales.user_id')
 															->select('sales_details.*','product_name','first_name')
-															->whereRaw('sales.created_at >= CURRENT_DATE() AND (sales.created_at < CURDATE() + INTERVAL 1 DAY)')
+															->whereRaw('sales.created_at = SUBDATE(CURDATE(),0)')
 															//->groupBy('sales_details.product_id')
 															->orderBy('sales_details_id', 'desc')
 															->paginate(10); 
@@ -60,9 +60,17 @@ class Sale extends Model {
 																->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
 																->join('products', 'products.id', '=', 'sales_details.product_id')
 																->select(DB::raw('SUM(sales_details.product_price) as TotalPrice, SUM(sales_details.product_qty) as TotalQty'))
-																->whereRaw('sales.created_at >= CURRENT_DATE() AND (sales.created_at < CURDATE() + INTERVAL 1 DAY)')
+																->whereRaw(' sales.created_at =  SUBDATE(CURDATE(),0) ')
 																->orderBy('sales_details_id', 'desc')
-																->get();	
+																->get();
+						$sales['yesterday_sale'] = DB::table('sales')
+																->select(DB::raw('SUM(sales.net_amount) as YesterdaySale'))
+																->whereRaw('sales.created_at =  SUBDATE(CURDATE(),1) ')
+																->get();
+						$sales['today_expense'] = DB::table('vouchermaster')
+																->select(DB::raw('SUM(vm_amount) AS TodayExpense'))
+																->whereRaw('vm_date =  SUBDATE(CURDATE(),0)')
+																->get();																					
 						}
 					return $sales;
 					}
@@ -72,7 +80,7 @@ class Sale extends Model {
 					{
 						$user_id = Session::get('user_id');
 						$user_type = Session::get('user_type');
-						if($user_type == 2)
+						if($user_type == 1)
 						{
 						$sales['total_sale'] = DB::table('sales')
 																->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')

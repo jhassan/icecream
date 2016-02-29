@@ -65,9 +65,9 @@ class AccountController extends Controller {
 	{
 		$data = new coa;
 		// Debit array
-	 $arrayDebit = $data->seleted_coa('1,2,13');
+	 $arrayDebit = $data->all_coa();
 		// Credit array
-	 $arrayCredit = $data->seleted_coa('2,13');
+	 $arrayCredit = $data->all_coa();
 		return View('admin/accounts/bank_pay',compact('arrayDebit','arrayCredit'));
 	}
 	
@@ -76,9 +76,9 @@ class AccountController extends Controller {
 	{
 		$data = new coa;
 		// Debit array
-	 $arrayDebit = $data->seleted_coa('1,2,13');
+	 $arrayDebit = $data->all_coa();
 		// Credit array
-	 $arrayCredit = $data->seleted_coa('2,13');
+	 $arrayCredit = $data->all_coa();
 		return View('admin/accounts/bank_receipt',compact('arrayDebit','arrayCredit'));
 	}
 	
@@ -87,9 +87,9 @@ class AccountController extends Controller {
 	{
 		$data = new coa;
 		// Debit array
-	 $arrayDebit = $data->seleted_coa('1,2,13');
+	 $arrayDebit = $data->all_coa();
 		// Credit array
-	 $arrayCredit = $data->seleted_coa('2,13');
+	 $arrayCredit = $data->all_coa();
 		return View('admin/accounts/cash_receipt',compact('arrayDebit','arrayCredit'));
 	}
 	
@@ -98,9 +98,9 @@ class AccountController extends Controller {
 	{
 		$data = new coa;
 		// Debit array
-	 $arrayDebit = $data->seleted_coa('1,2,13');
+	 $arrayDebit = $data->all_coa();
 		// Credit array
-	 $arrayCredit = $data->seleted_coa('2,13');
+	 $arrayCredit = $data->all_coa();
 		return View('admin/accounts/cash_pay',compact('arrayDebit','arrayCredit'));
 	}
 	
@@ -132,27 +132,29 @@ class AccountController extends Controller {
 																							"vm_user_id" => $user_id);
 		$strDebitAcc = Input::get('vd_debit');
 		$strCreditAcc = Input::get('vd_credit');
-		$arrTrans[] = array("coa" => $strDebitAcc, "debit" => $vm_amount, "credit" => 0);
-		$arrTrans[] = array("coa" => $strCreditAcc,"debit" => 0, "credit" => $vm_amount);
+		$arrTrans[] = array("coa" => $strDebitAcc, "desc" => $vm_desc,  "debit" => $vm_amount, "credit" => 0);
+		$arrTrans[] = array("coa" => $strCreditAcc, "desc" => $vm_desc,"debit" => 0, "credit" => $vm_amount);
 		foreach($arrTrans as $tran)
 		{
 			$arrayInsertDetail = array("vd_vm_id" => $last_master_id,
 						"vd_coa_code" => $tran["coa"],
 						"vd_debit" => $tran["debit"],
+						"vd_desc" => $tran["desc"],
 						"vd_credit" => $tran["credit"]);
 			$sale = VoucherDetail::insert($arrayInsertDetail);
 		}
 		});
 		$vm_type = Input::get('vm_type');
-		// Redrect to sale page
-		if($vm_type == "BP")
+		// Redrect to sale page all_vouchers
+		return Redirect::to('admin/accounts/all_vouchers');
+		/*if($vm_type == "BP")
 			return Redirect::to('admin/accounts/bank_pay');
 		elseif($vm_type == "BR")
 			return Redirect::to('admin/accounts/bank_receipt');
 		elseif($vm_type == "CP")
 			return Redirect::to('admin/accounts/cash_pay');
 		elseif($vm_type == "CR")
-			return Redirect::to('admin/accounts/cash_receipt');			
+			return Redirect::to('admin/accounts/cash_receipt');*/			
 		
 	}
 	

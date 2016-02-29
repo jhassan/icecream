@@ -21,6 +21,16 @@
             <div class="col-xs-12">
               <div class="box">
                 <div class="box-body">
+                <div class="col-xs-3">Opening Balance : {{ $YesterdaySale }}</div>
+                <div class="col-xs-3">Today Expense : {{ $TodayExpense }}</div>
+                <div class="col-xs-3">Today Sale : {{ $TotalSale }}</div>
+                <?php
+                					$YesterdaySale = str_replace(",","",$YesterdaySale);
+																					$TotalSale = str_replace(",","",$TotalSale);
+																					$TodayExpense = str_replace(",","",$TodayExpense);
+																					$TodaySaleTotal = (((int)$YesterdaySale + (int)$TotalSale) - ((int)($TodayExpense)))
+																?>
+                <div class="col-xs-3">Total : <?php echo number_format($TodaySaleTotal); ?></div>
                   <table class="table table-bordered table-hover">
                     <thead>
                         <tr class="filters">

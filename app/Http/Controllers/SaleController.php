@@ -114,10 +114,19 @@ class SaleController extends Controller {
 	$TotalSale = number_format((int)$sum_sale[0]->TotalPrice);
 	$TotalQty = number_format((int)$sum_sale[0]->TotalQty);
 	//var_dump($detail_sale[0]->shop_name); die;
-		if($user_type == 2)
+		if($user_type == 1)
 			return View('today_sale', compact('detail_sale','TotalSale','TotalQty'));
 		else
-			return View('admin/reports/today_sale', compact('detail_sale','TotalSale','TotalQty'));	
+		{
+			// Yester day sale
+			$yesterday_sale = $sales['yesterday_sale'];
+			$YesterdaySale = number_format((int)$yesterday_sale[0]->YesterdaySale);
+			// Today Expense
+			$today_expense = $sales['today_expense'];
+			$TodayExpense = number_format((int)$today_expense[0]->TodayExpense);
+			
+			return View('admin/reports/today_sale', compact('detail_sale','TotalSale','TotalQty','YesterdaySale','TodayExpense'));	
+		}
 	}
 	
 	public function show($id)

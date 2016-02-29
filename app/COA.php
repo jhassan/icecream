@@ -37,7 +37,7 @@ class COA extends Model {
 	{
 				$arrayVouchers = DB::table('vouchermaster')
                 ->orderBy('vm_id', 'desc')
-                ->get();
+                ->paginate(10);
 					return $arrayVouchers;
 	}
 	// Select Voucher
