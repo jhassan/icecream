@@ -108,7 +108,7 @@ Route::group(
 		Route::get('all_vouchers', array('as' => 'all_vouchers', 'uses' => 'AccountController@all_vouchers'));
 		// View Voucher Details
 		//Route::post('{id}/edit', array('as' => 'view_vouchers', 'uses' => 'AccountController@view_vouchers'));
-		Route::post('view_vouchers', array('as'=>'view_vouchers', 'uses' => 'AccountController@view_vouchers'));
+		Route::get('view_vouchers', array('as'=>'view_vouchers', 'uses' => 'AccountController@view_vouchers'));
 	});
 
 

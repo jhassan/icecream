@@ -175,11 +175,11 @@ class AccountController extends Controller {
  	$ID = Input::get('ID');
 		$data = new coa;
 	 $SelectedVoucher = $data->seleted_voucher($ID);
-		return response()->json($SelectedVoucher);
+		//return response()->json($SelectedVoucher);
 		//var_dump($SelectedVoucher); die;
 		//return json_encode($SelectedVoucher); die;
 	//	print_r($SelectedVoucher);
-		//return View('admin/accounts/all_vouchers',compact('SelectedVoucher'));
+		return View('admin/accounts/dialog_vouchers',compact('SelectedVoucher'));
 		
 	}
 

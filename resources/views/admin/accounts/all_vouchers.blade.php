@@ -51,7 +51,22 @@
           </div><!-- /.row -->
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-      <div id="dialog-preview-amount-detail" style="display:none;"></div>
+      <div class="modal fade" tabindex="-1" role="dialog" id="view_dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body ShowData">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
       <div id="thedialog" title="Download complete">
     <p>
         <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
@@ -74,47 +89,18 @@
 					});
      $(document).on('click','.ShowVoucherDetails',function(e){
 					var ID = $(this).attr("id");
-					//alert(ID); return false;
-					//var action = "PreviewAmountDetail";
-					/*$.ajax({
-								type: 'POST',    
-						url:'<?=URL::to('admin/accounts/view_vouchers')?>',
-						//data:'action='+ action+'&ID='+ ID,
-						success: function(result){
-						$("#dialog-preview-amount-detail").html('jawad jeee');
-						//$("#dialog-preview-amount-detail").dialog('open');
-						
-								}
-							});*/
-						//	alert('ajax');
-							 $("#dialog-preview-amount-detail").html('');
 							$.ajax({
-            type: 'POST',
-            url: '<?=URL::to('admin/accounts/view_vouchers')?>',
-            data: 'ID='+ID,
-            dataType:'json',
-            success: function(result)
-            {
-													var obj = jQuery.parseJSON( result );
-													alert(obj.vd_id); return false;
-              //console.log(result);
-															$("#dialog-preview-amount-detail").html(result);
-            }
-        })
-					// Show Dialog
-					$("#dialog-preview-amount-detail").dialog({
-						resizable: false,
-						height:350,
-						width: 450,
-						modal: true,
-						title: 'Invoice Payment Detail',
-						buttons: {
-							//'OK': function() {$(this).dialog('close');},
-							Cancel: function() {
-										$(this).dialog('close');
+							type: 'GET',
+							url: '/admin/accounts/view_vouchers',
+							data: {'ID' : ID},
+							success: function(result)
+							{
+								if(result){
+									$(".ShowData").html(result);
+									$("#view_dialog").modal('show');
+								}
 							}
-						}
-					});	 
+						})
 			});	 
      </script>
 						<script>
