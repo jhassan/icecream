@@ -17,15 +17,18 @@
         </p>
         </div>
         <div class="col-md-4" id="InvoiceDiv">
-          <h2 class="text-center" style="font-family:icon; margin-top:0px;">Cappellos</h2>
+          <div class="text-center"><img height="35" src="{{ asset('img/logo1.png') }}" alt="Cappellos" /></div>
           <div class="bs-example" data-example-id="simple-table"> 
           	<form class="form-signin" id="FormID" method="post" action="{{ URL::to('sale_product') }}">
         		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <table class="table table table-bordered" width="100%" style="table-layout:fixed; margin-bottom:0px; font-size:12px;"> 
             <tbody class="border"> 
                 <tr> 
-                    <td colspan="2" style="overflow: hidden;" class="text-center">Unitd Mall Multan</td>
-                </tr> 
+                	<td colspan="2" style="overflow: hidden;" class="text-center">Fried Roll Ice Cream</td> 
+                 </tr>
+                <tr> 
+                    <td colspan="2" style="overflow: hidden;" class="text-center">3rd Floor Unitd Mall Multan</td>
+                </tr>
                 <tr> 
                     <td width="45%" class="col-md-6">Invoice#: MUL-{{ $invoice_id }}</td> 
                     <td width="55%" class="col-md-6">Date:{{ date('d-M-Y') }}</td> 
@@ -72,7 +75,7 @@
                             <td class="col-md-12" colspan="3">Developed by: (0334)6026706, (0321)6328470</td> 
                         </tr> 
                         <tr class="noprint"> 
-                            <td class="col-md-12" colspan="3" align="right"><button type="submit" class="btn btn-success">Save and Print</button></td> 
+                            <td class="col-md-12" colspan="3" align="right"><button onclick="printDiv();" type="submit" class="btn btn-success">Save and Print</button></td> 
                         </tr>   <!--onclick="printDiv();"-->
                     </tbody> 
             </table> 
