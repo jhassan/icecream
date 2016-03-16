@@ -1,0 +1,12 @@
+@charset "utf-8";
+/* CSS Document */
+@media print {
+#HideDiscountAmount, button {
+display: none !important;
+}
+.hide-in-print{display: none !important;}
+
+
+
+
+}

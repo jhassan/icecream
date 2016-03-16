@@ -59,7 +59,7 @@
                         
                     </tbody>
                 </table>
-                
+                {!! $products->render() !!}
               </div> 
 
             <!--<div class="box-footer">

@@ -3,6 +3,44 @@
 {{-- Page content --}}
 @section('content')
 
+<?php
+function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
+{
+		$bGroupOpen = false;
+		$nResult = DB::table('coa')
+                ->orderBy('coa_code', 'asc')
+                ->get();
+		echo "<select id=$strName name=$strName class='form-control'>\r\n";
+		echo "<optgroup label=''><option value=''>Select COA</option></optgroup>";
+		foreach($nResult as $rstRow)
+		{
+			$strCode = $rstRow->coa_code;
+			$strAcc = $rstRow->coa_account;
+			
+			if(substr($strCode, 3) == "000") // if this is control account
+			{
+				if($bGroupOpen) echo "</optgroup>";
+			
+				if(substr($strCode, 1) == "00000")
+					echo "<optgroup label='--- $strAcc ---'>\r\n";
+				else
+					echo "<optgroup label='$strAcc'>\r\n";
+				
+				$bGroupOpen = true;
+			}
+			else
+				
+				if($strCode == $nSelected)	// for default bank acc
+					echo "<option selected value='$strCode'>$strAcc ($strCode)\r\n";
+				else
+					echo "<option value='$strCode'>$strAcc ($strCode)\r\n";
+		}
+		
+		if($bGroupOpen) echo "</optgroup>\r\n";
+		echo "</select>\r\n";
+}
+								?>
+
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -45,23 +83,8 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                   <div class="box-body col-sm-4">
                   <div class="dropdown">
-                  <?php $bGroupOpen = false; ?>
-                    <label for="gender">COA</label>
-                        <select class="form-control" title="Select Parent COA" name="parent_id">
-                         <option value="">Select COA</option>
-                        @foreach($arrayCOA as $coa)
-                         <?php                        
-                           $strCode = $coa->coa_code;
-                           $strAcc = $coa->coa_account;
-																											$parent_id = $coa->parent_id;
-                            
-                            if($parent_id == 0)	// for default bank acc
-                             echo "<option class='bold-text' value='".$strCode."'>".$strAcc."</option>\r\n";
-                            else
-                             echo "<option class='p-l-15' value='".$strCode."'>==".$strAcc."</option>\r\n";
-                          ?>
-		                      @endforeach   
-                        </select>
+                    <label for="gender">Debit Account</label>
+                    <?php COAComboWithoutTable("", "vd_debit",""); ?>
 			                </div>
                     </div>
                     <div class="box-body col-sm-4">

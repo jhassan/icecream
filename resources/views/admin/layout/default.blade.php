@@ -278,7 +278,7 @@
                 <li><a href="{{ URL::to('admin/accounts/show_coa') }}"><i class="fa fa-circle-o"></i> View COA</a></li>
               </ul>
             </li>
-            <li class="treeview {{ Request::is('admin/accounts/bank_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/bank_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/trial_balance') ? 'active' : '' }} {{ Request::is('admin/accounts/all_vouchers') ? 'active' : '' }}">
+            <li class="treeview {{ Request::is('admin/accounts/bank_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/bank_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/trial_balance') ? 'active' : '' }} {{ Request::is('admin/accounts/all_vouchers') ? 'active' : '' }} {{ Request::is('admin/accounts/sale_summery') ? 'active' : '' }}">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Account Management</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
@@ -289,6 +289,7 @@
                 <li class="active"><a href="{{ URL::to('admin/accounts/cash_receipt') }}"><i class="fa fa-circle-o"></i> Cash Receipt Voucher</a></li>
                 <li class="active"><a href="{{ URL::to('admin/accounts/trial_balance') }}"><i class="fa fa-circle-o"></i> Trial Balance</a></li>
                 <li class="active"><a href="{{ URL::to('admin/accounts/all_vouchers') }}"><i class="fa fa-circle-o"></i> View Vouchers</a></li>
+                <li class="active"><a href="{{ URL::to('admin/accounts/sale_summery') }}"><i class="fa fa-circle-o"></i> Sale Summery</a></li>
                 
               </ul>
             </li>

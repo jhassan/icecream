@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use app\Http\Request;
 use View;
 use DB;
-use Validator;
+use Validator,Redirect;
 use Input;
 use Session;
 use App\Product;
@@ -21,7 +21,7 @@ class ProductsController extends Controller {
 	public function index()
 	{
 		//return 'user list';
-		$products = DB::table('products')->orderBy('id', 'desc')->get();
+		$products = DB::table('products')->orderBy('product_name', 'ASC')->paginate(20);
 		//print_r($users);
 		return View('admin.products.index', compact('products'));
 	}
@@ -150,7 +150,8 @@ class ProductsController extends Controller {
 			//return Redirect::back();
 		$products = DB::table('products')->orderBy('id', 'desc')->get();
 		//print_r($users);
-		return View('admin.products.index', compact('products'));
+		//return View('admin.products.index', compact('products'));
+		return Redirect::to('admin/products');
 	}
 
 	/**

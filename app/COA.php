@@ -46,7 +46,7 @@ class COA extends Model {
 					$arrayVoucher = DB::table('voucherdetail')
 															->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
 															->select('voucherdetail.*','coa_account')
-															->where('voucherdetail.vd_vm_id', '=' ,(int)$id)
+															->where('voucherdetail.vd_vm_id1', '=' ,(int)$id)
 															->get();
 														//	var_dump($arrayVoucher); die;
 					return $arrayVoucher;

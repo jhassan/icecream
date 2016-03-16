@@ -106,8 +106,9 @@ Route::group(
 		Route::get('cash_receipt', array('as' => 'cash_receipt', 'uses' => 'AccountController@cash_receipt'));
 		// All Vouchers 
 		Route::get('all_vouchers', array('as' => 'all_vouchers', 'uses' => 'AccountController@all_vouchers'));
-		// View Voucher Details
-		//Route::post('{id}/edit', array('as' => 'view_vouchers', 'uses' => 'AccountController@view_vouchers'));
+		// View Sale Summery
+		Route::get('sale_summery', array('as' => 'sale_summery', 'uses' => 'AccountController@sale_summery'));
+		// View Sale Vouchers
 		Route::get('view_vouchers', array('as'=>'view_vouchers', 'uses' => 'AccountController@view_vouchers'));
 	});
 

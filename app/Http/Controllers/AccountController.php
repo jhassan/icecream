@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB,Input,Redirect,paginate;
 use App\COA;
+use App\Sale;
 use App\VoucherMaster;
 use App\VoucherDetail;
 use Carbon\Carbon;
@@ -41,8 +42,7 @@ class AccountController extends Controller {
 		if ($coa_code === null) {
 					// Insert in COA table
 					$arrayInsert = array('coa_account' => Input::get('coa_account'), 
-																										"coa_code" => Input::get('coa_code'),
-																										"parent_id" => Input::get('parent_id'));
+																										"coa_code" => Input::get('coa_code'));
 					$last_sale_id = COA::insertGetId($arrayInsert);
 					// Redrect to sale page
 					return Redirect::to('admin/accounts/index_coa'); 
@@ -104,6 +104,14 @@ class AccountController extends Controller {
 		return View('admin/accounts/cash_pay',compact('arrayDebit','arrayCredit'));
 	}
 	
+	// Sale Summery
+	function sale_summery()
+	{
+		$data = new sale;
+	 $arraySummery = $data->get_sale_summery();
+		return View('admin/accounts/sale_summery',compact('arraySummery'));
+	}
+	
 	
 	
 	
@@ -146,15 +154,15 @@ class AccountController extends Controller {
 		});
 		$vm_type = Input::get('vm_type');
 		// Redrect to sale page all_vouchers
-		return Redirect::to('admin/accounts/all_vouchers');
-		/*if($vm_type == "BP")
+		//return Redirect::to('admin/accounts/all_vouchers');
+		if($vm_type == "BP")
 			return Redirect::to('admin/accounts/bank_pay');
 		elseif($vm_type == "BR")
 			return Redirect::to('admin/accounts/bank_receipt');
 		elseif($vm_type == "CP")
 			return Redirect::to('admin/accounts/cash_pay');
 		elseif($vm_type == "CR")
-			return Redirect::to('admin/accounts/cash_receipt');*/			
+			return Redirect::to('admin/accounts/cash_receipt');			
 		
 	}
 	

@@ -15,6 +15,43 @@
             <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
           </ol>
         </section>
+        <?php
+function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
+{
+		$bGroupOpen = false;
+		$nResult = DB::table('coa')
+                ->orderBy('coa_code', 'asc')
+                ->get();
+		echo "<select id=$strName name=$strName class='form-control'>\r\n";
+		echo "<optgroup label=''><option value=''>Select COA</option></optgroup>";
+		foreach($nResult as $rstRow)
+		{
+			$strCode = $rstRow->coa_code;
+			$strAcc = $rstRow->coa_account;
+			
+			if(substr($strCode, 3) == "000") // if this is control account
+			{
+				if($bGroupOpen) echo "</optgroup>";
+			
+				if(substr($strCode, 1) == "00000")
+					echo "<optgroup label='--- $strAcc ---'>\r\n";
+				else
+					echo "<optgroup label='$strAcc'>\r\n";
+				
+				$bGroupOpen = true;
+			}
+			else
+				
+				if($strCode == $nSelected)	// for default bank acc
+					echo "<option selected value='$strCode'>$strAcc\r\n";
+				else
+					echo "<option value='$strCode'>$strAcc\r\n";
+		}
+		
+		if($bGroupOpen) echo "</optgroup>\r\n";
+		echo "</select>\r\n";
+}
+								?>
 
         <!-- Main content -->
         <section class="content">
@@ -46,41 +83,13 @@
                   <div class="box-body col-sm-4">
                   <div class="dropdown">
                     <label for="gender">Debit Account</label>
-                        <select class="form-control" title="Select Debit COA" name="vd_debit">
-                         <option value="">Select Debit COA</option>
-                        @foreach($arrayDebit as $coa)
-                         <?php                        
-                           $strCode = $coa->coa_code;
-                           $strAcc = $coa->coa_account;
-																											$parent_id = $coa->parent_id;
-                            
-                            if($parent_id == 0)	// for default bank acc
-																													echo "<optgroup label='".$strAcc."'></optgroup>";
-                            else
-                             echo "<option class='p-l-15' value='".$strCode."'>&nbsp;&nbsp;&nbsp;&nbsp;".$strAcc."</option>\r\n";
-                          ?>
-		                      @endforeach   
-                        </select>
+                    <?php COAComboWithoutTable("", "vd_debit",""); ?>
 			                </div>
                     </div>
                     <div class="box-body col-sm-4">
                   <div class="dropdown">
                     <label for="gender">Credit Account</label>
-                        <select class="form-control" title="Select Credit COA" name="vd_credit">
-                         <option value="">Select Credit COA</option>
-                        @foreach($arrayCredit as $coa)
-                         <?php                        
-                           $strCode = $coa->coa_code;
-                           $strAcc = $coa->coa_account;
-																											$parent_id = $coa->parent_id;
-                            
-                            if($parent_id == 0)	// for default bank acc
-																													echo "<optgroup label='".$strAcc."'></optgroup>";
-                            else
-                             echo "<option class='p-l-15' value='".$strCode."'>&nbsp;&nbsp;&nbsp;&nbsp;".$strAcc."</option>\r\n";
-                          ?>
-		                      @endforeach   
-                        </select>
+                    <?php COAComboWithoutTable("", "vd_credit",""); ?>
 			                </div>
                     </div>
                     <div class="box-body col-sm-4">

@@ -8,18 +8,18 @@
         
         <!-- /.row -->
         <div class="row" style="min-height:200px;">
-        <div class="col-md-8">
+        <div class="col-md-8" style="overflow: auto; max-height: 500px;">
           <p>
           @foreach ($products as $product)
-	         	<button type="button" onclick="AddProductToSale({{ $product->id }}, '{{ $product->product_name }}',{{ $product->product_price }});" class="m-t-10 btn btn-success btn-lg">{{ $product->product_name }}</button>
+	         	<button type="button" onclick="AddProductToSale({{ $product->id }}, '{{ $product->product_name }}',{{ $product->product_price }});" title="{{ $product->product_name }}" style="text-align:left; font-size: 14px; font-weight: bold;" class="col-md-3 m-l-5 m-t-10 btn btn-success btn-lg">{{ $product->product_name }}</button>
  	       @endforeach
           
         </p>
         </div>
-        <div class="col-md-4" id="InvoiceDiv">
+        <div class="col-md-4" id="InvoiceDiv"><?php //echo url('/img/logo1.png');?>
           <div class="text-center"><img height="35" src="{{ asset('img/logo1.png') }}" alt="Cappellos" /></div>
           <div class="bs-example" data-example-id="simple-table"> 
-          	<form class="form-signin" id="FormID" method="post" action="{{ URL::to('sale_product') }}">
+          	<form class="form-signin" id="FormID" method="post" action="{{ URL::to('sale_product') }}" onsubmit="return CheckValidate();">
         		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <table class="table table table-bordered" width="100%" style="table-layout:fixed; margin-bottom:0px; font-size:12px;"> 
             <tbody class="border"> 
@@ -30,7 +30,7 @@
                     <td colspan="2" style="overflow: hidden;" class="text-center">3rd Floor Unitd Mall Multan</td>
                 </tr>
                 <tr> 
-                    <td width="45%" class="col-md-6">Invoice#: MUL-{{ $invoice_id }}</td> 
+                    <td width="45%" class="col-md-6">Invoice#: {{ $shop_code }}-{{ $invoice_id }}</td> 
                     <td width="55%" class="col-md-6">Date:{{ date('d-M-Y') }}</td> 
                 </tr> 
               </tbody>
@@ -75,7 +75,7 @@
                             <td class="col-md-12" colspan="3">Developed by: (0334)6026706, (0321)6328470</td> 
                         </tr> 
                         <tr class="noprint"> 
-                            <td class="col-md-12" colspan="3" align="right"><button onclick="printDiv();" type="submit" class="btn btn-success">Save and Print</button></td> 
+                            <td class="col-md-12" colspan="3" align="right"><button type="submit" class="btn btn-success">Save and Print</button></td> 
                         </tr>   <!--onclick="printDiv();"-->
                     </tbody> 
             </table> 
@@ -85,43 +85,7 @@
       </div>
     @stop
     @section('footer_scripts')
-    <style type="text/css">
-    @page { size: auto;  margin: 0mm; }
-    @media print {
-       .noprint{
-          display: none !important;
-       }
-							body {margin:0px !important; padding: 0px !important;}
-				#InvoiceDiv, #InvoiceDiv * {
-						visibility: visible;
-				}
-				#InvoiceDiv {
-						position: absolute;
-						left: 0px;
-						top: 0px;
-				}
-				body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
-    margin:0;
-    padding:0;
-}
-html,body {
-    margin:0;
-    padding:0;
-}
-    }
-				table {
-    border-collapse: collapse;
-				}
-				
-				table, th, td {
-								font-family:Verdana;
-				}
-				.border tr td{ padding: 2px !important;
-				}
-				.border tr th{ padding: 2px !important;
-				}
-				.cursor{ cursor:pointer;}
-    </style>
+    
     <script type="text/javascript">
     $(document).ready(function() {
         var isAuth = "<?php echo Auth::check(); ?>";
@@ -229,7 +193,7 @@ html,body {
 					var NetAmount = parseInt(product_price) + parseInt(CurrentValue);
 					$("#NetAmount").val(NetAmount);
 					var str = "";
-					str = "<tr id='Product_"+id+"' onclick='DeleteProduct("+id+","+product_price+");' class='cursor'>";
+					str = "<tr class='count_product' id='Product_"+id+"' onclick='DeleteProduct("+id+","+product_price+");' class='cursor'>";
 					str += "<td class='col-md-8'>"+product_name+"<input type='hidden' name='product_id[]' value='"+id+"' /></td>"; 
 					str += "<td class='col-md-1 text-center'><span id='Qty_"+id+"'>1</span><input id='TotalQty_"+id+"' type='hidden' name='product_qty[]' value='1' /></td>"; 
 					str += "<td class='col-md-1 text-center'><input id='ProductPrice_"+id+"' type='hidden' name='product_price[]' value='"+product_price+"' /><span id='TotalProductPrice_"+id+"'>"+product_price+"</span></td>"; 
@@ -269,5 +233,66 @@ html,body {
 							$("#ChangeAmount").val(TotalAmount);
 							$("#txtChangeAmount").html(TotalAmount);	
 				}
+				function CheckValidate()
+				{
+					var count_product = document.getElementsByClassName('count_product');
+					var PaidAmount = document.getElementById('PaidAmount').value;
+					if (count_product.length > 0) {
+						if(PaidAmount == 0)
+						{
+								alert('Please add paid amount!');
+								return false;		
+						}
+						//printDiv();
+						return true;
+					}
+					else
+					{
+					alert('Please select any flavours!');
+					return false;
+					}
+			}
 </script>
+
 @stop
+<style type="text/css">
+    @page { size: auto;  margin: 0mm; }
+    
+				table {
+    border-collapse: collapse;
+				}
+				
+				table, th, td {
+								font-family:Verdana;
+				}
+				.border tr td{ padding: 2px !important;
+				}
+				.border tr th{ padding: 2px !important;
+				}
+				.cursor{ cursor:pointer;}
+				
+    </style>
+<style type="text/css" media="print">
+
+@media print {
+       
+							body {margin:0px !important; padding: 0px !important;}
+				/*#InvoiceDiv, #InvoiceDiv * {
+						visibility: visible;
+				}*/
+				#InvoiceDiv {
+						position: absolute;
+						left: 0px;
+						top: 0px;
+				}
+				body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+    margin:0;
+    padding:0;
+}
+html,body {
+    margin:0;
+    padding:0;
+}
+   .noprint{ display: none !important; }
+    }
+</style>

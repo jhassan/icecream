@@ -25,7 +25,9 @@ class SaleController extends Controller {
 		$data = new Sale;
 	 $invoice_id = $data->get_invoice_id();
 		$invoice_id++;
-		return View('sale', compact('products','invoice_id'));
+		// Shop code
+		$shop_code = $data->get_shop_code();
+		return View('sale', compact('products','invoice_id','shop_code'));
 	}
 
 	/**
@@ -46,9 +48,11 @@ class SaleController extends Controller {
 		
 		// Insert in sale table
 		$net_amount = Input::get('net_amount');
+		$discount_amount = Input::get('discount_amount');
 		$user_id = Session::get('user_id');
 		$arrayInsert = array('net_amount' => $net_amount, 
 																							"created_at" => $date,
+																							"discount_amount" => $discount_amount,
 																							"invoice_id" => $invoice_id,
 																							"user_id" => $user_id);
 		$last_sale_id = Sale::insertGetId($arrayInsert);
@@ -111,11 +115,14 @@ class SaleController extends Controller {
 	  $sales = $data->today_sale();
 			$detail_sale = $sales['total_sale'];
 	$sum_sale = $sales['sum_sale'];
+	$discount_amount = $sales['discount_amount'];
 	$TotalSale = number_format((int)$sum_sale[0]->TotalPrice);
 	$TotalQty = number_format((int)$sum_sale[0]->TotalQty);
-	//var_dump($detail_sale[0]->shop_name); die;
+	$DiscountAmount = number_format((int)$discount_amount[0]->DiscountAmount);
+	
+
 		if($user_type == 1)
-			return View('today_sale', compact('detail_sale','TotalSale','TotalQty'));
+			return View('today_sale', compact('detail_sale','TotalSale','TotalQty','DiscountAmount'));
 		else
 		{
 			// Yester day sale
@@ -125,7 +132,14 @@ class SaleController extends Controller {
 			$today_expense = $sales['today_expense'];
 			$TodayExpense = number_format((int)$today_expense[0]->TodayExpense);
 			
-			return View('admin/reports/today_sale', compact('detail_sale','TotalSale','TotalQty','YesterdaySale','TodayExpense'));	
+			// Yesterday Expense
+			$yesterday_expense = $sales['yesterday_expense'];
+			$YesterdayExpense = number_format((int)$yesterday_expense[0]->YesterdayExpense);
+			
+		// get_opening_balance
+		$OpBalance = $data->get_opening_balance();
+
+			return View('admin/reports/today_sale', compact('detail_sale','TotalSale','TotalQty','YesterdaySale','TodayExpense','YesterdayExpense','DiscountAmount','OpBalance'));	
 		}
 	}
 	
