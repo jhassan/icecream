@@ -60,6 +60,60 @@ class AccountController extends Controller {
 		
 	}
 	
+	// General Vouchers
+	function general_voucher()
+	{
+		$data = new coa;
+		// Debit array
+	 $arrayDebit = $data->all_coa();
+		return View('admin/accounts/general_voucher',compact('arrayDebit'));	
+	}
+	
+	function frm_cash_book()
+	{
+		$data = new coa;
+		// Debit array
+	 $arrayDebit = $data->all_coa();
+		return View('admin/accounts/frm_cash_book',compact('arrayDebit'));	
+	}
+	
+	// Find Vouchers
+	function view_ledger()
+	{
+		 $data = new coa;
+			$sale = new sale;
+				// get_opening_balance
+		  $OpBalance = $sale->get_opening_balance();
+			$coa_account = Input::get('coa_account');
+			$start_date 	= date("Y-m-d",strtotime(Input::get('start_date')));
+			$end_date 			= date("Y-m-d",strtotime(Input::get('end_date')));
+			//var_dump($start_date); die;
+			if($start_date != "1970-01-01" && $end_date != "1970-01-01")
+			{
+				$arrayLedeger 	= $data->search_vouchers($coa_account, $start_date, $end_date);
+				$start_date 	= date("d-m-Y",strtotime($start_date));
+			 $end_date 			= date("d-m-Y",strtotime($end_date));
+				return View('admin/accounts/view_ledger',compact('arrayLedeger','end_date','start_date','OpBalance'));
+			}
+	}
+	
+	// Find Cash Book
+	function view_cash_book()
+	{
+		  $data = new coa;
+				$sale = new sale;
+				// get_opening_balance
+		  $OpBalance = $sale->get_opening_balance();
+			 $start_date 	= date("Y-m-d",strtotime(Input::get('start_date')));
+			$end_date 			= date("Y-m-d",strtotime(Input::get('end_date')));
+			//var_dump($start_date); die;
+			if($start_date != "1970-01-01" && $end_date != "1970-01-01")
+			{
+				$arrayCashBook 	= $data->search_cash_book($start_date,$end_date);
+				return View('admin/accounts/view_cash_book',compact('arrayCashBook','end_date','start_date','OpBalance'));
+			}
+	}
+	
 	// Bank Pay Vouchers
 	function bank_pay()
 	{
@@ -288,9 +342,11 @@ class AccountController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function delete_vouchers($id)
 	{
-		//
+		echo "Delete"; die;
+		$DelID = Input::get('DelID');
+		echo $DelID; die;
 	}
 
 }

@@ -23,7 +23,7 @@ function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
                 ->orderBy('coa_code', 'asc')
                 ->get();
 		echo "<select id=$strName name=$strName class='form-control'>\r\n";
-		
+		echo "<optgroup label=''><option value=''>Select COA</option></optgroup>";
 		foreach($nResult as $rstRow)
 		{
 			$strCode = $rstRow->coa_code;

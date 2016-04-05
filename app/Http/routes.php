@@ -110,6 +110,17 @@ Route::group(
 		Route::get('sale_summery', array('as' => 'sale_summery', 'uses' => 'AccountController@sale_summery'));
 		// View Sale Vouchers
 		Route::get('view_vouchers', array('as'=>'view_vouchers', 'uses' => 'AccountController@view_vouchers'));
+		// View General Vouchers
+		Route::get('general_voucher', array('as'=>'general_voucher', 'uses' => 'AccountController@general_voucher'));
+		// Search Ledger Vouchers
+		Route::post('view_ledger', array('as'=>'view_ledger', 'uses' => 'AccountController@view_ledger'));
+		// Search Cash Book
+		Route::get('frm_cash_book', array('as'=>'frm_cash_book', 'uses' => 'AccountController@frm_cash_book'));
+		// View Cash Book
+		Route::post('view_cash_book', array('as'=>'view_cash_book', 'uses' => 'AccountController@view_cash_book'));
+		// Delete Vouchers
+		Route::get('account/delete_vouchers', array('as'=>'delete_vouchers', 'uses' => 'AccountController@delete_vouchers'));
+		//Route::post('delete_vouchers/{id}', 'AccountController@delete_vouchers');
 	});
 
 

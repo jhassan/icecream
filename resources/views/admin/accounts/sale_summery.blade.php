@@ -40,6 +40,32 @@ function GetDiscount($strDate)
 						$Discount = $arrayDiscount[0]->DiscountAmount;
 return $Discount;
 }
+
+// Get Expense and Credit
+function GetExpenseCredit($strDate,$Type)
+{
+$sales = array();	
+		if($Type == "D")
+		{
+					$sales = DB::table('vouchermaster')
+														->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+														->select(DB::raw('SUM(vd_debit) AS TodayExpense'))
+														->whereRaw('vm_date = "'.$strDate.'"')
+														->get();	
+					$Amount = $sales[0]->TodayExpense;									
+		}
+		else
+		{
+					$sales = DB::table('vouchermaster')
+									->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+									->select(DB::raw('SUM(vd_credit) AS TodayCredit'))
+									->whereRaw('vm_date = "'.$strDate.'"')
+									->get();	
+					$Amount = $sales[0]->TodayCredit;									
+		}
+}
+
+
 ?>
 
       <!-- Content Wrapper. Contains page content -->
@@ -69,13 +95,17 @@ return $Discount;
                             <th colspan="2">No.CUP 220</th>
                             <th colspan="2">Topping(20)</th>
                             <th colspan="2">Joy Kid(100)</th>
-                            <th colspan="2">Free of Cost</th>
                             <th width="66">Sale</th>
                             <th width="46">D/C</th>
                             <th width="103">Net Sale</th>
                         </tr>
                     </thead>
                     <tbody>
+                    <?php
+                    $nToalClosing = 0;
+																				$dDebit = 0;
+																				$dCredit = 0;
+																				?>
                     @foreach($arraySummery as $summery) 
                     <?php 
 																								$CurrentDate = date("Y-m-d",strtotime($summery->created_at));
@@ -94,6 +124,8 @@ return $Discount;
 																								$Array220 = PriceTypeCount($CurrentDate,220);
 																								//$NetAmount = (((int)$Array150 * 150) + ((int)$Array180 * 180) + ((int)$Array100 * 100) 
 																								//+ ((int)$Array20 * 20) + ((int)$Array200 * 200));
+																								//$dDebit1 = 
+																								$nToalClosing  += $summery->NetAmount - GetDiscount($CurrentDate);
 																								 ?>
                     				<tr>
                       <td>{{ date("d-M-Y",strtotime($summery->created_at)) }}</td>
@@ -109,8 +141,6 @@ return $Discount;
                       <td width="54">{{ number_format((int)$Array20 * 20) }}</td>
                       <td width="40">{{ (int)$Array100 }}</td>
                       <td width="59">{{ number_format((int)$Array100 * 100) }}</td>
-                      <td width="53">0</td>
-                      <td width="52">0</td>
                       <td>{{ number_format($summery->NetAmount) }}</td>
                       <td>{{ number_format(GetDiscount($CurrentDate)) }}</td>
                       <td>{{ number_format($summery->NetAmount - GetDiscount($CurrentDate)) }}</td>
@@ -124,7 +154,6 @@ return $Discount;
                             <th colspan="2">{{ PriceTypeCount("",220) }}</th>
                             <th colspan="2">{{ PriceTypeCount("",20) }}</th>
                             <th colspan="2">{{ PriceTypeCount("",100) }}</th>
-                            <th colspan="2">0</th>
                             <th width="66">Sale</th>
                             <th width="46">D/C</th>
                             <th width="103">Net Sale</th>

@@ -8,14 +8,14 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Add Cash Pay Vouchers
+            General Ledger
             <small></small>
           </h1>
-          <ol class="breadcrumb">
+          <ol class="breadcrumb hide">
             <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
           </ol>
         </section>
-<?php 
+        <?php
 function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
 {
 		$bGroupOpen = false;
@@ -23,13 +23,12 @@ function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
                 ->orderBy('coa_code', 'asc')
                 ->get();
 		echo "<select id=$strName name=$strName class='form-control'>\r\n";
-		echo "<optgroup label=''><option value=''>Select COA</option></optgroup>";
-		
+		//echo "<optgroup label=''><option value=''>Select COA</option></optgroup>";
 		foreach($nResult as $rstRow)
 		{
 			$strCode = $rstRow->coa_code;
 			$strAcc = $rstRow->coa_account;
-
+			
 			if(substr($strCode, 3) == "000") // if this is control account
 			{
 				if($bGroupOpen) echo "</optgroup>";
@@ -52,15 +51,15 @@ function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
 		if($bGroupOpen) echo "</optgroup>\r\n";
 		echo "</select>\r\n";
 }
+								?>
 
-?>
         <!-- Main content -->
         <section class="content">
 
           <!-- Default box -->
           <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Cash Pay Vouchers</h3>
+              <h3 class="box-title">General Ledger</h3>
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -78,37 +77,26 @@ function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
              <div class="box box-primary">
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form action="add_accounts" method="post">
+                <form action="view_ledger" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                <input type="hidden" name="vm_type" value="CP" />
                   <div class="box-body col-sm-4">
                   <div class="dropdown">
-                    <label for="gender">Debit Account</label>
-                    <?php COAComboWithoutTable("", "vd_debit",""); ?>
+                    <label for="gender">Account</label>
+                    <?php COAComboWithoutTable("", "coa_account",""); ?>
 			                </div>
                     </div>
                     <div class="box-body col-sm-4">
-                  <div class="dropdown">
-                    <label for="gender">Credit Account</label>
-                    <?php COAComboWithoutTable("", "vd_credit",""); ?>
-			                </div>
+                      <label for="shop_address">Start Date</label>
+                      <input type="text" class="date-pick form-control" id="start_date" placeholder="Start Date" name="start_date">
                     </div>
                     <div class="box-body col-sm-4">
-                      <label for="shop_address">Amount</label>
-                      <input type="text" class="form-control" id="vm_amount" placeholder="Amount" maxlength="8" name="vm_amount">
-                    </div>
-                    <div class="box-body col-sm-4">
-                      <label for="shop_address">Date</label>
-                      <input type="text" class="date-pick form-control" id="vm_date" placeholder="Date" name="vm_date">
-                    </div>
-                    <div class="box-body col-sm-4">
-                      <label for="shop_address">Descriptions</label>
-                      <textarea type="text" class="form-control" id="vm_desc" placeholder="Descriptions" name="vm_desc"></textarea>
+                      <label for="shop_address">End Date</label>
+                      <input type="text" class="date-pick form-control" id="end_date" placeholder="End Date" name="end_date">
                     </div>
                   </div><!-- /.box-body -->
 
                   <div class="box-footer clear" style="clear:both !important;">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
                   </div>
                 </form>
               </div> 

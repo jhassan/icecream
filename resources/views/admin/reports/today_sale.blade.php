@@ -16,7 +16,7 @@
         </section>
 									<?php
 									//print_r($OpBalance[0]->NetAmount); die;
-													$OpeningBalance = number_format($OpBalance[0]->NetAmount);
+													$OpeningBalance = number_format($OpBalance);
 								?>
         <!-- Main content -->
         <section class="content">

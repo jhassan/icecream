@@ -46,9 +46,40 @@ class COA extends Model {
 					$arrayVoucher = DB::table('voucherdetail')
 															->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
 															->select('voucherdetail.*','coa_account')
-															->where('voucherdetail.vd_vm_id1', '=' ,(int)$id)
+															->where('voucherdetail.vd_vm_id', '=' ,(int)$id)
 															->get();
 														//	var_dump($arrayVoucher); die;
 					return $arrayVoucher;
 	}
+	// Search General Voucher
+	public function search_vouchers($coa, $start_date, $end_date)
+	{
+		$arrayVoucher = DB::table('vouchermaster')
+															->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+															->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
+															->select('vouchermaster.*','voucherdetail.*','coa.*')
+															->whereRaw('vd_coa_code = '.$coa.' AND vm_date >= "'.$start_date.'" AND vm_date <= "'.$end_date.'" ')
+															->orderBy('vm_date', 'asc')
+															->get();
+					return $arrayVoucher;
+	}
+	
+	// Search Cash Book
+	public function search_cash_book($start_date, $end_date)
+	{
+		$arrayCashBook = DB::table('vouchermaster')
+															->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+															->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
+															->select('vm_date','voucherdetail.*','vm_type','coa_account')
+															->whereRaw(' vm_date >= "'.$start_date.'" AND vm_date <= "'.$end_date.'" ')
+															->orderBy('vm_date', 'asc')
+															->groupBy('vd_vm_id')
+															->get();
+					return $arrayCashBook;
+	}
+	
+	
+	
+	
+	
 }

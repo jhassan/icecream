@@ -29,6 +29,7 @@
                             <th>Voucher Date</th>
                             <th>Voucher Amount</th>
                             <th>Voucher Descriptions</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,11 +39,11 @@
                         <td>{{{ $voucher->vm_date }}}</td>
                         <td>{{{ $voucher->vm_amount }}}</td>
                         <td>{{{ $voucher->vm_desc }}}</td>
-                        <td> <a id="{{ $voucher->vm_id }}" class="ShowVoucherDetails" style="cursor:pointer;">View</a>
+                        <td> <a id="{{ $voucher->vm_id }}" class="ShowVoucherDetails" style="cursor:pointer;">View</a>/<a id="{{ $voucher->vm_id }}" class="deleteRecord" style="cursor:pointer;">Delete</a>
                                     </td>
             			</tr>
                     @endforeach
-                        <meta name="_token" content="{!! csrf_token() !!}"/>
+                        <input type="hidden" value="<?php echo csrf_token(); ?>" name="_token">
                     </tbody>
                   </table>
                   {!! $arrayVouchers->render() !!}
@@ -67,6 +68,7 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div id="dialog-confirm-delete" title="Delete Reocrs" style="display:none;">Do you want to delete this record?</div>
     @stop 
     @section('footer_scripts')
     <script src="{{asset('../../dist/js/jquery.ui.dialog.js')}}"></script>
@@ -90,6 +92,40 @@
 							}
 						})
 			});	 
+			jQuery(document).on('click','.deleteRecord',function(e){
+				var DelID = jQuery(this).attr("id");
+				var action = "VoucherDelete";
+				var token = $('input[name="_token"]').val();
+				jQuery("#dialog-confirm-delete").dialog({
+								resizable: false,
+								height:140,
+								width: 400,
+								modal: true,
+								title: 'Delete',
+								buttons: {
+									Delete: function() {
+										jQuery(this).dialog('close');
+										$.ajax({
+    type: "GET",
+				url: '{{url()}}/admin/account/delete_vouchers',
+    //url: 'delete_vouchers', // This is what I have updated
+    data: { id: 7 }
+}).done(function( msg ) {
+    alert( msg );
+});
+
+        //console.log("It failed");
+    //})
+								
+									},
+									Cancel: function() {
+									   jQuery(this).dialog('close');
+									}
+								}
+							});
+									   
+						return false;
+						});
      </script>
 						<script>
       $(document).ready(function() {
