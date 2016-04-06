@@ -34,7 +34,7 @@
                     </thead>
                     <tbody>
                     @foreach ($arrayVouchers as $voucher)
-                    	<tr>
+                    	<tr id="row_{{{ $voucher->vm_id }}}">
                         <td>{{{ $voucher->vm_type }}}</td>
                         <td>{{{ $voucher->vm_date }}}</td>
                         <td>{{{ $voucher->vm_amount }}}</td>
@@ -73,6 +73,7 @@
     @section('footer_scripts')
     <script src="{{asset('../../dist/js/jquery.ui.dialog.js')}}"></script>
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/ui-lightness/jquery-ui.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
      <script type="text/javascript">
 					$.ajaxSetup({
 								headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
@@ -81,7 +82,7 @@
 					var ID = $(this).attr("id");
 							$.ajax({
 							type: 'GET',
-							url: '/admin/accounts/view_vouchers',
+							url: 'view_vouchers',
 							data: {'ID' : ID},
 							success: function(result)
 							{
@@ -98,25 +99,22 @@
 				var token = $('input[name="_token"]').val();
 				jQuery("#dialog-confirm-delete").dialog({
 								resizable: false,
-								height:140,
+								height:170,
 								width: 400,
 								modal: true,
-								title: 'Delete',
+								title: 'Delete Voucher',
 								buttons: {
 									Delete: function() {
 										jQuery(this).dialog('close');
 										$.ajax({
-    type: "GET",
-				url: '{{url()}}/admin/account/delete_vouchers',
-    //url: 'delete_vouchers', // This is what I have updated
-    data: { id: 7 }
-}).done(function( msg ) {
-    alert( msg );
-});
-
-        //console.log("It failed");
-    //})
-								
+                          type: "GET",
+                      				url: 'delete_vouchers',
+                          data: { DelID: DelID }
+                      }).done(function( msg ) {
+                          //alert( msg+'ttttt' );
+                          if(msg == "delete")
+                            $("#row_"+DelID).remove();
+                      });
 									},
 									Cancel: function() {
 									   jQuery(this).dialog('close');

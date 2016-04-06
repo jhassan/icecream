@@ -119,7 +119,7 @@ Route::group(
 		// View Cash Book
 		Route::post('view_cash_book', array('as'=>'view_cash_book', 'uses' => 'AccountController@view_cash_book'));
 		// Delete Vouchers
-		Route::get('account/delete_vouchers', array('as'=>'delete_vouchers', 'uses' => 'AccountController@delete_vouchers'));
+		Route::get('delete_vouchers', array('as'=>'delete_vouchers', 'uses' => 'AccountController@delete_vouchers'));
 		//Route::post('delete_vouchers/{id}', 'AccountController@delete_vouchers');
 	});
 

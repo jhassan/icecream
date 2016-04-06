@@ -9,6 +9,7 @@ use App\COA;
 use App\Sale;
 use App\VoucherMaster;
 use App\VoucherDetail;
+use App\User;
 use Carbon\Carbon;
 use Session;
 
@@ -342,11 +343,20 @@ class AccountController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function delete_vouchers($id)
+	public function delete_vouchers()
 	{
-		echo "Delete"; die;
+		//echo "Delete"; die;
 		$DelID = Input::get('DelID');
-		echo $DelID; die;
+		$vouchermaster = VoucherMaster::where('vm_id', '=', $DelID)->delete();
+		$voucherdetail = VoucherDetail::where('vd_vm_id', '=', $DelID)->delete();
+	
+		//$vouchermaster = DB::table('vouchermaster')->delete($DelID);
+		//$voucherdetail = DB::table('voucherdetail')->delete($DelID);
+		$ID = VoucherMaster::where('vm_id', '=', $DelID)->first();
+		if ($ID === null) 
+		   echo "delete"; 
+		else
+			echo "sorry";
 	}
 
 }
