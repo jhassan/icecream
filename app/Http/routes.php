@@ -119,8 +119,10 @@ Route::group(
 		// View Cash Book
 		Route::post('view_cash_book', array('as'=>'view_cash_book', 'uses' => 'AccountController@view_cash_book'));
 		// Delete Vouchers
-		Route::get('account/delete_vouchers', array('as'=>'delete_vouchers', 'uses' => 'AccountController@delete_vouchers'));
-		//Route::post('delete_vouchers/{id}', 'AccountController@delete_vouchers');
+		Route::get('delete_vouchers', array('as'=>'delete_vouchers', 'uses' => 'AccountController@delete_vouchers'));
+		// Search Sale Summery
+		Route::post('search_view_ledger', array('as'=>'search_view_ledger', 'uses' => 'AccountController@all_search_view_ledger'));
+
 	});
 
 

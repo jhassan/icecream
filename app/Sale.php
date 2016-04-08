@@ -166,14 +166,36 @@ class Sale extends Model {
 					// Sale Summery
 					public function get_sale_summery()
 					{
-							$arraySaleSummery = DB::table('sales')
-															->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
-															->join('products', 'products.id', '=', 'sales_details.product_id')
-															->select(DB::raw('sales_details.product_id AS product_id, products.product_price, SUM(sales_details.product_price) AS NetAmount,SUM(sales_details.product_qty) AS TotalQty, sales.*'))
-															->groupBy('sales.created_at')
-															// ->orderBy('sales.created_at', 'desc')
-															->paginate(30);
-					return $arraySaleSummery;
+						$arraySaleSummery = DB::table('sales')
+							->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+							->join('products', 'products.id', '=', 'sales_details.product_id')
+							->select(DB::raw('sales_details.product_id AS product_id, products.product_price, SUM(sales_details.product_price) AS NetAmount,SUM(sales_details.product_qty) AS TotalQty, sales.*'))
+							->groupBy('sales.created_at')
+							// ->orderBy('sales.created_at', 'desc')
+							->paginate(30);
+						return $arraySaleSummery;
+					}
+
+					public function search_ledeger($start_date, $end_date)
+					{
+						$arraySaleSummery = DB::table('sales')
+							
+							//->select('sales_details.product_id AS product_id','products.product_price','SUM(sales_details.product_price) AS NetAmount','SUM(sales_details.product_qty) AS TotalQty','sales.*')
+							//->where('created_at', '>=', "$start_date")
+							//->where('created_at', '<=', "$end_date")
+							->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+							->select('sales.*')
+							//->join('products', 'products.id', '=', 'sales_details.product_id')
+							//->select(DB::raw('sales_details.product_id AS product_id, products.product_price, SUM(sales_details.product_price) AS NetAmount,SUM(sales_details.product_qty) AS TotalQty, sales.*'))
+							
+							->whereRaw('sales.created_at >= "'.$start_date.'" AND sales.created_at <= "'.$end_date.'" ')
+							
+							->groupBy('sales.created_at')
+							// ->orderBy('sales.created_at', 'desc')
+							->paginate(30);
+							//->get();
+							//print_r($arraySaleSummery); die;
+						return $arraySaleSummery;
 					}
 
 					// Oppening Balance

@@ -247,6 +247,22 @@ class AccountController extends Controller {
 		
 	}
 
+	// All Search View Ledger
+	public function all_search_view_ledger()
+	{
+		$data = new sale;
+		$start_date 	= date("Y-m-d",strtotime(Input::get('start_date')));
+		$end_date 		= date("Y-m-d",strtotime(Input::get('end_date')));
+		//var_dump($start_date); die;
+		if($start_date != "1970-01-01" && $end_date != "1970-01-01")
+		{
+			$arraySummery 	= $data->search_ledeger($start_date, $end_date);
+			$start_date 	= date("d-m-Y",strtotime($start_date));
+		 	$end_date 		= date("d-m-Y",strtotime($end_date));
+			return View('admin/accounts/sale_summery',compact('arraySummery','end_date','start_date'));
+		}
+
+	}
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -342,11 +358,26 @@ class AccountController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function delete_vouchers($id)
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function delete_vouchers()
 	{
-		echo "Delete"; die;
+		//echo "Delete"; die;
 		$DelID = Input::get('DelID');
-		echo $DelID; die;
+		$vouchermaster = VoucherMaster::where('vm_id', '=', $DelID)->delete();
+		$voucherdetail = VoucherDetail::where('vd_vm_id', '=', $DelID)->delete();
+	
+		//$vouchermaster = DB::table('vouchermaster')->delete($DelID);
+		//$voucherdetail = DB::table('voucherdetail')->delete($DelID);
+		$ID = VoucherMaster::where('vm_id', '=', $DelID)->first();
+		if ($ID === null) 
+		   echo "delete"; 
+		else
+			echo "sorry";
 	}
 
 }
