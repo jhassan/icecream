@@ -109,5 +109,5 @@ function GetTotalSale($connection,$strDate)
   return $TotalPrice;
 }
 sale_summery($connection);
-
+mysqli_close($connection);
 ?>
