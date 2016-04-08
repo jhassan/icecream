@@ -9,6 +9,7 @@ use App\COA;
 use App\Sale;
 use App\VoucherMaster;
 use App\VoucherDetail;
+use App\User;
 use Carbon\Carbon;
 use Session;
 
@@ -352,12 +353,6 @@ class AccountController extends Controller {
 			return View('admin/accounts/show_coa',compact('arrayCOA'));
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	/**
 	 * Remove the specified resource from storage.
 	 *
