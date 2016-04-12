@@ -93,7 +93,7 @@ function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
                       <label for="shop_address">End Date</label>
                       <input type="text" class="date-pick form-control" id="end_date" placeholder="End Date" name="end_date">
                     </div>
-                  </div><!-- /.box-body -->
+                  <!-- </div> --><!-- /.box-body -->
 
                   <div class="box-footer clear" style="clear:both !important;">
                     <button type="submit" class="btn btn-primary">Search</button>

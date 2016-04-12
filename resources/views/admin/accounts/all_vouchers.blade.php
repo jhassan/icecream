@@ -73,7 +73,7 @@
     @section('footer_scripts')
     <script src="{{asset('../../dist/js/jquery.ui.dialog.js')}}"></script>
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/ui-lightness/jquery-ui.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
      <script type="text/javascript">
 					$.ajaxSetup({
 								headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }

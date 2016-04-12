@@ -248,6 +248,22 @@ class AccountController extends Controller {
 		
 	}
 
+	// All Search View Ledger
+	public function all_search_view_ledger()
+	{
+		$data = new sale;
+		$start_date 	= date("Y-m-d",strtotime(Input::get('start_date')));
+		$end_date 		= date("Y-m-d",strtotime(Input::get('end_date')));
+		//var_dump($start_date); die;
+		if($start_date != "1970-01-01" && $end_date != "1970-01-01")
+		{
+			$arraySummery 	= $data->search_ledeger($start_date, $end_date);
+			$start_date 	= date("d-m-Y",strtotime($start_date));
+		 	$end_date 		= date("d-m-Y",strtotime($end_date));
+			return View('admin/accounts/sale_summery',compact('arraySummery','end_date','start_date'));
+		}
+
+	}
 	/**
 	 * Store a newly created resource in storage.
 	 *

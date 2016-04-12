@@ -30,15 +30,48 @@ return $PriceType;
 }
 
 // Get Discount
-function GetDiscount($strDate)
+function GetDiscount($strDate='')
 {
 	//$arrayDiscount = array();
-	$arrayDiscount = DB::table('sales')
-						->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
-						->whereRaw('sales.created_at LIKE "%'.$strDate.'%"')
-						->get();
-						$Discount = $arrayDiscount[0]->DiscountAmount;
+  if(!empty($strDate))
+  {
+    $arrayDiscount = DB::table('sales')
+            ->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
+            ->whereRaw('sales.created_at LIKE "%'.$strDate.'%"')
+            ->get();
+            $Discount = $arrayDiscount[0]->DiscountAmount;
+  }
+  else
+  {
+    $arrayDiscount = DB::table('sales')
+            ->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
+            ->get();
+            $Discount = $arrayDiscount[0]->DiscountAmount;
+  }
+	
 return $Discount;
+}
+
+// Get Total Sale
+function GetTotalSale($start_date='', $end_date='')
+{
+  //$arrayDiscount = array();
+  if(empty($start_date) && empty($end_date))
+  {
+    $arraySaleAmount = DB::table('sales_details')
+            ->select(DB::raw('SUM(product_price) AS SaleAmount'))
+            ->get();
+            $SaleAmount = $arraySaleAmount[0]->SaleAmount;
+  }
+  else
+  {
+    $arraySaleAmount = DB::table('sales_details')
+            ->select(DB::raw('SUM(product_price) AS SaleAmount'))
+            ->whereRaw('sales.created_at >= "'.$start_date.'" AND sales.created_at <= "'.$end_date.'" ')
+            ->get();
+            $SaleAmount = $arraySaleAmount[0]->SaleAmount;
+  }  
+  return $SaleAmount;
 }
 
 // Get Expense and Credit
@@ -47,21 +80,21 @@ function GetExpenseCredit($strDate,$Type)
 $sales = array();	
 		if($Type == "D")
 		{
-					$sales = DB::table('vouchermaster')
-														->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
-														->select(DB::raw('SUM(vd_debit) AS TodayExpense'))
-														->whereRaw('vm_date = "'.$strDate.'"')
-														->get();	
-					$Amount = $sales[0]->TodayExpense;									
+			$sales = DB::table('vouchermaster')
+						->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+						->select(DB::raw('SUM(vd_debit) AS TodayExpense'))
+						->whereRaw('vm_date = "'.$strDate.'"')
+						->get();	
+			$Amount = $sales[0]->TodayExpense;									
 		}
 		else
 		{
-					$sales = DB::table('vouchermaster')
-									->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
-									->select(DB::raw('SUM(vd_credit) AS TodayCredit'))
-									->whereRaw('vm_date = "'.$strDate.'"')
-									->get();	
-					$Amount = $sales[0]->TodayCredit;									
+				$sales = DB::table('vouchermaster')
+								->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+								->select(DB::raw('SUM(vd_credit) AS TodayCredit'))
+								->whereRaw('vm_date = "'.$strDate.'"')
+								->get();	
+				$Amount = $sales[0]->TodayCredit;									
 		}
 }
 
@@ -81,6 +114,24 @@ $sales = array();
         </section>
         <!-- Main content -->
         <section class="content">
+          <div class="box box-primary">
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="search_view_ledger" method="post">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                    <div class="box-body col-sm-4">
+                      <label for="shop_address">Start Date</label>
+                      <input type="text" class="date-pick form-control" id="start_date" placeholder="Start Date" name="start_date">
+                    </div>
+                    <div class="box-body col-sm-4">
+                      <label for="shop_address">End Date</label>
+                      <input type="text" class="date-pick form-control" id="end_date" placeholder="End Date" name="end_date">
+                    </div>
+                  <div class="box-footer">
+                    <button type="submit" style='margin-top:23px;' class="btn btn-primary">Search</button>
+                  </div>
+                </form>
+              </div>
           <div class="row">
             <div class="col-xs-12">
               <div class="box">
@@ -108,25 +159,25 @@ $sales = array();
 																				?>
                     @foreach($arraySummery as $summery) 
                     <?php 
-																								$CurrentDate = date("Y-m-d",strtotime($summery->created_at));
-																								$product_id = $summery->product_id;
-																								// For 150 Price
-																								$Array150 = PriceTypeCount($CurrentDate,150);
-																								// For 180 Price
-																								$Array180 = PriceTypeCount($CurrentDate,180);
-																								// For 200 Price
-																								$Array200 = PriceTypeCount($CurrentDate,200);
-																								// For 100 Price
-																								$Array100 = PriceTypeCount($CurrentDate,100);
-																								// For 20 Price
-																								$Array20 = PriceTypeCount($CurrentDate,20);
-																								// For 220 Price
-																								$Array220 = PriceTypeCount($CurrentDate,220);
-																								//$NetAmount = (((int)$Array150 * 150) + ((int)$Array180 * 180) + ((int)$Array100 * 100) 
-																								//+ ((int)$Array20 * 20) + ((int)$Array200 * 200));
-																								//$dDebit1 = 
-																								$nToalClosing  += $summery->NetAmount - GetDiscount($CurrentDate);
-																								 ?>
+										$CurrentDate = date("Y-m-d",strtotime($summery->created_at));
+										//$product_id = $summery->product_id;
+										// For 150 Price
+										$Array150 = PriceTypeCount($CurrentDate,150);
+										// For 180 Price
+										$Array180 = PriceTypeCount($CurrentDate,180);
+										// For 200 Price
+										$Array200 = PriceTypeCount($CurrentDate,200);
+										// For 100 Price
+										$Array100 = PriceTypeCount($CurrentDate,100);
+										// For 20 Price
+										$Array20 = PriceTypeCount($CurrentDate,20);
+										// For 220 Price
+										$Array220 = PriceTypeCount($CurrentDate,220);
+										//$NetAmount = (((int)$Array150 * 150) + ((int)$Array180 * 180) + ((int)$Array100 * 100) 
+										//+ ((int)$Array20 * 20) + ((int)$Array200 * 200));
+										//$dDebit1 = 
+										//$nToalClosing  += $summery->NetAmount - GetDiscount($CurrentDate);
+										 ?>
                     				<tr>
                       <td>{{ date("d-M-Y",strtotime($summery->created_at)) }}</td>
                       <td width="67">{{ (int)$Array150 }}</td>
@@ -141,22 +192,22 @@ $sales = array();
                       <td width="54">{{ number_format((int)$Array20 * 20) }}</td>
                       <td width="40">{{ (int)$Array100 }}</td>
                       <td width="59">{{ number_format((int)$Array100 * 100) }}</td>
-                      <td>{{ number_format($summery->NetAmount) }}</td>
+                      <td>{{-- number_format($summery->NetAmount) --}}</td>
                       <td>{{ number_format(GetDiscount($CurrentDate)) }}</td>
-                      <td>{{ number_format($summery->NetAmount - GetDiscount($CurrentDate)) }}</td>
+                      <td>{{-- number_format($summery->NetAmount - GetDiscount($CurrentDate)) --}}</td>
                     </tr>
                     @endforeach
                     <tr class="filters">
                             <th width="132"></th>
-                            <th colspan="2">{{ PriceTypeCount("",150) }}</th>
-                            <th colspan="2">{{ PriceTypeCount("",180) }}</th>
-                            <th colspan="2">{{ PriceTypeCount("",200) }}</th>
-                            <th colspan="2">{{ PriceTypeCount("",220) }}</th>
-                            <th colspan="2">{{ PriceTypeCount("",20) }}</th>
-                            <th colspan="2">{{ PriceTypeCount("",100) }}</th>
-                            <th width="66">Sale</th>
-                            <th width="46">D/C</th>
-                            <th width="103">Net Sale</th>
+                            <th colspan="2">{{ number_format(PriceTypeCount("",150)) }}</th>
+                            <th colspan="2">{{ number_format(PriceTypeCount("",180)) }}</th>
+                            <th colspan="2">{{ number_format(PriceTypeCount("",200)) }}</th>
+                            <th colspan="2">{{ number_format(PriceTypeCount("",220)) }}</th>
+                            <th colspan="2">{{ number_format(PriceTypeCount("",20)) }}</th>
+                            <th colspan="2">{{ number_format(PriceTypeCount("",100)) }}</th>
+                            <th width="66">{{ number_format(GetTotalSale()) }}</th>
+                            <th width="46">{{ number_format(GetDiscount()) }}</th>
+                            <th width="103">{{ number_format(GetTotalSale() - GetDiscount()) }}</th>
                         </tr>
                     </tbody>
                     
