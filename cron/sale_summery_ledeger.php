@@ -1,20 +1,20 @@
+#!/usr/bin/php
 <?php
 $host = "localhost";
-  $uname = "root";
-  $pass = "";
+  $uname = "pakcappe_kashifH";
+  $pass = "C$$%Speelos*UJNJ";
   $return = "";
-  $database = "icecream";
-  $CurrentDate = date("Y-m-d");
+  $database = "pakcappe_sales";
   $connection = mysqli_connect($host,$uname,$pass,$database);
+  $YesterDayDate = date('Y-m-d',strtotime("-1 days"));
 // Get today sale summery  
-function sale_summery($connection, $CurrentDate)
+function sale_summery($connection, $YesterDayDate)
 {
-  $CurrentDate = "2016-03-10";
   $nToalClosing = 0;$TotalSale = 0; $discount_amount = 0; $net_sale = 0; $closing_balance = 0;
   $sql = "SELECT `sales`.`created_at` AS now_date 
           FROM sales
           INNER JOIN `sales_details` ON `sales_details`.`sale_id` = `sales`.`sale_id`
-          WHERE `sales`.`created_at` = '".$CurrentDate."'
+          WHERE `sales`.`created_at` = '".$YesterDayDate."'
           GROUP BY now_date";
   $result = mysqli_query($connection,$sql);
   $row = mysqli_fetch_array($result);
@@ -109,6 +109,6 @@ function GetTotalSale($connection,$strDate)
            $TotalPrice = $row['TotalPrice'];        
   return $TotalPrice;
 }
-sale_summery($connection, $CurrentDate);
+sale_summery($connection, $YesterDayDate);
 mysqli_close($connection);
 ?>

@@ -53,7 +53,7 @@ Route::group(
         Route::get('{id}/edit', array('as' => 'users.update', 'uses' => 'UsersController@getEdit'));
 		Route::post('{id}/edit', 'UsersController@postEdit');
 		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'UsersController@getDelete'));
-		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'UsersController@getModalDelete'));
+		Route::post('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'UsersController@getModalDelete'));
 		//Route::get('{id}', array('as' => 'users.show', 'uses' => 'UsersController@show'));
 	});
 	
@@ -82,13 +82,16 @@ Route::group(
 		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'ProductsController@getModalDelete'));
 	});
 
+// Product routs
+Route::group(
+	array('prefix' => 'admin/reports','before' => 'Sentry'), function () {
 // Show all sale 
-Route::get('admin/reports/all_sale', array('uses' => 'SaleController@all_sale'));
+Route::get('all_sale', array('uses' => 'SaleController@all_sale'));
 
 // Show today sale 
-Route::get('admin/reports/today_sale', array('uses' => 'SaleController@today_sale'));
+Route::get('today_sale', array('uses' => 'SaleController@today_sale'));
 
-
+});
 
 // account routs
 Route::group(
@@ -137,8 +140,8 @@ Route::group(
         Route::get('show_coa', array('as' => 'show_coa', 'uses' => 'AccountController@view_coa'));
 		Route::post('add', 'ProductsController@store');
 		//Route::get('{id}', array('as' => 'products.show', 'uses' => 'ProductsController@show'));
-        Route::get('{id}/edit', array('as' => 'coa.update', 'uses' => 'AccountController@update'));
-		Route::post('{id}/edit', 'AccountController@postEdit');
+        Route::get('{id}/edit_coa', array('as' => 'edit_coa.update', 'uses' => 'AccountController@update'));
+		Route::post('{id}/edit_coa', 'AccountController@postEdit');
 		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ProductsController@getDelete'));
 		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'ProductsController@getModalDelete'));
 	});
@@ -199,13 +202,20 @@ Route::group(array('before' => 'auth', 'after' => 'no-cache'), function()
 Route::get('sale', array('as' => 'sale', 'uses' => 'SaleController@index'));
 
 // insert sale product products in front end
-Route::post('sale_product', array('as' => 'sale_product', 'uses' => 'SaleController@create'));
+Route::get('sale_product', array('as' => 'sale_product', 'uses' => 'SaleController@create'));
 
 // Show all sale 
 Route::get('all_sale', array('as' => 'all_sale', 'uses' => 'SaleController@all_sale'));
 
 // Show today sale 
 Route::get('today_sale', array('as' => 'today_sale', 'uses' => 'SaleController@today_sale'));
+
+// Show return invoice 
+Route::get('return_invoice', array('as' => 'return_invoice', 'uses' => 'SaleController@return_invoice'));
+
+// Search Return Invoice
+Route::post('search_return_invoice', array('as' => 'search_return_invoice', 'uses' => 'SaleController@search_return_invoice'));
+
 });
 
 

@@ -34,10 +34,12 @@
 function PriceTypeCount($strDate,$nPrice)
 {
 	$PriceType = array();
-	$arrayPrice = DB::table('sales_details')
+  $user_id = Session::get('user_id');
+	$arrayPrice = DB::table('sales')
+            ->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
 						->join('products', 'products.id', '=', 'sales_details.product_id')
 						->select(DB::raw('SUM(`product_qty`) AS PriceType'))
-						->whereRaw('sales_details.created_at LIKE "%'.$strDate.'%" AND products.product_price = '.$nPrice.'')
+						->whereRaw('sales_details.created_at LIKE "%'.$strDate.'%" AND products.product_price = '.$nPrice.' AND `return_id` = 0  AND sales.user_id = '.$user_id.'')
 						->get();
 						$PriceType = $arrayPrice[0]->PriceType;
 return $PriceType;
@@ -46,9 +48,10 @@ return $PriceType;
 function GetDiscount($strDate)
 {
 	//$arrayDiscount = array();
+  $user_id = Session::get('user_id');
 	$arrayDiscount = DB::table('sales')
 						->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
-						->whereRaw('sales.created_at LIKE "%'.$strDate.'%"')
+						->whereRaw('sales.created_at LIKE "%'.$strDate.'%" AND sales.return_id = 0 AND sales.user_id = '.$user_id.' ')
 						->get();
 						$Discount = $arrayDiscount[0]->DiscountAmount;
 return $Discount;
@@ -64,8 +67,8 @@ $TodayDate = date("Y-m-d");
                   <td width="105" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,180) }}/180</td>
                   <td width="198" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,200) }}/200</td>
                   <td width="198" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,220) }}/220</td>
-                  <td width="198" style="font-weight:bold;"></td>
-                  <td width="160" style="font-weight:bold;"></td>
+                  <td width="198" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,40) }}/40</td>
+                  <td width="160" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,70) }}/70</td>
                   <td width="1">&nbsp;</td>
                   <td width="36">&nbsp;</td>
                 </tr>

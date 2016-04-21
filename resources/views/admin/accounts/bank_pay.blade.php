@@ -23,12 +23,12 @@ function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
                 ->orderBy('coa_code', 'asc')
                 ->get();
 		echo "<select id=$strName name=$strName class='form-control'>\r\n";
-		echo "<optgroup label=''><option value=''>Select COA</option></optgroup>";
+		
 		foreach($nResult as $rstRow)
 		{
 			$strCode = $rstRow->coa_code;
 			$strAcc = $rstRow->coa_account;
-			
+
 			if(substr($strCode, 3) == "000") // if this is control account
 			{
 				if($bGroupOpen) echo "</optgroup>";

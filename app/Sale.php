@@ -25,76 +25,77 @@ class Sale extends Model {
 				{
 					$user_id = Session::get('user_id');
 					$user_type = Session::get('user_type');
+					$shop_id = Session::get('shop_id');
 					$TodayDate = date("Y-m-d");
 						if($user_type == 1)
 						{
 					$sales['total_sale'] = DB::table('sales')
-															->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
-															->join('products', 'products.id', '=', 'sales_details.product_id')
-															->join('users', 'users.id', '=', 'sales.user_id')
-															->join('shops', 'shops.shop_id', '=', 'users.shop_id')
-															->select('sales_details.*','product_name','first_name','invoice_id','shop_code')
-															->whereRaw('sales.created_at =  "'.$TodayDate.'" AND sales.user_id = '.(int)$user_id.'')
-															->orderBy('sales_details_id', 'desc')
-															->paginate(10); //,DB::raw('SUM(sales_details.product_price) AS Total')
+										->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+										->join('products', 'products.id', '=', 'sales_details.product_id')
+										->join('users', 'users.id', '=', 'sales.user_id')
+										->join('shops', 'shops.shop_id', '=', 'users.shop_id')
+										->select('sales_details.*','product_name','first_name','invoice_id','shop_code')
+										->whereRaw('sales.created_at =  "'.$TodayDate.'" AND sales.user_id = '.(int)$user_id.' AND sales.return_id = 0')
+										->orderBy('sales_details_id', 'desc')
+										->paginate(10); //,DB::raw('SUM(sales_details.product_price) AS Total')
 						$sales['sum_sale'] = DB::table('sales')
-																->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
-																->join('products', 'products.id', '=', 'sales_details.product_id')
-																->select(DB::raw('SUM(sales_details.product_price) as TotalPrice, SUM(sales_details.product_qty) as TotalQty , SUM(sales.discount_amount) as DiscountAmount'))
-																->whereRaw('sales.created_at =  "'.$TodayDate.'" AND sales.user_id = '.(int)$user_id.'')
-																//->groupBy('sales_details.product_id')
-																->orderBy('sales_details_id', 'desc')
-																->get();
-							/*$sales['discount_amount'] = DB::table('sales')
-																->select(DB::raw('SUM(sales.discount_amount) as DiscountAmount'))
-																->whereRaw('sales.created_at =  SUBDATE(CURDATE(),0) AND sales.user_id = '.(int)$user_id.'')
-																//->groupBy('sales_details.product_id')
-																//->orderBy('sales_details_id', 'desc')
-																->get();*/																		
+										->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+										->join('products', 'products.id', '=', 'sales_details.product_id')
+										->select(DB::raw('SUM(sales_details.product_price) as TotalPrice, SUM(sales_details.product_qty) as TotalQty , SUM(sales.discount_amount) as DiscountAmount'))
+										->whereRaw('sales.created_at =  "'.$TodayDate.'" AND sales.user_id = '.(int)$user_id.' AND sales.return_id = 0')
+										//->groupBy('sales_details.product_id')
+										->orderBy('sales_details_id', 'desc')
+										->get();
+	/*$sales['discount_amount'] = DB::table('sales')
+										->select(DB::raw('SUM(sales.discount_amount) as DiscountAmount'))
+										->whereRaw('sales.created_at =  SUBDATE(CURDATE(),0) AND sales.user_id = '.(int)$user_id.'')
+										//->groupBy('sales_details.product_id')
+										//->orderBy('sales_details_id', 'desc')
+										->get();*/																		
 																
 						$sales['discount_amount'] = DB::table('sales')
-															//->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
-															//->join('products', 'products.id', '=', 'sales_details.product_id')
-															->select(DB::raw('SUM(sales.discount_amount) AS DiscountAmount'))
-															->whereRaw('sales.created_at =  "'.$TodayDate.'" AND sales.user_id = '.(int)$user_id.'')
-															->get();
+										//->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+										//->join('products', 'products.id', '=', 'sales_details.product_id')
+										->select(DB::raw('SUM(sales.discount_amount) AS DiscountAmount'))
+										->whereRaw('sales.created_at =  "'.$TodayDate.'" AND sales.user_id = '.(int)$user_id.' AND sales.return_id = 0')
+										->get();
 						}
 						else
 						{
 						$sales['total_sale'] = DB::table('sales')
-															->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
-															->join('products', 'products.id', '=', 'sales_details.product_id')
-															->join('users', 'users.id', '=', 'sales.user_id')
-															->select('sales_details.*','product_name','first_name')
-															->whereRaw('sales.created_at = "'.$TodayDate.'"')
-															//->groupBy('sales_details.product_id')
-															->orderBy('sales_details_id', 'desc')
-															->paginate(10); 
+										->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+										->join('products', 'products.id', '=', 'sales_details.product_id')
+										->join('users', 'users.id', '=', 'sales.user_id')
+										->select('sales_details.*','product_name','first_name')
+										->whereRaw('sales.created_at = "'.$TodayDate.'" AND sales.return_id = 0')
+										//->groupBy('sales_details.product_id')
+										->orderBy('sales_details_id', 'desc')
+										->paginate(10); 
 						$sales['sum_sale'] = DB::table('sales')
-																->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
-																->join('products', 'products.id', '=', 'sales_details.product_id')
-																->select(DB::raw('SUM(sales_details.product_price) as TotalPrice, SUM(sales_details.product_qty) as TotalQty'))
-																->whereRaw(' sales.created_at =  "'.$TodayDate.'" ')
-																->orderBy('sales_details_id', 'desc')
-																->get();
+										->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+										->join('products', 'products.id', '=', 'sales_details.product_id')
+										->select(DB::raw('SUM(sales_details.product_price) as TotalPrice, SUM(sales_details.product_qty) as TotalQty'))
+										->whereRaw(' sales.created_at =  "'.$TodayDate.'" AND sales.return_id = 0 ')
+										->orderBy('sales_details_id', 'desc')
+										->get();
 						$sales['yesterday_sale'] = DB::table('sales')
-																->select(DB::raw('SUM(sales.net_amount) as YesterdaySale'))
-																->whereRaw('sales.created_at =  SUBDATE(CURDATE(),1) ')
-																->get();
+										->select(DB::raw('SUM(sales.net_amount) as YesterdaySale'))
+										->whereRaw('sales.created_at =  SUBDATE(CURDATE(),1)  AND sales.return_id = 0')
+										->get();
 						$sales['today_expense'] = DB::table('vouchermaster')
-																->select(DB::raw('SUM(vm_amount) AS TodayExpense'))
-																->whereRaw('vm_date =  "'.$TodayDate.'"')
-																->get();
+										->select(DB::raw('SUM(vm_amount) AS TodayExpense'))
+										->whereRaw('vm_date =  "'.$TodayDate.'"')
+										->get();
 						$sales['yesterday_expense'] = DB::table('vouchermaster')
-																->select(DB::raw('SUM(vm_amount) AS YesterdayExpense'))
-																->whereRaw('vm_date =  SUBDATE(CURDATE(),1)')
-																->get();				
+										->select(DB::raw('SUM(vm_amount) AS YesterdayExpense'))
+										->whereRaw('vm_date =  SUBDATE(CURDATE(),1)')
+										->get();				
 						$sales['discount_amount'] = DB::table('sales')
-															//->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
-															//->join('products', 'products.id', '=', 'sales_details.product_id')
-															->select(DB::raw('SUM(sales.discount_amount) AS DiscountAmount'))
-															->whereRaw('sales.created_at =  "'.$TodayDate.'"')
-															->get();																																						
+										//->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+										//->join('products', 'products.id', '=', 'sales_details.product_id')
+										->select(DB::raw('SUM(sales.discount_amount) AS DiscountAmount'))
+										->whereRaw('sales.created_at =  "'.$TodayDate.'" AND sales.return_id = 0')
+										->get();																																						
 						}
 					return $sales;
 					}
@@ -112,6 +113,8 @@ class Sale extends Model {
 																->join('users', 'users.id', '=', 'sales.user_id')
 																->select('sales_details.*','product_name','first_name')
 																->where('sales.user_id', '=', $user_id)
+																->where('sales.return_id', '=', 0)
+																// AND sales.return_id = 0
 																->orderBy('sales_details_id', 'desc')
 																->paginate(10);
 						$sales['sum_sale'] = DB::table('sales')
@@ -119,6 +122,7 @@ class Sale extends Model {
 																->join('products', 'products.id', '=', 'sales_details.product_id')
 																->select(DB::raw('SUM(sales_details.product_price) as TotalPrice, SUM(sales_details.product_qty) as TotalQty'))
 																->where('sales.user_id', '=', $user_id)
+																->where('sales.return_id', '=', 0)
 																->orderBy('sales_details_id', 'desc')
 																->get();			
 						}
@@ -145,9 +149,11 @@ class Sale extends Model {
 					public function get_invoice_id()
 					{
 							$date = date('Y-m-d');
+							$shop_id = Session::get('shop_id');
 							$max_id = DB::table('sales')
-																	->where('created_at', '=' ,$date)
-																	->max('invoice_id');
+									->where('created_at', '=' ,$date)
+									->where('sales.shop_id', '=', $shop_id)
+									->max('invoice_id');
 							return $max_id;
 					}
 					
@@ -156,27 +162,35 @@ class Sale extends Model {
 					{
 							$user_id = Session::get('user_id');	
 							$arrayShopCode = DB::table('users')
-															->join('shops', 'shops.shop_id', '=', 'users.shop_id')
-															->select('shop_code')
-															->where('users.id', '=' ,(int)$user_id)
-															->get();
-					return $arrayShopCode[0]->shop_code;
+									->join('shops', 'shops.shop_id', '=', 'users.shop_id')
+									->select('shop_code','shop_name')
+									->where('users.id', '=' ,(int)$user_id)
+									->get();
+					//return $arrayShopCode[0]->shop_code;
+									return $arrayShopCode;
 					}
 					
 					// Sale Summery
-					public function get_sale_summery()
+					public function get_sale_summery($start_date, $end_date)
 					{
-						$arraySaleSummery = DB::table('sales')
-							->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
-							->join('products', 'products.id', '=', 'sales_details.product_id')
-							->select(DB::raw('sales_details.product_id AS product_id, products.product_price, SUM(sales_details.product_price) AS NetAmount,SUM(sales_details.product_qty) AS TotalQty, sales.*'))
-							->groupBy('sales.created_at')
-							// ->orderBy('sales.created_at', 'desc')
-							->paginate(30);
+						// $arraySaleSummery = DB::table('sales')
+						// 	->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+						// 	->join('products', 'products.id', '=', 'sales_details.product_id')
+						// 	->select(DB::raw('sales_details.product_id AS product_id, products.product_price, SUM(sales_details.product_price) AS NetAmount,SUM(sales_details.product_qty) AS TotalQty, sales.*'))
+						// 	->where('sales.return_id', '=', 0)
+						// 	->groupBy('sales.created_at')
+						// 	// ->orderBy('sales.created_at', 'desc')
+						// 	->paginate(30);
+						//echo $start_date; die;
+						$arraySaleSummery = DB::table('sale_summery')
+									->select('sale_summery.*')
+									->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" ')
+									->groupBy('sale_summery.current_date1')
+									->paginate(30);
 						return $arraySaleSummery;
 					}
 
-					public function search_ledeger($start_date, $end_date)
+					public function search_ledeger123($start_date, $end_date)
 					{
 						$arraySaleSummery = DB::table('sales')
 							
@@ -198,21 +212,24 @@ class Sale extends Model {
 						return $arraySaleSummery;
 					}
 
+					public function search_ledeger($start_date, $end_date)
+					{
+						$arraySaleSummery = DB::table('sale_summery')
+							->select('sale_summery.*')
+							->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" ')
+							->paginate(30);
+						return $arraySaleSummery;
+					}
+
 					// Oppening Balance
-					public function get_opening_balance()
+					public function get_opening_balance($coa)
 					{
 							$arrayOpBalance = array();
-							$arrayOpBalance['sales_details'] = DB::table('sales')
-															->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
-															->join('products', 'products.id', '=', 'sales_details.product_id')
-															->select(DB::raw('SUM(sales_details.product_price - sales.discount_amount) AS NetAmount'))
-															->get();
-							$arrayOpBalance['voucherdetail'] = DB::table('voucherdetail')
-															->select(DB::raw('SUM(vd_debit) AS Expense'))
-															->get();	
-															$expense = str_replace(",","",number_format($arrayOpBalance['voucherdetail'][0]->Expense));
-							$TotalOB = 	$arrayOpBalance['sales_details'][0]->NetAmount - 	$expense;													
-					return $TotalOB;
+							$arrayOpBalance = DB::table('coa')
+											->select('coa_debit','coa_credit')
+											->whereRaw('coa_code = "'.$coa.'"')
+											->get();	
+					return $arrayOpBalance;
 					}					
 
 }

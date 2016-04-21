@@ -43,7 +43,10 @@ class AccountController extends Controller {
 		if ($coa_code === null) {
 					// Insert in COA table
 					$arrayInsert = array('coa_account' => Input::get('coa_account'), 
-																										"coa_code" => Input::get('coa_code'));
+										 "coa_code" => Input::get('coa_code'),
+										 "coa_credit" => Input::get('coa_credit'),
+										 "coa_debit" => Input::get('coa_debit')
+										 );
 					$last_sale_id = COA::insertGetId($arrayInsert);
 					// Redrect to sale page
 					return Redirect::to('admin/accounts/index_coa'); 
@@ -84,8 +87,8 @@ class AccountController extends Controller {
 		 $data = new coa;
 			$sale = new sale;
 				// get_opening_balance
-		  $OpBalance = $sale->get_opening_balance();
-			$coa_account = Input::get('coa_account');
+		    $coa_account = Input::get('coa_account');
+		    $OpBalance 	= $sale->get_opening_balance($coa_account);
 			$start_date 	= date("Y-m-d",strtotime(Input::get('start_date')));
 			$end_date 			= date("Y-m-d",strtotime(Input::get('end_date')));
 			//var_dump($start_date); die;
@@ -104,7 +107,7 @@ class AccountController extends Controller {
 		  $data = new coa;
 				$sale = new sale;
 				// get_opening_balance
-		  $OpBalance = $sale->get_opening_balance();
+		  //$OpBalance = $sale->get_opening_balance();
 			 $start_date 	= date("Y-m-d",strtotime(Input::get('start_date')));
 			$end_date 			= date("Y-m-d",strtotime(Input::get('end_date')));
 			//var_dump($start_date); die;
@@ -163,8 +166,10 @@ class AccountController extends Controller {
 	function sale_summery()
 	{
 		$data = new sale;
-	 $arraySummery = $data->get_sale_summery();
-		return View('admin/accounts/sale_summery',compact('arraySummery'));
+		$start_date 	= date("2016-04-01");
+		$end_date 		= date("Y-m-d");
+	 	$arraySummery = $data->get_sale_summery($start_date, $end_date);
+		return View('admin/accounts/sale_summery',compact('arraySummery','start_date','end_date'));
 	}
 	
 	
@@ -183,16 +188,16 @@ class AccountController extends Controller {
 		
 		$user_id = Session::get('user_id');
 		$arrayInsertMaster = array('vm_amount' => $vm_amount, 
-																							"vm_date" => date("Y-m-d",strtotime($vm_date)),
-																							"vm_type" => $vm_type,
-																							"vm_desc" => $vm_desc,
-																							"vm_user_id" => (int)$user_id);
+									"vm_date" => date("Y-m-d",strtotime($vm_date)),
+									"vm_type" => $vm_type,
+									"vm_desc" => $vm_desc,
+									"vm_user_id" => (int)$user_id);
 		$last_master_id = VoucherMaster::insertGetId($arrayInsertMaster);
 		// Insert in detail table
 		$arrayInsertDetail = array('vd_vm_id' => $last_master_id, 
-																							"vm_date" => date("Y-m-d",strtotime($vm_date)),
-																							"vd_coa_code" => $vm_desc,
-																							"vm_user_id" => $user_id);
+									"vm_date" => date("Y-m-d",strtotime($vm_date)),
+									"vd_coa_code" => $vm_desc,
+									"vm_user_id" => $user_id);
 		$strDebitAcc = Input::get('vd_debit');
 		$strCreditAcc = Input::get('vd_credit');
 		$arrTrans[] = array("coa" => $strDebitAcc, "desc" => $vm_desc,  "debit" => $vm_amount, "credit" => 0);
@@ -309,7 +314,7 @@ class AccountController extends Controller {
 			$data = new coa;
 	  $arrayCOA = $data->all_coa();
 			$EditCOA = DB::table('coa')->where('coa_id', $id)->first();
-			return View('admin.accounts.edit', compact('EditCOA','arrayCOA'));
+			return View('admin.accounts.edit_coa', compact('EditCOA','arrayCOA'));
 		}
 		catch (TestimonialNotFoundException $e) {
 			$error = Lang::get('banners/message.error.update', compact('id'));
@@ -317,36 +322,23 @@ class AccountController extends Controller {
 		}
 	}
 	
-	public function postEdit($id = null)
+	public function postEdit($id)
 	{
-		/*$rules = array(
-            'shop_name'  => 'required',
-            'shop_address'  => 'required',
-												'shop_code'  => 'required',
-        );
-
-        // Create a new validator instance from our validation rules
-        $validator = Validator::make(Input::all(), $rules);
-
-        // If validation fails, we'll exit the operation now.
-        if ($validator->fails()) {
-			return Redirect::back()->withInput()->withErrors($validator);
-        }*/
 		$data = new coa();
 		$arrayEdit = $data->all_coa();
-		$arrayInsert = array("coa_account" => Input::get('coa_account'), 
-																							"coa_code" => Input::get('coa_code'),
-																							"parent_id" => Input::get('parent_id'));
-		
-		$arrayEdit->coa_account = Input::get('coa_account');
-		$arrayEdit->coa_code = Input::get('coa_code');
-		$arrayEdit->parent_id = Input::get('parent_id');
+		//print_r($arrayEdit[0]->coa_account); die;
+		$arrayEdit[0]->coa_account = Input::get('coa_account');
+		$arrayEdit[0]->coa_code = Input::get('coa_code');
+		$arrayEdit[0]->coa_credit = Input::get('coa_credit');
+		$arrayEdit[0]->coa_debit = Input::get('coa_debit');
+		//$arrayEdit[0]->parent_id = Input::get('parent_id');
 		
 		COA::where('coa_id', $id)->update(
 			[
-			'coa_account' => $arrayEdit->coa_account,
-			'coa_code' => $arrayEdit->coa_code,
-			'parent_id' => $arrayEdit->parent_id
+			'coa_account' => $arrayEdit[0]->coa_account,
+			 'coa_code' => $arrayEdit[0]->coa_code,
+			 'coa_credit' => $arrayEdit[0]->coa_credit,
+			 'coa_debit' => $arrayEdit[0]->coa_debit
 			]);
 			$data = new coa;
 	 	$arrayCOA = $data->all_coa();

@@ -27,6 +27,8 @@
                         <tr class="filters">
                             <th>COA</th>
                             <th>COA Descriptions</th>
+                            <th>COA Debit</th>
+                            <th>COA Credit</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -35,8 +37,10 @@
                     	<tr>
                         <td>{{{ $coa->coa_code }}}</td>
                         <td>{{{ $coa->coa_account }}}</td>
-								            				<td> <a href="{{ route('coa.update', $coa->coa_id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
-							<a href="{{ route('confirm-delete/shop', $coa->coa_id) }}"><img src="{{asset("dist/img/delete.png")}}" ></a>
+                        <td>{{{ $coa->coa_debit }}}</td>
+                        <td>{{{ $coa->coa_credit }}}</td>
+								            				<td> <a href="{{ route('edit_coa.update', $coa->coa_id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
+							<a href="{{ route('confirm-delete/shop', $coa->coa_id) }}" class="hide"><img src="{{asset("dist/img/delete.png")}}" ></a>
                             </td>
             			</tr>
                     @endforeach

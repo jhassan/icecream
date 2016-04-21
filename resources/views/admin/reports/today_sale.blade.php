@@ -24,6 +24,7 @@
             <div class="col-xs-12">
               <div class="box">
                 <div class="box-body">
+                  <?php $OpeningBalance = 0; ?>
                 <div class="col-xs-3">Opening Balance : {{ $OpeningBalance }}</div>
                 <div class="col-xs-3">Today Expense : {{ $TodayExpense }}</div>
                 <div class="col-xs-3">Today Sale : {{ $TotalSale }}</div>
@@ -58,31 +59,34 @@
                     </tbody>
                   </table>
                   <?php 
-																					function PriceTypeCount($strDate,$nPrice)
-																					{
-																						$PriceType = array();
-																						$arrayPrice = DB::table('sales_details')
-																											->join('products', 'products.id', '=', 'sales_details.product_id')
-																											->select(DB::raw('SUM(`product_qty`) AS PriceType'))
-																											->whereRaw('sales_details.created_at LIKE "%'.$strDate.'%" AND products.product_price = '.$nPrice.'')
-																											->get();
-																											$PriceType = $arrayPrice[0]->PriceType;
-																					return $PriceType;
-																					}
-																		// Get Discount
-																			function GetDiscount($strDate)
-																			{
-																				//$arrayDiscount = array();
-																				$arrayDiscount = DB::table('sales')
-																									->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
-																									->whereRaw('sales.created_at LIKE "%'.$strDate.'%"')
-																									->get();
-																									$Discount = $arrayDiscount[0]->DiscountAmount;
-																			return $Discount;
-																			}
-																			$TodayDate = date("Y-m-d");
-																			$AllTotal = str_replace(",","",$TotalSale) - str_replace(",","",GetDiscount($TodayDate)) ;
-																		?>
+function PriceTypeCount($strDate,$nPrice)
+{
+  $PriceType = array();
+  $user_id = Session::get('user_id');
+  $arrayPrice = DB::table('sales')
+            ->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+            ->join('products', 'products.id', '=', 'sales_details.product_id')
+            ->select(DB::raw('SUM(`product_qty`) AS PriceType'))
+            ->whereRaw('sales_details.created_at LIKE "%'.$strDate.'%" AND products.product_price = '.$nPrice.' AND `return_id` = 0')
+            ->get();
+            $PriceType = $arrayPrice[0]->PriceType;
+return $PriceType;
+}
+// Get Discount
+function GetDiscount($strDate)
+{
+  //$arrayDiscount = array();
+  $user_id = Session::get('user_id');
+  $arrayDiscount = DB::table('sales')
+            ->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
+            ->whereRaw('sales.created_at LIKE "%'.$strDate.'%" AND sales.return_id = 0 ')
+            ->get();
+            $Discount = $arrayDiscount[0]->DiscountAmount;
+return $Discount;
+}
+									$TodayDate = date("Y-m-d");
+									$AllTotal = str_replace(",","",$TotalSale) - str_replace(",","",GetDiscount($TodayDate)) ;
+								?>
                   
                   <table class="table table-striped m-b-0">
                   <thead>
@@ -93,8 +97,8 @@
                   <td width="105" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,180) }}/180</td>
                   <td width="198" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,200) }}/200</td>
                   <td width="198" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,220) }}/220</td>
-                  <td width="198" style="font-weight:bold;"></td>
-                  <td width="160" style="font-weight:bold;"></td>
+                  <td width="198" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,40) }}/40</td>
+                  <td width="160" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,70) }}/70</td>
                   <td width="1">&nbsp;</td>
                   <td width="36">&nbsp;</td>
                 </tr>

@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
+use App\User;
 use Input;
 use Auth;
 use Redirect;
@@ -62,6 +63,9 @@ class ClientController extends Controller {
 			$user = Auth::getUser(); 
 			Session::put('user_id', $user->id);
 			Session::put('user_type', $user->user_type);
+			// Get user shop id
+			$GetShopID = User::where('id', '=', $user->id)->select('shop_id')->get();
+			Session::put('shop_id', $GetShopID[0]->shop_id);
 			$value = Session::get('user_id');
 			//print_r($value); die;
 			

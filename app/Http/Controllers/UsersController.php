@@ -37,12 +37,12 @@ class UsersController extends Controller {
 		$rules = array(
             'first_name'  => 'required',
             'last_name'  => 'required',
-												'email'  => 'required|email|unique:users',
-												'password'  => 'required|min:5',
-												'login_name'  => 'required',
-												'gender'  => 'required',
-												'user_type'  => 'required',
-												'confirm_password'  => 'required',
+			'email'  => 'required|email|unique:users',
+			'password'  => 'required|min:5',
+			'login_name'  => 'required',
+			'gender'  => 'required',
+			'user_type'  => 'required',
+			'confirm_password'  => 'required',
         );
 
         // Create a new validator instance from our validation rules
@@ -104,12 +104,12 @@ class UsersController extends Controller {
 		$rules = array(
             'first_name'  => 'required',
             'last_name'  => 'required',
-												'email'  => 'required|email|unique:users',
-												'login_name'  => 'required',
-												'city'  => 'required',
-												'gender'  => 'required',
-												'address'  => 'required',
-												'user_type'  => 'required',
+			'email'  => 'required|email|unique:users',
+			'login_name'  => 'required',
+			'city'  => 'required',
+			'gender'  => 'required',
+			'address'  => 'required',
+			'user_type'  => 'required',
         );
 	
 	    // Create a new validator instance from our validation rules

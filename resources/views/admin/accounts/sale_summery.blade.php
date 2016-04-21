@@ -2,7 +2,7 @@
 
 {{-- Page content --}}
 @section('content')
-
+<?php //echo $start_date."******".$end_date; die; ?>
 <?php
 function PriceTypeCount($strDate = "", $nPrice = "")
 {
@@ -24,53 +24,44 @@ function PriceTypeCount($strDate = "", $nPrice = "")
 						->whereRaw('products.product_price = '.$nPrice.'')
 						->get();	
 	}
-	// var_dump($arrayPrice[0]->PriceType); die;
-						$PriceType = $arrayPrice[0]->PriceType;
+}
+$start_date = $start_date;
+$end_date = $end_date;
+$start_date   = date("Y-m-d",strtotime($start_date));
+$end_date     = date("Y-m-d",strtotime($end_date));
+//echo $start_date."******".$end_date; die;
+function TotalCount($field_name, $nPrice, $start_date, $end_date)
+{
+  $PriceType = 0;
+  $arrayPrice = array();
+  $arrayPrice = DB::table('sale_summery')
+            ->select(DB::raw('SUM(`'.$field_name.'`) AS PriceType'))
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'"')
+            ->get();  
+  					$PriceType = $arrayPrice[0]->PriceType;
 return $PriceType;
 }
 
 // Get Discount
-function GetDiscount($strDate='')
+function GetDiscount($start_date, $end_date)
 {
-	//$arrayDiscount = array();
-  if(!empty($strDate))
-  {
-    $arrayDiscount = DB::table('sales')
+    $arrayDiscount = DB::table('sale_summery')
             ->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
-            ->whereRaw('sales.created_at LIKE "%'.$strDate.'%"')
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'"')
             ->get();
             $Discount = $arrayDiscount[0]->DiscountAmount;
-  }
-  else
-  {
-    $arrayDiscount = DB::table('sales')
-            ->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
-            ->get();
-            $Discount = $arrayDiscount[0]->DiscountAmount;
-  }
-	
 return $Discount;
 }
 
 // Get Total Sale
-function GetTotalSale($start_date='', $end_date='')
+function GetTotalSale($start_date, $end_date)
 {
   //$arrayDiscount = array();
-  if(empty($start_date) && empty($end_date))
-  {
-    $arraySaleAmount = DB::table('sales_details')
-            ->select(DB::raw('SUM(product_price) AS SaleAmount'))
+  $arraySaleAmount = DB::table('sale_summery')
+            ->select(DB::raw('SUM(total_sale) AS SaleAmount'))
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" ')
             ->get();
-            $SaleAmount = $arraySaleAmount[0]->SaleAmount;
-  }
-  else
-  {
-    $arraySaleAmount = DB::table('sales_details')
-            ->select(DB::raw('SUM(product_price) AS SaleAmount'))
-            ->whereRaw('sales.created_at >= "'.$start_date.'" AND sales.created_at <= "'.$end_date.'" ')
-            ->get();
-            $SaleAmount = $arraySaleAmount[0]->SaleAmount;
-  }  
+            $SaleAmount = $arraySaleAmount[0]->SaleAmount; 
   return $SaleAmount;
 }
 
@@ -146,6 +137,8 @@ $sales = array();
                             <th colspan="2">No.CUP 220</th>
                             <th colspan="2">Topping(20)</th>
                             <th colspan="2">Joy Kid(100)</th>
+                            <th colspan="2">Water(40)</th>
+                            <th colspan="2">Water(70)</th>
                             <th width="66">Sale</th>
                             <th width="46">D/C</th>
                             <th width="103">Net Sale</th>
@@ -153,33 +146,38 @@ $sales = array();
                     </thead>
                     <tbody>
                     <?php
+
                     $nToalClosing = 0;
-																				$dDebit = 0;
-																				$dCredit = 0;
-																				?>
+										$dDebit = 0;
+										$dCredit = 0;
+										?>
                     @foreach($arraySummery as $summery) 
                     <?php 
-										$CurrentDate = date("Y-m-d",strtotime($summery->created_at));
+										$CurrentDate = date("Y-m-d",strtotime($summery->current_date1));
 										//$product_id = $summery->product_id;
 										// For 150 Price
-										$Array150 = PriceTypeCount($CurrentDate,150);
+										$Array150 = $summery->ice_150;
 										// For 180 Price
-										$Array180 = PriceTypeCount($CurrentDate,180);
+										$Array180 = $summery->ice_180;
 										// For 200 Price
-										$Array200 = PriceTypeCount($CurrentDate,200);
+										$Array200 = $summery->ice_200;
 										// For 100 Price
-										$Array100 = PriceTypeCount($CurrentDate,100);
+										$Array100 = $summery->ice_100;
 										// For 20 Price
-										$Array20 = PriceTypeCount($CurrentDate,20);
+										$Array20 = $summery->ice_20;
 										// For 220 Price
-										$Array220 = PriceTypeCount($CurrentDate,220);
+										$Array220 = $summery->ice_220;
+                    // For 40 Price
+                    $Array40 = $summery->wt_40;
+                    // For 70 Price
+                    $Array70 = $summery->wt_70;
 										//$NetAmount = (((int)$Array150 * 150) + ((int)$Array180 * 180) + ((int)$Array100 * 100) 
 										//+ ((int)$Array20 * 20) + ((int)$Array200 * 200));
 										//$dDebit1 = 
 										//$nToalClosing  += $summery->NetAmount - GetDiscount($CurrentDate);
 										 ?>
                     				<tr>
-                      <td>{{ date("d-M-Y",strtotime($summery->created_at)) }}</td>
+                      <td>{{ date("d-M-y",strtotime($summery->current_date1)) }}</td>
                       <td width="67">{{ (int)$Array150 }}</td>
                       <td width="84">{{ number_format((int)$Array150 * 150) }}</td>
                       <td width="63">{{ (int)$Array180 }}</td>
@@ -192,22 +190,30 @@ $sales = array();
                       <td width="54">{{ number_format((int)$Array20 * 20) }}</td>
                       <td width="40">{{ (int)$Array100 }}</td>
                       <td width="59">{{ number_format((int)$Array100 * 100) }}</td>
-                      <td>{{-- number_format($summery->NetAmount) --}}</td>
-                      <td>{{ number_format(GetDiscount($CurrentDate)) }}</td>
-                      <td>{{-- number_format($summery->NetAmount - GetDiscount($CurrentDate)) --}}</td>
+                      <td width="40">{{ (int)$Array40 }}</td>
+                      <td width="59">{{ number_format((int)$Array40 * 40) }}</td>
+                      <td width="40">{{ (int)$Array70 }}</td>
+                      <td width="59">{{ number_format((int)$Array70 * 70) }}</td>
+                      <td>{{ number_format($summery->total_sale) }}</td>
+                      <td>{{ number_format($summery->discount_amount) }}</td>
+                      <td>{{ number_format($summery->net_sale) }}</td>
                     </tr>
                     @endforeach
+
                     <tr class="filters">
                             <th width="132"></th>
-                            <th colspan="2">{{ number_format(PriceTypeCount("",150)) }}</th>
-                            <th colspan="2">{{ number_format(PriceTypeCount("",180)) }}</th>
-                            <th colspan="2">{{ number_format(PriceTypeCount("",200)) }}</th>
-                            <th colspan="2">{{ number_format(PriceTypeCount("",220)) }}</th>
-                            <th colspan="2">{{ number_format(PriceTypeCount("",20)) }}</th>
-                            <th colspan="2">{{ number_format(PriceTypeCount("",100)) }}</th>
-                            <th width="66">{{ number_format(GetTotalSale()) }}</th>
-                            <th width="46">{{ number_format(GetDiscount()) }}</th>
-                            <th width="103">{{ number_format(GetTotalSale() - GetDiscount()) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_150", 150, $start_date, $end_date)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_180",180, $start_date, $end_date)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_200",200, $start_date, $end_date)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_220",220, $start_date, $end_date)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_20",20, $start_date, $end_date)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_100",100, $start_date, $end_date)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("wt_40",40, $start_date, $end_date)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("wt_70",70, $start_date, $end_date)) }}</th>
+                            <th width="66">{{ number_format(GetTotalSale($start_date, $end_date)) }}</th>
+                            <th width="46">{{ number_format(GetDiscount($start_date, $end_date)) }}</th>
+                            <th width="103">{{ number_format(GetTotalSale($start_date, $end_date) - GetDiscount($start_date, $end_date)) }}</th>
+
                         </tr>
                     </tbody>
                     

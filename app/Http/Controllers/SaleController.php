@@ -10,6 +10,7 @@ use App\Sale;
 use App\salesDetails;
 use Carbon\Carbon;
 use Session;
+use Validator;
 
 class SaleController extends Controller {
 
@@ -26,8 +27,61 @@ class SaleController extends Controller {
 	 $invoice_id = $data->get_invoice_id();
 		$invoice_id++;
 		// Shop code
-		$shop_code = $data->get_shop_code();
-		return View('sale', compact('products','invoice_id','shop_code'));
+		$shop_data = $data->get_shop_code();
+		$shop_code = $shop_data[0]->shop_code;
+		$shop_name = $shop_data[0]->shop_name;
+		//print_r($shop_code); die;
+		return View('sale', compact('products','invoice_id','shop_code','shop_name'));
+	}
+
+	// invoice return
+	public function return_invoice()
+	{
+		return View('return_invoice');
+	}
+
+	// Search Return Invoice
+	public function search_return_invoice()
+	{
+		$date = date("Y-m-d");
+		$invoice_id = Input::get('invoice_id');
+		$shop_id = Session::get('shop_id');
+		$rules = array('invoice_id'  => 'required');
+
+        // Create a new validator instance from our validation rules
+     	 $validator = Validator::make(Input::all(), $rules);
+
+        // If validation fails, we'll exit the operation now.
+      if ($validator->fails()) {
+            // Ooops.. something went wrong
+          //  echo "validation issues...";
+			return Redirect::back()->withInput()->withErrors($validator);
+        }
+		//return 'i am here';
+		// Input::get('first_name');
+
+		$data = new Sale();
+		
+		$data->invoice_id = $invoice_id;
+		$matchThese = ['invoice_id' => $invoice_id, 'created_at' => $date, 'shop_id' => $shop_id];
+		Sale::where($matchThese)
+			  ->update(
+			[
+			'invoice_id' => $data->invoice_id,
+			'return_id'  => 1
+			]);
+			//return Redirect::back();
+		//$sales = DB::table('sales')->orderBy('sale_id', 'desc')->get();
+		//print_r($users);
+		//return View('admin.products.index', compact('products'));
+		//return Redirect::to('return_invoice');	
+		//$request->session()->flash('alert-success', 'Invoice has been successful returned!');
+	//		  $success = Session::get('success');
+			  Session::flash('message', 'Invoice has been successful returned!'); 
+// return View::make('viewfile')->with('success', $success);
+    	return redirect()->route("return_invoice");
+
+
 	}
 
 	/**
@@ -44,35 +98,43 @@ class SaleController extends Controller {
 		$invoice_id++;
 		
 		$mytime = Carbon::now();
-		$date = $mytime->toDateTimeString();
+		//$date = $mytime->toDateTimeString();
+		$date = date("Y-m-d H:i:s");
 		
 		// Insert in sale table
 		$net_amount = Input::get('net_amount');
 		$discount_amount = Input::get('discount_amount');
 		$user_id = Session::get('user_id');
+		$shop_id = Session::get('shop_id');
 		$arrayInsert = array('net_amount' => $net_amount, 
-																							"created_at" => $date,
-																							"discount_amount" => $discount_amount,
-																							"invoice_id" => $invoice_id,
-																							"user_id" => $user_id);
+								"created_at" => $date,
+								"discount_amount" => $discount_amount,
+								"invoice_id" => $invoice_id,
+								"shop_id" => $shop_id,
+								"user_id" => $user_id);
 		$last_sale_id = Sale::insertGetId($arrayInsert);
-		// Insert in sale detail table
-		$product_id = Input::get('product_id');
-		for($i=0; $i<count($product_id); $i++)
+		if($last_sale_id != 0 && $last_sale_id != "")
 		{
-			$arrData[] = array( 
-						"product_price"      => Input::get("product_price.$i"),
-						"product_qty"       => Input::get("product_qty.$i"), 
-						"product_id"       => Input::get("product_id.$i"), 
-						"sale_id"    					=> $last_sale_id,
-						"created_at"    		=> $date               
-					);
+			// Insert in sale detail table
+			$product_id = Input::get('product_id');
+			for($i=0; $i<count($product_id); $i++)
+			{
+				$arrData[] = array( 
+							"product_price"      => Input::get("product_price.$i"),
+							"product_qty"       => Input::get("product_qty.$i"), 
+							"product_id"       => Input::get("product_id.$i"), 
+							"sale_id"    					=> $last_sale_id,
+							"created_at"    		=> $date               
+						);
+			}
+			$sale = salesDetails::insert($arrData);
+			echo "done";
 		}
-		$sale = salesDetails::insert($arrData);
+			// Redirect to sale page
+			
+			//return Redirect::to('sale');
 		});
-		// Redirect to sale page
 		
-		return Redirect::to('sale');
 		
 		
 	}
@@ -110,6 +172,7 @@ class SaleController extends Controller {
 	
 	public function today_sale()
 	{
+		$TotalQty = 0;
 		$user_type = Session::get('user_type');
 			$data = new Sale;
 	  $sales = $data->today_sale();
@@ -119,11 +182,11 @@ class SaleController extends Controller {
 	$TotalSale = number_format((int)$sum_sale[0]->TotalPrice);
 	$TotalQty = number_format((int)$sum_sale[0]->TotalQty);
 	$DiscountAmount = number_format((int)$discount_amount[0]->DiscountAmount);
-	
+//echo $user_type."-----"; die;	
 
 		if($user_type == 1)
 			return View('today_sale', compact('detail_sale','TotalSale','TotalQty','DiscountAmount'));
-		else
+		elseif($user_type == 2)
 		{
 			// Yester day sale
 			$yesterday_sale = $sales['yesterday_sale'];
@@ -137,7 +200,7 @@ class SaleController extends Controller {
 			$YesterdayExpense = number_format((int)$yesterday_expense[0]->YesterdayExpense);
 			
 		// get_opening_balance
-		$OpBalance = $data->get_opening_balance();
+		//$OpBalance = $data->get_opening_balance();
 
 			return View('admin/reports/today_sale', compact('detail_sale','TotalSale','TotalQty','YesterdaySale','TodayExpense','YesterdayExpense','DiscountAmount','OpBalance'));	
 		}

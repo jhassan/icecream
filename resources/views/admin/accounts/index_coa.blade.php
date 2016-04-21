@@ -93,12 +93,20 @@ function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
                     </div>
                     <div class="box-body col-sm-4">
                       <label for="shop_address">COA Descriptions</label>
-                      <input type="text" class="form-control" id="coa_account" placeholder="COA Code" name="coa_account">
+                      <input type="text" class="form-control" id="coa_account" placeholder="COA Descriptions" name="coa_account">
+                    </div>
+                    <div class="box-body col-sm-4">
+                      <label for="coa_credit">COA Credit</label>
+                      <input type="text" class="form-control" maxlength="7" id="coa_credit" placeholder="COA Credit" name="coa_credit">
+                    </div>
+                    <div class="box-body col-sm-4">
+                      <label for="coa_debit">COA Debit</label>
+                      <input maxlength="7" type="text" class="form-control" id="coa_debit" placeholder="COA Debit" name="coa_debit">
                     </div>
                   </div><!-- /.box-body -->
 
-                  <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                  <div class="box-footer" style="clear:both !important;">
+                    <button type="submit" class="btn btn-primary">Save</button>
                   </div>
                 </form>
               </div> 
