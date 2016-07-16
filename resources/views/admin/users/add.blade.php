@@ -66,20 +66,20 @@
                       <label for="Password">Password *</label>
                       <input type="password" class="form-control" id="password" placeholder="Password" name="password">
                     </div>
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-4 hide">
                       <label for="confirm_password">Confirm Password *</label>
                       <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" name="confirm_password">
                     </div>
                     <div class="dropdown col-sm-4">
-                                        <label for="gender" >Gender</label>
-                       
-                                            <select class="form-control" title="Select Gender..." name="gender">
-                                                <option value="">Select</option>
-                                                <option value="1" @if(Input::old('gender') === 1) selected="selected" @endif >MALE</option>
-                                                <option value="2" @if(Input::old('gender') === 2) selected="selected" @endif >FEMALE</option>
+                        <label for="gender" >Gender</label>
+                          <select class="form-control" title="Select Gender..." name="gender">
+                              <option value="">Select</option>
+                              <option value="1" @if(Input::old('gender') === 1) selected="selected" @endif >MALE</option>
+                              <option value="2" @if(Input::old('gender') === 2) selected="selected" @endif >FEMALE</option>
 
-                                            </select>
-                                    </div>
+                          </select>
+                    </div>
+                    <div class="clear" style="clear:both !important;"></div>
                      <div class="dropdown col-sm-4">
                                         <label for="gender" >User Type</label>
                        

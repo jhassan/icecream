@@ -25,18 +25,37 @@
                 <tr>
                 <?php
                 //	$coa_code = (!empty($arrayCashBook[0]->coa_code)) ? $arrayCashBook[0]->coa_code : '';
-																//	$coa_account = (!empty($arrayCashBook[0]->coa_account)) ? $arrayCashBook[0]->coa_account : '';
-																function GetDateWiseExpense($date)
-																{
-																			$arrayDetail = DB::table('vouchermaster')
-																																					->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
-																																					->select(DB::raw('SUM(vd_debit) AS TotalExpense'))
-																																					->whereRaw('vm_date = "'.$date.'" AND vd_coa_code != 0')
-																																					->orderBy('vm_date', 'asc')
-																																					->get();	
-																																					return $arrayDetail[0]->TotalExpense;
-																}
-																?>
+				//	$coa_account = (!empty($arrayCashBook[0]->coa_account)) ? $arrayCashBook[0]->coa_account : '';
+				function GetDateWiseExpense($date)
+				{
+					$arrayDetail = DB::table('vouchermaster')
+					->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+					->select(DB::raw('SUM(vd_debit) AS TotalExpense'))
+					->whereRaw('vm_date = "'.$date.'" AND vd_coa_code != 0')
+					->orderBy('vm_date', 'asc')
+					->get();	
+					return $arrayDetail[0]->TotalExpense;
+				}
+				// Oppening Balance
+				// function get_opening_balance($coa)
+				// {
+				// 		$arrayOpBalance = array();
+				// 		$arrayOpBalance = DB::table('coa')
+				// 						->select('coa_debit','coa_credit')
+				// 						->whereRaw('coa_code = "'.$coa.'"')
+				// 						->get();	
+				// 		return $arrayOpBalance;
+			 //    }
+
+			 //    $OpBalance = get_opening_balance("414002");	
+			 //    $coa_crdit = $OpBalance[0]->coa_credit;
+    //             $coa_debit = $OpBalance[0]->coa_debit;
+    //             if($coa_crdit != 0)
+    //             	$OPeninBalance = $coa_crdit;
+    //             elseif($coa_debit != 0)
+    //             	$OPeninBalance = $coa_debit;
+					$OPeninBalance = $OpBalance;
+				?>
                   <td align="left" valign="top"><?php echo date('h:i:s A');?></td>
                   <td width="11%"><strong>Date From</strong></td>
                   <td width="14%" align="left">{{ $start_date }}</td>
@@ -46,7 +65,7 @@
                 <tr>
                   <td>&nbsp;</td>
                   <td colspan="3"><strong>Opening Balance</strong></td>
-                  <td>0{{-- number_format($OpBalance) --}}</td>
+                  <td>{{ number_format($OPeninBalance) }}</td>
                 </tr>
               </tbody>
             </table>
@@ -64,102 +83,62 @@
                   <td width="7%" align="center"><b>Balance</b></td>
                 </tr>
                 <?php
-																$OpBalance = 0;
-																$dBalance = 0;
-																$dDebit = 0;
-																$dCredit = 0;
-																$ClosingBalance = 0;
-																$DetailDebit = 0;
-																$DetailCredit = 0;
-																$i = 1;
-																$now_date = '';
-																$sum_debit = 0;
-																if(count($arrayCashBook) > 0)
-																{
-																foreach($arrayCashBook as $rstRow)
-																{
-                					/*$nVMId = $rstRow->vm_id;
-																					if($i == 1)
-																						$dBalance = $OPeninBalance + $dBalance + $rstRow->vd_debit - $rstRow->vd_credit;
-																					else
-																						$dBalance = $dBalance + $rstRow->vd_debit - $rstRow->vd_credit;	*/
-																					
-																					
-																					/*$arrayDetail = DB::table('vouchermaster')
-																																					->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
-																																					->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
-																																					->select('vm_date','voucherdetail.*','vm_type','coa_account')
-																																					->whereRaw('vm_date = "'.$rstRow->vm_date.'"')
-																																					->orderBy('vm_date', 'asc')
-																																					->groupBy('vd_vm_id')
-																																					->get();
-																					foreach($arrayDetail as $Detail)
-																					{
-																							$DetailDebit += $Detail->vd_debit;
-																							$DetailCredit += $Detail->vd_credit;
-																						
-																					}
-																					
-																					//echo $rstRow->vd_credit; die;
-																					$now_date = $rstRow->vm_date;
-																					if($rstRow->vd_credit == '0.0000')
-																					{
-																								$sum_debit += $rstRow->vd_debit; 
-																								$dBalance = ($OpBalance - $sum_debit) + $DetailCredit; 
-																					}
-																					else
-																								$sum_debit = 0;*/
-																					
-																							//echo $rstRow->vd_debit; die;
-																							
-																							$dBalance = 0;	
-																							$DateExpense = 0;
-																							if($rstRow->vd_debit == '0.0000')
-																								{
-																									//echo $rstRow->vd_credit."*****"; 
-																									 
-																									$DateExpense = GetDateWiseExpense($rstRow->vm_date);
-																								//	echo $rstRow->vd_credit."--------".$DateExpense; die;
-																									$dBalance = ($OpBalance - $DateExpense) + $rstRow->vd_credit; 
-																									//$dBalance = $DateExpense - $rstRow->vd_credit; 
-																									//$dBalance = $DateExpense;//  - $rstRow->vd_credit; 
-																								}
-																							else
-																								{
-																											//echo $rstRow->vd_debit."adfadfda"; 34390
-																											$dBalance = 0;
-																									}
-																							//echo $dBalance."*****"; die;	
-																							echo "	<tr>";
-																							echo "		<td align=center>" . $rstRow->vm_type . "</td>";
-																							echo "		<td >" . date("d-M-Y",strtotime($rstRow->vm_date)) . "</td>";
-																							echo "		<td align=center>" . $rstRow->vd_coa_code . "</td>";
-																							echo "		<td align=left>" . $rstRow->coa_account . "</td>";
-																							echo "		<td align=left>" . $rstRow->vd_desc . "</td>";
-																							echo "		<td align=right>" . number_format($rstRow->vd_debit, 0) . "</td>";
-																							echo "		<td align=right>" . number_format($rstRow->vd_credit, 0) . "</td>";
-																							echo "		<td align=right>" . number_format($dBalance, 0) . "</td>";
-																							echo "	</tr>";
-																				
-																							$dDebit += $rstRow->vd_debit;
-																							$dCredit += $rstRow->vd_credit;
-																						//	$dBalance = 0;
-																					
-																					
-																					//$i++;
-																}
-																					echo "	<tr>";
-																					echo "		<td colspan=5 align=right><strong>Total</strong></td>";
-																					echo "		<td align=right><strong>" . number_format($dDebit, 0) . "</strong></td>";
-																					echo "		<td align=right><strong>" . number_format($dCredit, 0) . "</strong></td>";
-																					//$OPeninBalance1 = $OPeninBalance1;
-																					$Debit = $dDebit;
-																					$Credit = $dCredit;
-																					$ClosingBalance = ($OpBalance + $Debit) - $Credit;
-																					echo "		<td align=right><strong>" . number_format($ClosingBalance,0) . "</strong></td>";
-																					echo "	</tr>";
-																}
-																?>
+				$OpBalance = 0;
+				$dBalance = 0;
+				$dDebit = 0;
+				$dCredit = 0;
+				$ClosingBalance = 0;
+				$DetailDebit = 0;
+				$DetailCredit = 0;
+				$i = 1;
+				$now_date = '';
+				$sum_debit = 0;
+				if(count($arrayCashBook) > 0)
+				{
+				foreach($arrayCashBook as $rstRow)
+				{
+					// $DateExpense = 0;
+					// //$DateExpense = GetDateWiseExpense($rstRow->vm_date);
+					// //$dBalance = ($OPeninBalance - $DateExpense) + $rstRow->vd_credit;
+					// if($rstRow->vd_debit == '0.0000')
+					// 	{
+					// 		$DateExpense = GetDateWiseExpense($rstRow->vm_date);
+					// 		$dBalance = ($OPeninBalance + $rstRow->vd_credit) - $DateExpense; 
+					// 	}
+					// else
+					// 	$dBalance = 0;
+					// echo $rstRow->vd_coa_code."------".$rstRow->vm_type.","; 
+					$dBalance = ($OPeninBalance + $rstRow->vd_credit) - $rstRow->vd_debit;
+					if($rstRow->vd_coa_code != "414002" || $rstRow->vm_type != "CR" || $rstRow->vd_credit != "0.0000")
+					{
+						echo "	<tr>";
+						echo "		<td align=center>" . $rstRow->vm_type . "</td>";
+						echo "		<td >" . date("d-M-Y",strtotime($rstRow->vm_date)) . "</td>";
+						echo "		<td align=center>" . $rstRow->vd_coa_code . "</td>";
+						echo "		<td align=left>" . $rstRow->coa_account . "</td>";
+						echo "		<td align=left>" . $rstRow->vd_desc . "</td>";
+						echo "		<td align=right>" . number_format($rstRow->vd_debit, 0) . "</td>";
+						echo "		<td align=right>" . number_format($rstRow->vd_credit, 0) . "</td>";
+						echo "		<td align=right>" . number_format($dBalance, 0) . "</td>";
+						echo "	</tr>";
+			
+						$dDebit += $rstRow->vd_debit;
+						$dCredit += $rstRow->vd_credit;
+					}	
+					
+				}
+					echo "	<tr>";
+					echo "		<td colspan=5 align=right><strong>Total</strong></td>";
+					echo "		<td align=right><strong>" . number_format($dDebit, 0) . "</strong></td>";
+					echo "		<td align=right><strong>" . number_format($dCredit, 0) . "</strong></td>";
+					$Debit = $dDebit;
+					$Credit = $dCredit;
+					//echo $OPeninBalance."***".$Debit."-----".$Credit;
+					$ClosingBalance = ($OPeninBalance + $Credit) - $Debit;
+					echo "		<td align=right><strong>" . number_format($ClosingBalance,0) . "</strong></td>";
+					echo "	</tr>";
+				}
+				?>
               </tbody>
             </table>
           </div>

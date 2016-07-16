@@ -278,7 +278,7 @@
                 <li><a href="{{ URL::to('admin/accounts/show_coa') }}"><i class="fa fa-circle-o"></i> View COA</a></li>
               </ul>
             </li>
-            <li class="treeview {{ Request::is('admin/accounts/bank_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/bank_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/trial_balance') ? 'active' : '' }} {{ Request::is('admin/accounts/all_vouchers') ? 'active' : '' }} {{ Request::is('admin/accounts/sale_summery') ? 'active' : '' }} {{ Request::is('admin/accounts/general_voucher') ? 'active' : '' }} {{ Request::is('admin/accounts/view_cash_book') ? 'active' : '' }}"> 
+            <li class="treeview {{ Request::is('admin/accounts/bank_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/bank_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/trial_balance') ? 'active' : '' }} {{ Request::is('admin/accounts/all_vouchers') ? 'active' : '' }} {{ Request::is('admin/accounts/sale_summery') ? 'active' : '' }} {{ Request::is('admin/accounts/general_voucher') ? 'active' : '' }} {{ Request::is('admin/accounts/view_cash_book') ? 'active' : '' }} {{ Request::is('admin/accounts/view_ledger') ? 'active' : '' }}"> 
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Account Management</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
@@ -294,6 +294,15 @@
                 <li class="active"><a href="{{ URL::to('admin/accounts/frm_cash_book') }}"><i class="fa fa-circle-o"></i> Cash Book</a></li>
                 
                 
+              </ul>
+            </li>
+            <li class="treeview {{ Request::is('admin/invoice/return_invoice') ? 'active' : '' }} {{ Request::is('admin/invoice/view_return_invoice') ? 'active' : '' }}">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Invoice Management</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li class="active"><a href="{{ URL::to('admin/invoice/return_invoice') }}"><i class="fa fa-circle-o"></i> Return Invoice</a></li>
+                <li><a href="{{ URL::to('admin/invoice/view_return_invoice') }}"><i class="fa fa-circle-o"></i> View Return Invoice</a></li>
               </ul>
             </li>
           </ul>

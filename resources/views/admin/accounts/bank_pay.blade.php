@@ -101,6 +101,17 @@ function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
                       <input type="text" class="date-pick form-control" id="vm_date" placeholder="Date" name="vm_date">
                     </div>
                     <div class="box-body col-sm-4">
+                      <div class="dropdown">
+                      <label for="shop" >Shop</label>
+                        <select class="form-control" title="Select Shop..." name="shop_id">
+                            <option value="">Select</option>
+                            @foreach ($shops as $shop)
+                            <option value="{{{ $shop->shop_id}}}"  >{{{ $shop->shop_name}}}</option>
+                            @endforeach
+                        </select>
+                      </div>
+                  </div>
+                    <div class="box-body col-sm-4">
                       <label for="shop_address">Descriptions</label>
                       <textarea type="text" class="form-control" id="vm_desc" placeholder="Descriptions" name="vm_desc"></textarea>
                     </div>

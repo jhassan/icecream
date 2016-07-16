@@ -10,6 +10,8 @@ use Input;
 use Session;
 use App\User;
 use App\Shop;
+use Hash;
+
 
 class UsersController extends Controller {
 
@@ -42,7 +44,7 @@ class UsersController extends Controller {
 			'login_name'  => 'required',
 			'gender'  => 'required',
 			'user_type'  => 'required',
-			'confirm_password'  => 'required',
+			//'confirm_password'  => 'required',
         );
 
         // Create a new validator instance from our validation rules
@@ -72,7 +74,7 @@ class UsersController extends Controller {
 		
 		if($data->save()){
 			//echo 'i am in save';
-			return redirect()->route("users")->with('message','Success');
+			return redirect()->route("users")->with('message','User added successfully!');
 			//return redirect()->action('HomeController@index');
 		}
 		else{
@@ -104,7 +106,7 @@ class UsersController extends Controller {
 		$rules = array(
             'first_name'  => 'required',
             'last_name'  => 'required',
-			'email'  => 'required|email|unique:users',
+			//'email'  => 'required|email|unique:users',
 			'login_name'  => 'required',
 			'city'  => 'required',
 			'gender'  => 'required',
@@ -122,7 +124,8 @@ class UsersController extends Controller {
 		$data->first_name = Input::get('first_name');
 		$data->last_name = Input::get('last_name');
 		if(!empty(Input::get('password')))
-		$data->password = Input::get('password');
+			$data->password = Hash::make(Input::get('password'));
+		//$data->password = Input::get('password');
 		$data->login_name = Input::get('login_name');
 		$data->gender = Input::get('gender');
 		$data->email = Input::get('email');
@@ -130,7 +133,8 @@ class UsersController extends Controller {
 		$data->address = Input::get('address');
 		$data->user_type = (int)Input::get('user_type');
 		//print_r($data);
-			
+		if(!empty(Input::get('password')))
+		{
 			User::where('id', $id)->update(
 			[
 			'first_name' => $data->first_name,
@@ -143,6 +147,21 @@ class UsersController extends Controller {
 			'user_type' => $data->user_type,
 			'address' => $data->address
 			]);
+		}	
+		else
+		{
+			User::where('id', $id)->update(
+			[
+			'first_name' => $data->first_name,
+			'last_name' => $data->last_name,
+			'login_name' => $data->login_name,
+			'gender' => $data->gender,
+			'email' => $data->email,
+			'city' => $data->city,
+			'user_type' => $data->user_type,
+			'address' => $data->address
+			]);}
+			
 			return Redirect::back();
     }
 
@@ -183,4 +202,22 @@ class UsersController extends Controller {
             return Redirect::route('banners')->with('error', $error);
         }
     }
+
+    // Delete User
+	public function delete_user()
+	{
+		echo "Delete"; die;
+		$DelID = Input::get('DelID');
+		//$vouchermaster = VoucherMaster::where('vm_id', '=', $DelID)->delete();
+		//$voucherdetail = VoucherDetail::where('vd_vm_id', '=', $DelID)->delete();
+	
+		DB::table('users')->where('id', $DelID)->delete();
+		//$voucherdetail = DB::table('voucherdetail')->delete($DelID);
+		//$ID = VoucherMaster::where('vm_id', '=', $DelID)->first();
+		$ID = DB::table('users')->where('id', $DelID)->first();
+		if ($ID === null) 
+		   echo "delete"; 
+		else
+			echo "sorry";
+	}
 }

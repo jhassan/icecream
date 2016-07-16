@@ -70,7 +70,8 @@ class AccountController extends Controller {
 		$data = new coa;
 		// Debit array
 	 $arrayDebit = $data->all_coa();
-		return View('admin/accounts/general_voucher',compact('arrayDebit'));	
+	 $shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		return View('admin/accounts/general_voucher',compact('arrayDebit','shops'));	
 	}
 	
 	function frm_cash_book()
@@ -78,7 +79,8 @@ class AccountController extends Controller {
 		$data = new coa;
 		// Debit array
 	 $arrayDebit = $data->all_coa();
-		return View('admin/accounts/frm_cash_book',compact('arrayDebit'));	
+	 $shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		return View('admin/accounts/frm_cash_book',compact('arrayDebit','shops'));	
 	}
 	
 	// Find Vouchers
@@ -88,32 +90,36 @@ class AccountController extends Controller {
 			$sale = new sale;
 				// get_opening_balance
 		    $coa_account = Input::get('coa_account');
-		    $OpBalance 	= $sale->get_opening_balance($coa_account);
-			$start_date 	= date("Y-m-d",strtotime(Input::get('start_date')));
-			$end_date 			= date("Y-m-d",strtotime(Input::get('end_date')));
-			//var_dump($start_date); die;
+		    $shop_id = Input::get('shop_id');
+		    $start_date = date("Y-m-d",strtotime(Input::get('start_date')));
+			$end_date 	= date("Y-m-d",strtotime(Input::get('end_date')));
+		    //$OpBalance 	= $sale->get_opening_balance($coa_account);
+		    $OpBalance 	= $data -> opb_view_ledeger($coa_account, $start_date, $end_date, $shop_id);
 			if($start_date != "1970-01-01" && $end_date != "1970-01-01")
 			{
-				$arrayLedeger 	= $data->search_vouchers($coa_account, $start_date, $end_date);
-				$start_date 	= date("d-m-Y",strtotime($start_date));
-			 $end_date 			= date("d-m-Y",strtotime($end_date));
-				return View('admin/accounts/view_ledger',compact('arrayLedeger','end_date','start_date','OpBalance'));
+				$arrayLedeger = $data->search_vouchers($coa_account, $start_date, $end_date);
+				$start_date   = date("d-m-Y",strtotime($start_date));
+				$end_date 	  = date("d-m-Y",strtotime($end_date));
+				return View('admin/accounts/view_ledger',compact('arrayLedeger','end_date','start_date','OpBalance','coa_account'));
 			}
 	}
 	
 	// Find Cash Book
 	function view_cash_book()
 	{
-		  $data = new coa;
-				$sale = new sale;
-				// get_opening_balance
-		  //$OpBalance = $sale->get_opening_balance();
-			 $start_date 	= date("Y-m-d",strtotime(Input::get('start_date')));
-			$end_date 			= date("Y-m-d",strtotime(Input::get('end_date')));
-			//var_dump($start_date); die;
+		    $data = new coa;
+		    $sale = new sale;
+			// get_opening_balance
+		    //$OpBalance = $sale->get_opening_balance();
+			$start_date = date("Y-m-d",strtotime(Input::get('start_date')));
+			$end_date = date("Y-m-d",strtotime(Input::get('end_date')));
+			$shop_id = Input::get('shop_id');
+			// get_opening_balance
+		    $OpBalance = $data->opb_cash_book($start_date, $end_date,$shop_id);
+			//var_dump($OpBalance); die;
 			if($start_date != "1970-01-01" && $end_date != "1970-01-01")
 			{
-				$arrayCashBook 	= $data->search_cash_book($start_date,$end_date);
+				$arrayCashBook 	= $data->search_cash_book($start_date,$end_date,$shop_id);
 				return View('admin/accounts/view_cash_book',compact('arrayCashBook','end_date','start_date','OpBalance'));
 			}
 	}
@@ -126,7 +132,8 @@ class AccountController extends Controller {
 	 $arrayDebit = $data->all_coa();
 		// Credit array
 	 $arrayCredit = $data->all_coa();
-		return View('admin/accounts/bank_pay',compact('arrayDebit','arrayCredit'));
+	 $shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		return View('admin/accounts/bank_pay',compact('arrayDebit','arrayCredit','shops'));
 	}
 	
 	// Bank Receipt Vouchers
@@ -137,7 +144,8 @@ class AccountController extends Controller {
 	 $arrayDebit = $data->all_coa();
 		// Credit array
 	 $arrayCredit = $data->all_coa();
-		return View('admin/accounts/bank_receipt',compact('arrayDebit','arrayCredit'));
+	 $shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		return View('admin/accounts/bank_receipt',compact('arrayDebit','arrayCredit','shops'));
 	}
 	
 	// Cash Receipt Vouchers
@@ -148,7 +156,8 @@ class AccountController extends Controller {
 	 $arrayDebit = $data->all_coa();
 		// Credit array
 	 $arrayCredit = $data->all_coa();
-		return View('admin/accounts/cash_receipt',compact('arrayDebit','arrayCredit'));
+	 $shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		return View('admin/accounts/cash_receipt',compact('arrayDebit','arrayCredit','shops'));
 	}
 	
 	// Cash Pay Vouchers
@@ -159,7 +168,8 @@ class AccountController extends Controller {
 	 $arrayDebit = $data->all_coa();
 		// Credit array
 	 $arrayCredit = $data->all_coa();
-		return View('admin/accounts/cash_pay',compact('arrayDebit','arrayCredit'));
+	 $shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		return View('admin/accounts/cash_pay',compact('arrayDebit','arrayCredit','shops'));
 	}
 	
 	// Sale Summery
@@ -169,7 +179,8 @@ class AccountController extends Controller {
 		$start_date 	= date("2016-04-01");
 		$end_date 		= date("Y-m-d");
 	 	$arraySummery = $data->get_sale_summery($start_date, $end_date);
-		return View('admin/accounts/sale_summery',compact('arraySummery','start_date','end_date'));
+	 	$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		return View('admin/accounts/sale_summery',compact('arraySummery','start_date','end_date','shops'));
 	}
 	
 	
@@ -185,12 +196,14 @@ class AccountController extends Controller {
 		$vm_date = Input::get('vm_date');
 		$vm_desc = Input::get('vm_desc');
 		$vm_type = Input::get('vm_type');
+		$shop_id = Input::get('shop_id');
 		
 		$user_id = Session::get('user_id');
 		$arrayInsertMaster = array('vm_amount' => $vm_amount, 
 									"vm_date" => date("Y-m-d",strtotime($vm_date)),
 									"vm_type" => $vm_type,
 									"vm_desc" => $vm_desc,
+									"shop_id" => $shop_id,
 									"vm_user_id" => (int)$user_id);
 		$last_master_id = VoucherMaster::insertGetId($arrayInsertMaster);
 		// Insert in detail table
@@ -259,13 +272,15 @@ class AccountController extends Controller {
 		$data = new sale;
 		$start_date 	= date("Y-m-d",strtotime(Input::get('start_date')));
 		$end_date 		= date("Y-m-d",strtotime(Input::get('end_date')));
+		$shop_id 		= Input::get('shop_id');
 		//var_dump($start_date); die;
 		if($start_date != "1970-01-01" && $end_date != "1970-01-01")
 		{
-			$arraySummery 	= $data->search_ledeger($start_date, $end_date);
+			$arraySummery 	= $data->search_ledeger($start_date, $end_date, $shop_id);
 			$start_date 	= date("d-m-Y",strtotime($start_date));
 		 	$end_date 		= date("d-m-Y",strtotime($end_date));
-			return View('admin/accounts/sale_summery',compact('arraySummery','end_date','start_date'));
+		 	$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+			return View('admin/accounts/sale_summery',compact('arraySummery','end_date','start_date','shops','shop_id'));
 		}
 
 	}
@@ -361,6 +376,23 @@ class AccountController extends Controller {
 		//$vouchermaster = DB::table('vouchermaster')->delete($DelID);
 		//$voucherdetail = DB::table('voucherdetail')->delete($DelID);
 		$ID = VoucherMaster::where('vm_id', '=', $DelID)->first();
+		if ($ID === null) 
+		   echo "delete"; 
+		else
+			echo "sorry";
+	}
+	// Delete COA
+	public function delete_coa()
+	{
+		//echo "Delete"; die;
+		$DelID = Input::get('DelID');
+		//$vouchermaster = VoucherMaster::where('vm_id', '=', $DelID)->delete();
+		//$voucherdetail = VoucherDetail::where('vd_vm_id', '=', $DelID)->delete();
+	
+		DB::table('coa')->where('coa_id', $DelID)->delete();
+		//$voucherdetail = DB::table('voucherdetail')->delete($DelID);
+		//$ID = VoucherMaster::where('vm_id', '=', $DelID)->first();
+		$ID = DB::table('coa')->where('coa_id', $DelID)->first();
 		if ($ID === null) 
 		   echo "delete"; 
 		else

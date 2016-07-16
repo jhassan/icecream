@@ -37,51 +37,46 @@ class SaleController extends Controller {
 	// invoice return
 	public function return_invoice()
 	{
-		return View('return_invoice');
+		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		return View('admin/invoice/return_invoice',compact('shops'));
+	}
+
+	// Get all return invoice 
+	public function get_return_invoice()
+	{
+		//$returns = DB::table('sales')->where('return_id', 1)->orderBy('sale_id', 'desc')->paginate(10);
+		$returns = DB::table('sales')
+				//->join('shops', 'shops.shop_id', '=', 'sales.shop_id')
+                ->where('return_id', 1)
+                ->orderBy('sales.created_at', 'desc')
+                ->paginate(10);
+		return View('admin/invoice/view_return_invoice',compact('returns'));
 	}
 
 	// Search Return Invoice
 	public function search_return_invoice()
 	{
-		$date = date("Y-m-d");
 		$invoice_id = Input::get('invoice_id');
-		$shop_id = Session::get('shop_id');
-		$rules = array('invoice_id'  => 'required');
-
+		$shop_id = Input::get('shop_id');
+		$return_invoice_date = date("Y-m-d",strtotime(Input::get('return_invoice_date')));
+		$rules = array('invoice_id'  => 'required', 'shop_id' => 'required');
         // Create a new validator instance from our validation rules
      	 $validator = Validator::make(Input::all(), $rules);
-
         // If validation fails, we'll exit the operation now.
       if ($validator->fails()) {
-            // Ooops.. something went wrong
-          //  echo "validation issues...";
 			return Redirect::back()->withInput()->withErrors($validator);
         }
-		//return 'i am here';
-		// Input::get('first_name');
-
 		$data = new Sale();
-		
 		$data->invoice_id = $invoice_id;
-		$matchThese = ['invoice_id' => $invoice_id, 'created_at' => $date, 'shop_id' => $shop_id];
+		$matchThese = ['invoice_id' => $invoice_id, 'created_at' => $return_invoice_date, 'shop_id' => $shop_id];
 		Sale::where($matchThese)
 			  ->update(
 			[
 			'invoice_id' => $data->invoice_id,
 			'return_id'  => 1
 			]);
-			//return Redirect::back();
-		//$sales = DB::table('sales')->orderBy('sale_id', 'desc')->get();
-		//print_r($users);
-		//return View('admin.products.index', compact('products'));
-		//return Redirect::to('return_invoice');	
-		//$request->session()->flash('alert-success', 'Invoice has been successful returned!');
-	//		  $success = Session::get('success');
 			  Session::flash('message', 'Invoice has been successful returned!'); 
-// return View::make('viewfile')->with('success', $success);
     	return redirect()->route("return_invoice");
-
-
 	}
 
 	/**
@@ -172,21 +167,23 @@ class SaleController extends Controller {
 	
 	public function today_sale()
 	{
+		$shop_id = (int)Input::get('shop_id');
 		$TotalQty = 0;
 		$user_type = Session::get('user_type');
-			$data = new Sale;
-	  $sales = $data->today_sale();
-			$detail_sale = $sales['total_sale'];
-	$sum_sale = $sales['sum_sale'];
-	$discount_amount = $sales['discount_amount'];
-	$TotalSale = number_format((int)$sum_sale[0]->TotalPrice);
-	$TotalQty = number_format((int)$sum_sale[0]->TotalQty);
-	$DiscountAmount = number_format((int)$discount_amount[0]->DiscountAmount);
-//echo $user_type."-----"; die;	
+		$data = new Sale;
+		$sales = $data->today_sale($shop_id);
+		$detail_sale = $sales['total_sale'];
+		$sum_sale = $sales['sum_sale'];
+		$discount_amount = $sales['discount_amount'];
+		$TotalSale = number_format((int)$sum_sale[0]->TotalPrice);
+		$TotalQty = number_format((int)$sum_sale[0]->TotalQty);
+		$DiscountAmount = number_format((int)$discount_amount[0]->DiscountAmount);
+		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+	//echo $user_type."-----"; die;	
 
 		if($user_type == 1)
 			return View('today_sale', compact('detail_sale','TotalSale','TotalQty','DiscountAmount'));
-		elseif($user_type == 2)
+		else //if($user_type == 2)
 		{
 			// Yester day sale
 			$yesterday_sale = $sales['yesterday_sale'];
@@ -201,8 +198,8 @@ class SaleController extends Controller {
 			
 		// get_opening_balance
 		//$OpBalance = $data->get_opening_balance();
-
-			return View('admin/reports/today_sale', compact('detail_sale','TotalSale','TotalQty','YesterdaySale','TodayExpense','YesterdayExpense','DiscountAmount','OpBalance'));	
+			$OpBalance = 0;
+			return View('admin/reports/today_sale', compact('detail_sale','TotalSale','TotalQty','YesterdaySale','TodayExpense','YesterdayExpense','DiscountAmount','OpBalance','shops','shop_id'));	
 		}
 	}
 	

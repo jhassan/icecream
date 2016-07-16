@@ -49,7 +49,7 @@
                     </thead>
                     <tbody>
                     @foreach ($users as $user)
-                    	<tr>
+                    	<tr id="row_{{{ $user->id }}}">
                             <td>{{{ $user->id }}}</td>
                     		<td>{{{ $user->first_name }}}</td>
             				<td>{{{ $user->last_name }}}</td>
@@ -57,11 +57,12 @@
             				<td>{{{ $user->city }}}</td>
             				<td>{{{ $user->created_at }}}</td> 
             				<td> <a href="{{ route('users.update', $user->id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
-							<a href="{{ route('confirm-delete/user', $user->id) }}"><img src="{{asset("dist/img/delete.png")}}" ></a>
+							<a id="{{ $user->id }}" class="deleteRecord" style="cursor:pointer;"><img src="{{asset("dist/img/delete.png")}}" ></a>
                             </td>
             			</tr>
                     @endforeach
-                        
+                    <input type="hidden" value="<?php echo csrf_token(); ?>" name="_token">
+                    <div id="dialog-confirm-delete" title="Delete Reocrs" style="display:none;">Do you want to delete this record?</div>    
                     </tbody>
                 </table>
                 
@@ -76,4 +77,62 @@
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
       @stop
+
+      @section('footer_scripts')
+     <script src="{{asset('../../plugins/datatables/jquery.dataTables.min.js')}}"></script>
+      <script src="{{asset('../../plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+      <script src="{{asset('../../dist/js/jquery.ui.dialog.js')}}"></script>
+      <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/ui-lightness/jquery-ui.css" />
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+      
+      <script>
+      $(function () {
+        //$("#example1").DataTable();
+        $('#example2').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+      });
+      $(document).ready(function () {
+        $.ajaxSetup({
+                headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
+          });
+        jQuery(document).on('click','.deleteRecord',function(e){
+        var DelID = jQuery(this).attr("id");
+        var token = $('input[name="_token"]').val();
+        jQuery("#dialog-confirm-delete").dialog({
+                resizable: false,
+                height:170,
+                width: 400,
+                modal: true,
+                title: 'Delete Voucher',
+                buttons: {
+                  Delete: function() {
+                    jQuery(this).dialog('close');
+                    $.ajax({
+                          type: "GET",
+                              url: 'delete_user',
+                          data: { DelID: DelID }
+                      }).done(function( msg ) {
+                          //alert( msg+'ttttt' );
+                          if(msg == "delete")
+                            $("#row_"+DelID).remove();
+                      });
+                  },
+                  Cancel: function() {
+                     jQuery(this).dialog('close');
+                  }
+                }
+              });
+                     
+            return false;
+            });
+      });
+
+    </script>
+     @stop
      

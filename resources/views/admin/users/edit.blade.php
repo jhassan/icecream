@@ -58,7 +58,7 @@
                       <label for="login_name">Login Name *</label>
                       <input type="text" class="form-control" id="login_name" placeholder="Login Name" name="login_name" value="{{{ $users->login_name }}}">
                     </div>
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-4 hide">
                       <label for="email">Email *</label>
                       <input type="text" class="form-control" id="email" placeholder="Email" name="email" value="{{{ $users->email }}}">
                     </div>
@@ -66,7 +66,7 @@
                       <label for="Password">Password *</label>
                       <input type="password" class="form-control" id="password" placeholder="Password" name="password" >
                     </div>
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-4 hide">
                       <label for="confirm_password">Confirm Password *</label>
                       <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" name="confirm_password">
                     </div>
@@ -90,6 +90,7 @@
 
                                             </select>
                                     </div>
+                                    <div class="clear" style="clear:both !important;"></div>
                     <div class="form-group col-sm-4">
                       <label for="city">City</label>
                       <input type="text" class="form-control" id="city" placeholder="City" name="city" value="{{$users->city}}">

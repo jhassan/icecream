@@ -52,8 +52,10 @@ Route::group(
 		Route::post('add', 'UsersController@createUser');
         Route::get('{id}/edit', array('as' => 'users.update', 'uses' => 'UsersController@getEdit'));
 		Route::post('{id}/edit', 'UsersController@postEdit');
+		Route::get('delete_user', array('as'=>'delete_user', 'uses' => 'UsersController@delete_user'));
 		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'UsersController@getDelete'));
-		Route::post('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'UsersController@getModalDelete'));
+		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'UsersController@getModalDelete'));
+		
 		//Route::get('{id}', array('as' => 'users.show', 'uses' => 'UsersController@show'));
 	});
 	
@@ -82,17 +84,41 @@ Route::group(
 		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'ProductsController@getModalDelete'));
 	});
 
-// Product routs
 Route::group(
+
 	array('prefix' => 'admin/reports','before' => 'Sentry'), function () {
+//echo "adfad"; die;
 // Show all sale 
-Route::get('all_sale', array('uses' => 'SaleController@all_sale'));
+// Route::get('all_sale', array('uses' => 'SaleController@all_sale'));
+
+// // Show today sale 
+// Route::get('today_sale', array('uses' => 'SaleController@today_sale'));
+// Show all sale 
+Route::get('all_sale', array('as' => 'all_sale', 'uses' => 'SaleController@all_sale'));
 
 // Show today sale 
-Route::get('today_sale', array('uses' => 'SaleController@today_sale'));
+Route::get('today_sale', array('as' => 'today_sale', 'uses' => 'SaleController@today_sale'));
+
+
 
 });
 
+// invoice 
+Route::group(
+
+	array('prefix' => 'admin/invoice','before' => 'Sentry'), function () {
+
+// Show return invoice 
+Route::get('return_invoice', array('as' => 'return_invoice', 'uses' => 'SaleController@return_invoice'));
+
+// Show all return invoice 
+Route::get('view_return_invoice', array('as' => 'view_return_invoice', 'uses' => 'SaleController@get_return_invoice'));
+
+
+// Search Return Invoice
+Route::post('search_return_invoice', array('as' => 'search_return_invoice', 'uses' => 'SaleController@search_return_invoice'));		
+
+});
 // account routs
 Route::group(
 	array('prefix' => 'admin/accounts','before' => 'Sentry'), function () {
@@ -140,9 +166,9 @@ Route::group(
         Route::get('show_coa', array('as' => 'show_coa', 'uses' => 'AccountController@view_coa'));
 		Route::post('add', 'ProductsController@store');
 		//Route::get('{id}', array('as' => 'products.show', 'uses' => 'ProductsController@show'));
-        Route::get('{id}/edit_coa', array('as' => 'edit_coa.update', 'uses' => 'AccountController@update'));
-		Route::post('{id}/edit_coa', 'AccountController@postEdit');
-		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ProductsController@getDelete'));
+        Route::get('{id}/edit', array('as' => 'coa.update', 'uses' => 'AccountController@update'));
+		Route::post('{id}/edit', 'AccountController@postEdit');
+		Route::get('delete_coa', array('as'=>'delete_coa', 'uses' => 'AccountController@delete_coa'));
 		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'ProductsController@getModalDelete'));
 	});
 
@@ -210,11 +236,11 @@ Route::get('all_sale', array('as' => 'all_sale', 'uses' => 'SaleController@all_s
 // Show today sale 
 Route::get('today_sale', array('as' => 'today_sale', 'uses' => 'SaleController@today_sale'));
 
-// Show return invoice 
-Route::get('return_invoice', array('as' => 'return_invoice', 'uses' => 'SaleController@return_invoice'));
+// // Show return invoice 
+// Route::get('return_invoice', array('as' => 'return_invoice', 'uses' => 'SaleController@return_invoice'));
 
-// Search Return Invoice
-Route::post('search_return_invoice', array('as' => 'search_return_invoice', 'uses' => 'SaleController@search_return_invoice'));
+// // Search Return Invoice
+// Route::post('search_return_invoice', array('as' => 'search_return_invoice', 'uses' => 'SaleController@search_return_invoice'));
 
 });
 

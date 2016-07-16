@@ -28,6 +28,7 @@
                             <th>Voucher Type</th>
                             <th>Voucher Date</th>
                             <th>Voucher Amount</th>
+                            <th>Shop Name</th>
                             <th>Voucher Descriptions</th>
                             <th>Action</th>
                         </tr>
@@ -38,6 +39,7 @@
                         <td>{{{ $voucher->vm_type }}}</td>
                         <td>{{{ $voucher->vm_date }}}</td>
                         <td>{{{ $voucher->vm_amount }}}</td>
+                        <td>{{{ $voucher->shop_name }}}</td>
                         <td>{{{ $voucher->vm_desc }}}</td>
                         <td> <a id="{{ $voucher->vm_id }}" class="ShowVoucherDetails" style="cursor:pointer;">View</a>/<a id="{{ $voucher->vm_id }}" class="deleteRecord" style="cursor:pointer;">Delete</a>
                                     </td>

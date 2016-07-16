@@ -8,12 +8,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Edit COA
+            Add COA
             <small></small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ URL::to('/admin/accounts/show_coa') }}">View COA</a></li>
+            <li><a href="{{ URL::to('/accounts/view_coa') }}">View COA</a></li>
           </ol>
         </section>
 
@@ -35,13 +35,13 @@
                 <!-- form start -->
                 <form action="" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                  <div class="box-body col-sm-4">
+                  <div class="box-body">
                   <div class="dropdown">
                     <label for="gender">COA</label>
                         <select class="form-control" title="Select Parent COA" name="parent_id">
                          <option value="">Select COA</option>
                         @foreach($arrayCOA as $coa)
-                         @if($coa->coa_id == $EditCOA->coa_id)
+	                       @if($coa->coa_id == $EditCOA->coa_id)
                           			<option selected="selected" value='{{ $coa->coa_id }}'>{{ $coa->coa_account }}&nbsp;&nbsp;{{ $coa->coa_code }}</option>
                              @else
                              <option value='{{ $coa->coa_id }}'>{{ $coa->coa_account }}&nbsp;&nbsp;{{ $coa->coa_code }}</option>
@@ -50,25 +50,17 @@
                         </select>
 			                </div>
                     </div>
-                    <div class="box-body col-sm-4">
+                    <div class="box-body">
                       <label for="shop_address">COA Code</label>
                       <input type="text" class="form-control" id="coa_code" placeholder="COA Code" maxlength="6" name="coa_code" value="{{ $EditCOA->coa_code }}">
                     </div>
-                    <div class="box-body col-sm-4">
+                    <div class="box-body">
                       <label for="shop_address">COA Descriptions</label>
                       <input type="text" class="form-control" id="coa_account" placeholder="COA Code" name="coa_account" value="{{ $EditCOA->coa_account }}">
                     </div>
-                    <div class="box-body col-sm-4">
-                      <label for="coa_credit">COA Credit</label>
-                      <input type="text" class="form-control" maxlength="7" id="coa_credit" placeholder="COA Credit" name="coa_credit" value="{{ $EditCOA->coa_credit }}">
-                    </div>
-                    <div class="box-body col-sm-4">
-                      <label for="coa_debit">COA Debit</label>
-                      <input maxlength="7" type="text" class="form-control" id="coa_debit" placeholder="COA Debit" name="coa_debit" value="{{ $EditCOA->coa_debit }}">
-                    </div>
                   </div><!-- /.box-body -->
 
-                  <div class="box-footer" style="clear:both !important;">
+                  <div class="box-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
                 </form>

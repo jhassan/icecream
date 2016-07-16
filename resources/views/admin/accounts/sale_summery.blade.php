@@ -4,24 +4,27 @@
 @section('content')
 <?php //echo $start_date."******".$end_date; die; ?>
 <?php
-function PriceTypeCount($strDate = "", $nPrice = "")
+if(empty($shop_id)) $shop_id = 1;
+function PriceTypeCount($strDate = "", $nPrice = "", $shop_id)
 {
 	$PriceType = 0;
 	$arrayPrice = array();
 	if(!empty($strDate) && !empty($nPrice))
 	{
-	$arrayPrice = DB::table('sales_details')
-						->join('products', 'products.id', '=', 'sales_details.product_id')
+	$arrayPrice = DB::table('sales')
+						->join('sales_details', 'sales_details.sale_id', '=', 'sales.sale_id')
+            ->join('products', 'products.id', '=', 'sales_details.product_id')
 						->select(DB::raw('SUM(`product_qty`) AS PriceType'))
-						->whereRaw('sales_details.created_at LIKE "%'.$strDate.'%" AND products.product_price = '.$nPrice.'')
+						->whereRaw('sales.created_at = "'.$strDate.'" AND products.product_price = '.$nPrice.' AND shop_id =  '.$shop_id.'')
 						->get();
 	}
 	elseif(!empty($nPrice))
 	{
-	$arrayPrice = DB::table('sales_details')
+	$arrayPrice = DB::table('sales')
+            ->join('sales_details', 'sales_details.sale_id', '=', 'sales.sale_id')
 						->join('products', 'products.id', '=', 'sales_details.product_id')
 						->select(DB::raw('SUM(`product_qty`) AS PriceType'))
-						->whereRaw('products.product_price = '.$nPrice.'')
+						->whereRaw('products.product_price = '.$nPrice.' AND shop_id =  '.$shop_id.' ')
 						->get();	
 	}
 }
@@ -30,36 +33,36 @@ $end_date = $end_date;
 $start_date   = date("Y-m-d",strtotime($start_date));
 $end_date     = date("Y-m-d",strtotime($end_date));
 //echo $start_date."******".$end_date; die;
-function TotalCount($field_name, $nPrice, $start_date, $end_date)
+function TotalCount($field_name, $nPrice, $start_date, $end_date, $shop_id)
 {
   $PriceType = 0;
   $arrayPrice = array();
   $arrayPrice = DB::table('sale_summery')
             ->select(DB::raw('SUM(`'.$field_name.'`) AS PriceType'))
-            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'"')
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" AND shop_id =  '.$shop_id.'')
             ->get();  
   					$PriceType = $arrayPrice[0]->PriceType;
 return $PriceType;
 }
 
 // Get Discount
-function GetDiscount($start_date, $end_date)
+function GetDiscount($start_date, $end_date, $shop_id)
 {
     $arrayDiscount = DB::table('sale_summery')
             ->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
-            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'"')
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" AND shop_id =  '.$shop_id.'')
             ->get();
             $Discount = $arrayDiscount[0]->DiscountAmount;
 return $Discount;
 }
 
 // Get Total Sale
-function GetTotalSale($start_date, $end_date)
+function GetTotalSale($start_date, $end_date, $shop_id)
 {
   //$arrayDiscount = array();
   $arraySaleAmount = DB::table('sale_summery')
             ->select(DB::raw('SUM(total_sale) AS SaleAmount'))
-            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" ')
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" AND shop_id =  '.$shop_id.' ')
             ->get();
             $SaleAmount = $arraySaleAmount[0]->SaleAmount; 
   return $SaleAmount;
@@ -110,14 +113,29 @@ $sales = array();
                 <!-- form start -->
                 <form action="search_view_ledger" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                    <div class="box-body col-sm-4">
+                    <div class="box-body col-sm-3">
                       <label for="shop_address">Start Date</label>
                       <input type="text" class="date-pick form-control" id="start_date" placeholder="Start Date" name="start_date">
                     </div>
-                    <div class="box-body col-sm-4">
+                    <div class="box-body col-sm-3">
                       <label for="shop_address">End Date</label>
                       <input type="text" class="date-pick form-control" id="end_date" placeholder="End Date" name="end_date">
                     </div>
+                    <div class="box-body col-sm-3">
+                      <div class="dropdown">
+                      <label for="shop" >Shop</label>
+                        <select class="form-control" title="Select Shop..." name="shop_id">
+                            <option value="">Select</option>
+                            @foreach ($shops as $shop)
+                              @if($shop_id == $shop->shop_id)
+                                <option value="{{{ $shop->shop_id}}}" selected="selected" >{{{ $shop->shop_name}}}</option>
+                              @else    
+                                <option value="{{{ $shop->shop_id}}}"  >{{{ $shop->shop_name}}}</option>
+                              @endif  
+                            @endforeach
+                        </select>
+                      </div>
+                  </div>
                   <div class="box-footer">
                     <button type="submit" style='margin-top:23px;' class="btn btn-primary">Search</button>
                   </div>
@@ -202,17 +220,17 @@ $sales = array();
 
                     <tr class="filters">
                             <th width="132"></th>
-                            <th colspan="2">{{ number_format(TotalCount("ice_150", 150, $start_date, $end_date)) }}</th>
-                            <th colspan="2">{{ number_format(TotalCount("ice_180",180, $start_date, $end_date)) }}</th>
-                            <th colspan="2">{{ number_format(TotalCount("ice_200",200, $start_date, $end_date)) }}</th>
-                            <th colspan="2">{{ number_format(TotalCount("ice_220",220, $start_date, $end_date)) }}</th>
-                            <th colspan="2">{{ number_format(TotalCount("ice_20",20, $start_date, $end_date)) }}</th>
-                            <th colspan="2">{{ number_format(TotalCount("ice_100",100, $start_date, $end_date)) }}</th>
-                            <th colspan="2">{{ number_format(TotalCount("wt_40",40, $start_date, $end_date)) }}</th>
-                            <th colspan="2">{{ number_format(TotalCount("wt_70",70, $start_date, $end_date)) }}</th>
-                            <th width="66">{{ number_format(GetTotalSale($start_date, $end_date)) }}</th>
-                            <th width="46">{{ number_format(GetDiscount($start_date, $end_date)) }}</th>
-                            <th width="103">{{ number_format(GetTotalSale($start_date, $end_date) - GetDiscount($start_date, $end_date)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_150", 150, $start_date, $end_date, $shop_id)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_180",180, $start_date, $end_date, $shop_id)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_200",200, $start_date, $end_date, $shop_id)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_220",220, $start_date, $end_date, $shop_id)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_20",20, $start_date, $end_date, $shop_id)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_100",100, $start_date, $end_date, $shop_id)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("wt_40",40, $start_date, $end_date, $shop_id)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("wt_70",70, $start_date, $end_date, $shop_id)) }}</th>
+                            <th width="66">{{ number_format(GetTotalSale($start_date, $end_date, $shop_id)) }}</th>
+                            <th width="46">{{ number_format(GetDiscount($start_date, $end_date, $shop_id)) }}</th>
+                            <th width="103">{{ number_format(GetTotalSale($start_date, $end_date, $shop_id) - GetDiscount($start_date, $end_date, $shop_id)) }}</th>
 
                         </tr>
                     </tbody>

@@ -3,7 +3,9 @@
     <!-- Page Content -->
     @section('content')
         <div class="container">
-
+          <div class="row marquee hide">
+            <marquee direction="left" style="margin-bottom:20px; height:30px; background-color:#000; color: #fff; font-weight:bold; padding-top:3px;">Asalamo Alikum! Masat G aik kam kaha tha, marzi ha kitny din ho gay han.... Sohail k pass tu time nai ha Hasnain ko he bhaj dain.... kam na hony tak ya message show hota rahy ga... Thanks</marquee>
+          </div>
         <!-- Page Heading -->
         
         <!-- /.row -->
@@ -269,7 +271,7 @@
           var product_qty = $("input[name='product_qty[]']").map(function(){return $(this).val();}).get();
           $.ajax( {
               type: "GET",
-              url : 'sale_product',
+              url : '/sale_product',
               data: { 'net_amount':NetAmount, 'discount_amount': DiscountAmount, 'product_id': product_id, 'product_price': product_price, 'product_qty': product_qty},
               success: function( response ) {
                 if(response == 'done')
@@ -348,5 +350,6 @@ html,body {
     padding:0 !important;
 }
    .noprint{ display: none !important; }
+   .marquee{ display: none !important; }
     }
 </style>
