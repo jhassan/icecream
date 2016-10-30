@@ -40,19 +40,31 @@
                 <form role="form" action="" method="POST">
                  <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                   <div class="box-body">
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="first_name">Product Name *</label>
                       <input type="text" name="product_name" class="form-control" id="product_name" placeholder="Product Name" value="{{{ Input::old('product_name') }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
+                      <div class="dropdown">
+                      <label for="shop" >Select Category</label>
+                        <select class="form-control" title="Select Category..." name="category_id">
+                            <option value="">Select Category</option>
+                            <option value="1">Icecream Flavours</option>
+                            <option value="2">Purchase Items</option>
+                        </select>
+                      </div>
+                  </div>
+                    <div class="form-group col-sm-4">
                       <label for="last_name">Product Code </label>
                       <input type="text" class="form-control" id="product_code" placeholder="Product Code" name="product_code" value="{{{ Input::old('product_code') }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="clear"></div>
+                    <div class="form-group col-sm-4">
                       <label for="login_name">Product Price  *</label>
                       <input type="text" class="form-control" id="product_price" placeholder="Product Price" name="product_price" value="{{{ Input::old('product_price') }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="clear"></div>
+                    <div class="form-group col-sm-4">
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" name="is_active" id="is_active"> Enable/Disable
@@ -61,8 +73,8 @@
                     </div>
                   </div><!-- /.box-body -->
 
-                  <div class="box-footer">
-                    <input type="submit" class="btn btn-primary" value="Submit">
+                  <div class="box-footer clear">
+                    <input type="submit" class="btn btn-primary" value="Save">
                   </div>
                 </form>
               </div> 

@@ -7,10 +7,10 @@
 <div class="content-wrapper"> 
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1> View General Ledger </h1>
+    <h1> <a href="/admin/accounts/general_ledeger">View General Ledger </a></h1>
     <ol class="breadcrumb">
       <li><a href="/admin/users"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="/admin/accounts/general_voucher">Search Ledger</a></li>
+      <li><a href="/admin/accounts/general_ledeger">Search Ledger</a></li>
     </ol>
   </section>
   
@@ -49,7 +49,7 @@
 					{
 						$arrayOpBalance = array();
 						$arrayOpBalance = DB::table('coa')
-										->select('coa_debit','coa_credit')
+										->select('coa_debit','coa_credit','coa_type')
 										->whereRaw('coa_code = "'.$coa.'"')
 										->get();	
 						return $arrayOpBalance;
@@ -59,18 +59,18 @@
 					$is_Debit = "";
 					if(!empty($CheckDebitCreditOP))
 					{
-						if($CheckDebitCreditOP[0]->coa_debit != 0)
+						if($CheckDebitCreditOP[0]->coa_type == "D")
 							$is_Debit = "Dr"; 
-						elseif($CheckDebitCreditOP[0]->coa_credit != 0)
+						elseif($CheckDebitCreditOP[0]->coa_type == "C")
 							$is_Debit = "Cr"; 
 					}												
 				?>
                   <td width="7%" valign="top" align="center"><strong>{{ $coa_code }}</strong></td>
                   <td width="20%" valign="top" align="left"><strong>{{ $coa_account }}</strong></td>
                   <td width="11%"><strong>Date From</strong></td>
-                  <td width="14%" align="left">{{ $start_date }}</td>
+                  <td width="14%" align="left">{{ date("d-M-Y",strtotime($start_date))  }}</td>
                   <td width="8%" align="left"><strong>Date To</strong></td>
-                  <td width="13%">{{ $end_date }}</td>
+                  <td width="13%">{{ date("d-M-Y",strtotime($end_date))  }}</td>
                 </tr>
                 <tr>
                   <td colspan="2">&nbsp;</td>
@@ -95,72 +95,19 @@
                   <td width="10%" align="center"><b>Balance</b></td>
                 </tr>
                 <?php
-				//$OpBalance = 32070;
 				$dBalance = 0;
 				$dDebit = 0;
 				$dCredit = 0;
 				$ClosingBalance = 0;
 				$i = 1;
-				if(count($arrayLedeger) > 0 && $coa_code == "414002")
+				if(count($arrayLedeger) > 0)
 				{
 					foreach($arrayLedeger as $rstRow)
 					{
-						//$nVMId = $rstRow->vm_id;
-						/*if($i == 1)
-							$dBalance = $OpBalance + $dBalance + $rstRow->vd_debit - $rstRow->vd_credit;
-						else*/
-						//	$dBalance = $dBalance + $rstRow->vd_debit - $rstRow->vd_credit;	
-						
-						$dBalance = 0;	
-						$DateExpense = 0;
-						if($rstRow->vm_type == "CR")
-						{
-							$DateExpense = GetDateWiseExpense($rstRow->vm_date);
-							//$OpBalance = ($OpBalance - $DateExpense) + $rstRow->vd_credit;
-							$rstRow->vd_debit = $rstRow->vd_credit;
-							$rstRow->vd_credit = '0.0000';
-						}
 						if($is_Debit == "Dr")
-							$OpBalance = ($OpBalance + $rstRow->vd_debit) - $rstRow->vd_credit;
+							$OpBalance = ($OpBalance + $rstRow->vd_debit) - $rstRow->vd_credit;	
 						else
-							$OpBalance = ($OpBalance - $rstRow->vd_debit) + $rstRow->vd_credit;	
-						echo "	<tr>";
-						echo "		<td align=center>" . $rstRow->vm_date . "</td>";
-						echo "		<td >" . $rstRow->vd_desc . "</td>";
-						echo "		<td align=center>" . $rstRow->vm_type . "</td>";
-						echo "		<td align=right>" . number_format($rstRow->vd_debit, 0) . "</td>";
-						echo "		<td align=right>" . number_format($rstRow->vd_credit, 0) . "</td>";
-						echo "		<td align=right>" . number_format($OpBalance, 0) . "</td>";
-						echo "	</tr>";
-			
-						$dDebit += $rstRow->vd_debit;
-						$dCredit += $rstRow->vd_credit;
-						$i++;
-					}
-						echo "	<tr>";
-						echo "		<td colspan=3 align=right><strong>Total</strong></td>";
-						echo "		<td align=right><strong>" . number_format($dDebit, 0) . "</strong></td>";
-						echo "		<td align=right><strong>" . number_format($dCredit, 0) . "</strong></td>";
-						//$OPeninBalance1 = $OPeninBalance1;
-						$Debit = $dDebit;
-						$Credit = $dCredit;
-						$ClosingBalance = ($OpBalance + $Debit) - $Credit;
-						echo "		<td align=right><strong>" . number_format($OpBalance,0) . "</strong></td>";
-						echo "	</tr>";
-					}
-				elseif(count($arrayLedeger) > 0)
-				{
-					foreach($arrayLedeger as $rstRow)
-					{
-						//$nVMId = $rstRow->vm_id;
-						/*if($i == 1)
-							$dBalance = $OpBalance + $dBalance + $rstRow->vd_debit - $rstRow->vd_credit;
-						else*/
-							// when OPBalance is Creidt
-							if($is_Debit == "Dr")
-								$OpBalance = ($OpBalance + $rstRow->vd_debit) - $rstRow->vd_credit;	
-							else
-								$OpBalance = ($OpBalance - $rstRow->vd_debit) + $rstRow->vd_credit;	
+							$OpBalance = ($OpBalance + $rstRow->vd_credit) - $rstRow->vd_debit;	
 						
 						echo "	<tr>";
 						echo "		<td align=center>" . $rstRow->vm_date . "</td>";
@@ -179,10 +126,9 @@
 						echo "		<td colspan=3 align=right><strong>Total</strong></td>";
 						echo "		<td align=right><strong>" . number_format($dDebit, 0) . "</strong></td>";
 						echo "		<td align=right><strong>" . number_format($dCredit, 0) . "</strong></td>";
-						//$OPeninBalance1 = $OPeninBalance1;
 						$Debit = $dDebit;
 						$Credit = $dCredit;
-						$ClosingBalance = ($OpBalance - $Debit) + $Credit;
+						$ClosingBalance = ($OpBalance + $Credit) - $Debit;
 						echo "		<td align=right><strong>" . number_format($OpBalance,0) . "</strong></td>";
 						echo "	</tr>";
 				}

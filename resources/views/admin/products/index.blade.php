@@ -33,34 +33,53 @@
               </div>
             </div>
             
-             <div class="box box-primary">
-             	
-              	<table id="example2" class="table table-bordered table-hover">
+              <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box">
+                <div class="box-body">
+                  <table id="example1" class="table table-bordered table-hover">
                     <thead>
                         <tr class="filters">
                             <th>Product Name</th>
+                            <th>Category Name</th>
                             <th>Product Code</th>
                             <th>Product Price</th>
                             <th>Enable/Disable</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                     @foreach ($products as $product)
-                    	<tr>
-                    		<td>{{{ $product->product_name }}}</td>
+                      <tr>
+                        <td>{{{ $product->product_name }}}</td>
+                        <td>
+                          @if($product->category_id == 1) 
+                            {{'Icecream Flavour'}}
+                          @elseif($product->category_id == 2)  
+                            {{'Purchase Item'}}
+                          @endif  
+                        </td>
                         <td>{{{ $product->product_code }}}</td>
-                				<td>{{{ $product->product_price }}}</td>
+                        <td>{{{ $product->product_price }}}</td>
                         <td>@if($product->is_active == 1) Enable @else Disable @endif</td>
-            				<td> <a href="{{ route('products.update', $product->id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
-							<a href="{{ route('confirm-delete/user', $product->id) }}"><img src="{{asset("dist/img/delete.png")}}" ></a>
+                    <td> <a href="{{ route('products.update', $product->id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
+              <a href="{{ route('confirm-delete/user', $product->id) }}"><img src="{{asset("dist/img/delete.png")}}" ></a>
                             </td>
-            			</tr>
+                  </tr>
                     @endforeach
                         
                     </tbody>
                 </table>
-                {!! $products->render() !!}
-              </div> 
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+             	
+              	
+                
+
 
             <!--<div class="box-footer">
               Footer
@@ -71,4 +90,24 @@
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
       @stop
-     
+     @section('footer_scripts')
+     <script src="{{asset('../../plugins/datatables/jquery.dataTables.min.js')}}"></script>
+      <script src="{{asset('../../plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+       <!-- <script src="{{asset('../../dist/js/jquery.ui.dialog.js')}}"></script> -->
+      <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/ui-lightness/jquery-ui.css" />
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+      
+      <script>
+      $(function () {
+        $("#example1").DataTable();
+        // $('#example2').DataTable({
+        //   "paging": true,
+        //   "lengthChange": false,
+        //   "searching": false,
+        //   "ordering": true,
+        //   "info": true,
+        //   "autoWidth": false
+        // });
+      });
+    </script>
+     @stop

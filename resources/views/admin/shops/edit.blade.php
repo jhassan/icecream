@@ -35,19 +35,19 @@
                 <!-- form start -->
                 <form action="" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                  <div class="box-body">
+                  <div class="box-body col-sm-4">
                       <label for="shop_address">Shop Name</label>
                       <input type="text" class="form-control" id="shop_name" placeholder="Shop Name" name="shop_name" value="{{{ $shops->shop_name }}}">
                     </div>
-                    <div class="box-body">
+                    <div class="box-body col-sm-4">
                       <label for="shop_address">Shop Address</label>
                       <input type="text" class="form-control" id="shop_address" placeholder="Shop Address" name="shop_address" value="{{{ $shops->shop_address }}}">
                     </div>
-                    <div class="box-body">
+                    <div class="box-body col-sm-4">
                       <label for="shop_code">Shop Code</label>
                       <input type="text" class="form-control" id="shop_code" maxlength="3" placeholder="Shop Code" name="shop_code" value="{{{ $shops->shop_code }}}">
                     </div>
-                    <div class="box-body">
+                    <div class="box-body col-sm-4">
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" name="is_active" id="is_active" @if($shops->is_active == 1) checked="checked" @endif > Enable/Disable
@@ -56,7 +56,7 @@
                     </div>
                   </div><!-- /.box-body -->
 
-                  <div class="box-footer">
+                  <div class="box-footer" style="clear:both !important;">
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
                 </form>

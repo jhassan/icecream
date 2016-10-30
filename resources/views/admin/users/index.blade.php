@@ -115,7 +115,7 @@
                     jQuery(this).dialog('close');
                     $.ajax({
                           type: "GET",
-                              url: 'delete_user',
+                              url: 'users/delete_user',
                           data: { DelID: DelID }
                       }).done(function( msg ) {
                           //alert( msg+'ttttt' );

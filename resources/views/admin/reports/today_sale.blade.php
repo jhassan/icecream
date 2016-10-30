@@ -14,11 +14,38 @@
             <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
           </ol>
         </section>
-                  <?php
-                  $OpBalance = 0;
-                  //print_r($OpBalance[0]->NetAmount); die;
-                          $OpeningBalance = number_format($OpBalance);
-                ?>
+<?php
+$OpBalance = 0;
+//print_r($OpBalance[0]->NetAmount); die;
+$OpeningBalance = number_format($OpBalance);
+function PriceTypeCount($strDate,$nPrice,$shop_id)
+{
+  $PriceType = array();
+  $user_id = Session::get('user_id');
+  $arrayPrice = DB::table('sales')
+            ->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+            ->join('products', 'products.id', '=', 'sales_details.product_id')
+            ->select(DB::raw('SUM(`product_qty`) AS PriceType'))
+            ->whereRaw('sales_details.created_at LIKE "%'.$strDate.'%" AND sales.shop_id = '.$shop_id.' AND products.product_price = '.$nPrice.' AND `return_id` = 0')
+            ->get();
+            $PriceType = $arrayPrice[0]->PriceType;
+return $PriceType;
+}
+// Get Discount
+function GetDiscount($strDate,$shop_id)
+{
+  //$arrayDiscount = array();
+  $user_id = Session::get('user_id');
+  $arrayDiscount = DB::table('sales')
+            ->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
+            ->whereRaw('sales.created_at LIKE "%'.$strDate.'%" AND sales.shop_id = '.$shop_id.' AND sales.return_id = 0 ')
+            ->get();
+            $Discount = $arrayDiscount[0]->DiscountAmount;
+return $Discount;
+}
+                  $TodayDate = date("Y-m-d");
+                  $AllTotal = str_replace(",","",$TotalSale) - str_replace(",","",GetDiscount($TodayDate,$shop_id)) ;
+?>
         <!-- Main content -->
         <section class="content">
           <div class="row">
@@ -39,7 +66,7 @@
                       </div>
 
                   </div>
-                  <div class="box-footer clear" style="padding-top:33px;">
+                  <div class="box-footer" style="padding-top:33px;">
                     <button type="submit" class="btn btn-primary">Search</button>
                   </div>
                   
@@ -82,35 +109,7 @@
                         
                     </tbody>
                   </table>
-                  <?php 
-function PriceTypeCount($strDate,$nPrice,$shop_id)
-{
-  $PriceType = array();
-  $user_id = Session::get('user_id');
-  $arrayPrice = DB::table('sales')
-            ->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
-            ->join('products', 'products.id', '=', 'sales_details.product_id')
-            ->select(DB::raw('SUM(`product_qty`) AS PriceType'))
-            ->whereRaw('sales_details.created_at LIKE "%'.$strDate.'%" AND sales.shop_id = '.$shop_id.' AND products.product_price = '.$nPrice.' AND `return_id` = 0')
-            ->get();
-            $PriceType = $arrayPrice[0]->PriceType;
-return $PriceType;
-}
-// Get Discount
-function GetDiscount($strDate,$shop_id)
-{
-  //$arrayDiscount = array();
-  $user_id = Session::get('user_id');
-  $arrayDiscount = DB::table('sales')
-            ->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
-            ->whereRaw('sales.created_at LIKE "%'.$strDate.'%" AND sales.shop_id = '.$shop_id.' AND sales.return_id = 0 ')
-            ->get();
-            $Discount = $arrayDiscount[0]->DiscountAmount;
-return $Discount;
-}
-                  $TodayDate = date("Y-m-d");
-                  $AllTotal = str_replace(",","",$TotalSale) - str_replace(",","",GetDiscount($TodayDate,$shop_id)) ;
-                ?>
+                  
                   
                   <table class="table table-striped m-b-0">
                     <?php if($shop_id == 0) $shop_id = 1 ; ?>
@@ -144,7 +143,7 @@ return $Discount;
             </div><!-- /.col -->
           </div><!-- /.row -->
         </section><!-- /.content -->
-      </div><!-- /.content-wrapper -->
+      </div> /.content-wrapper -->
       
      @stop 
 

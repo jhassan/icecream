@@ -206,10 +206,7 @@ class UsersController extends Controller {
     // Delete User
 	public function delete_user()
 	{
-		echo "Delete"; die;
 		$DelID = Input::get('DelID');
-		//$vouchermaster = VoucherMaster::where('vm_id', '=', $DelID)->delete();
-		//$voucherdetail = VoucherDetail::where('vd_vm_id', '=', $DelID)->delete();
 	
 		DB::table('users')->where('id', $DelID)->delete();
 		//$voucherdetail = DB::table('voucherdetail')->delete($DelID);

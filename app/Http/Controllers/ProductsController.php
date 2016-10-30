@@ -21,8 +21,9 @@ class ProductsController extends Controller {
 	public function index()
 	{
 		//return 'user list';
-		$products = DB::table('products')->orderBy('product_name', 'ASC')->paginate(20);
-		//print_r($users);
+		//$products = DB::table('products')->orderBy('product_name', 'ASC');
+		$data = new Product;
+	 	$products = $data->all_products();
 		return View('admin.products.index', compact('products'));
 	}
 
@@ -46,6 +47,7 @@ class ProductsController extends Controller {
 		//return 'test';
 		$rules = array(
             'product_name'  => 'required',
+            'category_id'  => 'required',
             'product_price'  => 'required');
 			//print_r($rules);
 
@@ -54,29 +56,17 @@ class ProductsController extends Controller {
 
         // If validation fails, we'll exit the operation now.
       if ($validator->fails()) {
-            // Ooops.. something went wrong
-          //  echo "validation issues...";
 			return Redirect::back()->withInput()->withErrors($validator);
         }
-		//return 'i am here';
-		// Input::get('first_name');
-
 		$data = new Product();
 		
 		$data->product_name = Input::get('product_name');
+		$data->category_id = Input::get('category_id');
 		$data->product_code = Input::get('product_code');
 		$data->product_price = Input::get('product_price');
 		$data->is_active 	= (Input::has('is_active')) ? 1 : 0;
-		//return $data;exit;
-		//$data->image_name = $safeName;
-		//  echo '<pre>';
-		//  print_r($data);
-		//  echo '</pre>';
-		// die;
 		if($data->save()){
-			//echo 'i am in save';
 			return redirect()->route("products")->with('message','Success');
-			//return redirect()->action('HomeController@index');
 		}
 		else{
 			return Redirect::back()->with('error', Lang::get('banners/message.error.create'));;
@@ -110,39 +100,32 @@ class ProductsController extends Controller {
 
 	public function postEdit($id = null)
 	{
+		
+		//print_r(Input::all()); die;
 		//return 'test';
 		$rules = array(
             'product_name'  => 'required',
             'product_price'  => 'required');
-			//print_r($rules);
-
         // Create a new validator instance from our validation rules
      	 $validator = Validator::make(Input::all(), $rules);
 
         // If validation fails, we'll exit the operation now.
       if ($validator->fails()) {
-            // Ooops.. something went wrong
-          //  echo "validation issues...";
 			return Redirect::back()->withInput()->withErrors($validator);
         }
-		//return 'i am here';
-		// Input::get('first_name');
 
 		$data = new Product();
 		
 		$data->product_name = Input::get('product_name');
+		//$data->category_id = Input::get('category_id');
 		$data->product_code = Input::get('product_code');
 		$data->product_price = Input::get('product_price');
 		$data->is_active 	= (Input::has('is_active')) ? 1 : 0;
-		//return $data;exit;
-		//$data->image_name = $safeName;
-		 // echo '<pre>';
-		 // print_r($data);
-		 // echo '</pre>';
 		
 		Product::where('id', $id)->update(
 			[
 			'product_name' => $data->product_name,
+			//'category_id' => $data->category_id,
 			'product_code' => $data->product_code,
 			'product_price' => $data->product_price,
 			'is_active' => $data->is_active
@@ -174,6 +157,15 @@ class ProductsController extends Controller {
 		$products = DB::table('products')->orderBy('id', 'desc')->get();
 		//print_r($users);
 		return View('admin.products.index', compact('products'));
+	}
+
+	// Get all purchased items
+	public function purchase_items()
+	{
+		$products = DB::table('products')->select('id as value', 'product_name as label')->where('category_id', 2)->orderBy('id', 'desc')->get();
+		$str = json_encode($products);
+		$str = preg_replace('/"([^"]+)"\s*:\s*/', '$1:', $str);
+		echo $str;
 	}
 
 }

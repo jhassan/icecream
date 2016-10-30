@@ -42,19 +42,19 @@
                 <form role="form" action="" method="POST">
                  <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                   <div class="box-body">
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="first_name">Product Name *</label>
                       <input type="text" name="product_name" class="form-control" id="product_name" placeholder="Product Name" value="{{{ $products->product_name }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="last_name">Product Code </label>
                       <input type="text" class="form-control" id="product_code" placeholder="Product Code" name="product_code" value="{{{ $products->product_code }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                       <label for="login_name">Product Price  *</label>
                       <input type="text" class="form-control" id="product_price" placeholder="Product Price" name="product_price" value="{{{ $products->product_price }}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-sm-4">
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" name="is_active" id="is_active" @if($products->is_active == 1) checked="checked" @endif > Enable/Disable
@@ -63,7 +63,7 @@
                     </div>
                   </div><!-- /.box-body -->
 
-                  <div class="box-footer">
+                  <div class="box-footer" style="clear:both;">
                     <input type="submit" class="btn btn-primary" value="Edit">
                   </div>
                 </form>

@@ -71,6 +71,19 @@ Route::group(
 		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ShopsController@getDelete'));
 		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/shop', 'uses' => 'ShopsController@getModalDelete'));
 	});
+// Vendors
+Route::group(
+	array('prefix' => 'admin/vendors','before' => 'Sentry'), function () {
+		Route::get('add', array('as' => 'add/vendor', 'uses' => 'VendorController@addVendors'));
+        Route::get('/', array('as' => 'vendors', 'uses' => 'VendorController@listVendors'));
+		Route::post('add', 'VendorController@create');
+		//Route::get('{id}', array('as' => 'banners.show', 'uses' => 'ShopsController@show'));
+        Route::get('{id}/edit', array('as' => 'vendors.update', 'uses' => 'VendorController@getEdit'));
+		Route::post('{id}/edit', 'VendorController@postEdit');
+		Route::get('delete_vendor', array('as'=>'delete_vendor', 'uses' => 'VendorController@delete_vendor'));
+		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'VendorController@getDelete'));
+		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/vendor', 'uses' => 'VendorController@getModalDelete'));
+	});
 // Product routs
 Route::group(
 	array('prefix' => 'admin/products','before' => 'Sentry'), function () {
@@ -99,6 +112,15 @@ Route::get('all_sale', array('as' => 'all_sale', 'uses' => 'SaleController@all_s
 // Show today sale 
 Route::get('today_sale', array('as' => 'today_sale', 'uses' => 'SaleController@today_sale'));
 
+// Search Flavour Sale with given date
+//Route::get('frm_search_flavour', array('as' => 'frm_search_flavour', 'uses' => 'SaleController@flavour_sale'));
+
+// Search Flavour Sale with given date
+Route::post('flavour_sale', array('as' => 'flavour_sale', 'uses' => 'SaleController@flavour_sale'));
+
+// Show today Flavour wise sale 
+Route::get('flavour_sale', array('as' => 'flavour_sale', 'uses' => 'SaleController@flavour_sale'));
+
 
 
 });
@@ -119,10 +141,32 @@ Route::get('view_return_invoice', array('as' => 'view_return_invoice', 'uses' =>
 Route::post('search_return_invoice', array('as' => 'search_return_invoice', 'uses' => 'SaleController@search_return_invoice'));		
 
 });
+// commision 
+Route::group(
+
+	array('prefix' => 'admin/commision','before' => 'Sentry'), function () {
+
+// Show return invoice 
+Route::get('add_commision', array('as' => 'add_commision', 'uses' => 'EmployeeCommision@index'));
+
+// save commision 
+Route::post('save_commision', array('as' => 'save_commision', 'uses' => 'EmployeeCommision@create'));
+
+// show all commision 
+Route::get('view_commision', array('as' => 'view_commision', 'uses' => 'EmployeeCommision@show'));
+
+// show all commision 
+Route::post('frm_view_commision', array('as' => 'frm_view_commision', 'uses' => 'EmployeeCommision@show'));
+
+// Search Return Invoice
+Route::post('search_return_invoice', array('as' => 'search_return_invoice', 'uses' => 'SaleController@search_return_invoice'));		
+
+});
 // account routs
 Route::group(
 	array('prefix' => 'admin/accounts','before' => 'Sentry'), function () {
 		Route::get('trial_balance', array('as' => 'trial_balance', 'uses' => 'AccountController@trial_balance'));
+		Route::post('view_trial_balance', array('as' => 'view_trial_balance', 'uses' => 'AccountController@trial_balance'));
 		// Load COA 
 		Route::get('index_coa', array('as' => 'index_coa', 'uses' => 'AccountController@index'));
 		// Bank Pay Vouchers 
@@ -141,6 +185,8 @@ Route::group(
 		Route::get('view_vouchers', array('as'=>'view_vouchers', 'uses' => 'AccountController@view_vouchers'));
 		// View General Vouchers
 		Route::get('general_voucher', array('as'=>'general_voucher', 'uses' => 'AccountController@general_voucher'));
+		// View General Ledger
+		Route::get('general_ledeger', array('as'=>'general_ledeger', 'uses' => 'AccountController@general_ledeger'));
 		// Search Ledger Vouchers
 		Route::post('view_ledger', array('as'=>'view_ledger', 'uses' => 'AccountController@view_ledger'));
 		// Search Cash Book
@@ -151,6 +197,18 @@ Route::group(
 		Route::get('delete_vouchers', array('as'=>'delete_vouchers', 'uses' => 'AccountController@delete_vouchers'));
 		// Search Sale Summery
 		Route::post('search_view_ledger', array('as'=>'search_view_ledger', 'uses' => 'AccountController@all_search_view_ledger'));
+		// Payment Vouchers 
+		Route::get('payment_voucher', array('as' => 'payment_voucher', 'uses' => 'AccountController@payment_voucher'));
+		// Purchase Vouchers 
+		Route::get('purchase_voucher', array('as' => 'purchase_voucher', 'uses' => 'AccountController@purchase_voucher'));
+		// General Vouchers 
+		Route::post('save_general_voucher', array('as' => 'save_general_voucher', 'uses' => 'AccountController@save_general_voucher'));
+		// Add Purchase Voucher 
+		Route::post('add_purchase_voucher', array('as' => 'add_purchase_voucher', 'uses' => 'AccountController@add_purchase_voucher'));
+		// View Purchase Items 
+		Route::get('purchased_items_details', array('as' => 'purchased_items_details', 'uses' => 'AccountController@purchased_items_details'));				
+		// Search Purchase Items 
+		Route::post('frm_purchased_items_details', array('as' => 'frm_purchased_items_details', 'uses' => 'AccountController@purchased_items_details'));						
 	});
 
 
@@ -163,6 +221,7 @@ Route::group(
 	array('prefix' => 'admin/accounts','before' => 'Sentry'), function () {
 		Route::post('add_coa', array('as' => 'add_coa', 'uses' => 'AccountController@add_coa'));
 		Route::post('add_accounts', array('as' => 'add_accounts', 'uses' => 'AccountController@add_accounts'));
+		Route::post('add_payment_voucher', array('as' => 'add_payment_voucher', 'uses' => 'AccountController@add_payment_voucher'));
         Route::get('show_coa', array('as' => 'show_coa', 'uses' => 'AccountController@view_coa'));
 		Route::post('add', 'ProductsController@store');
 		//Route::get('{id}', array('as' => 'products.show', 'uses' => 'ProductsController@show'));
@@ -229,6 +288,9 @@ Route::get('sale', array('as' => 'sale', 'uses' => 'SaleController@index'));
 
 // insert sale product products in front end
 Route::get('sale_product', array('as' => 'sale_product', 'uses' => 'SaleController@create'));
+
+// get all purchased Items
+Route::get('purchase_items', array('as' => 'purchase_items', 'uses' => 'ProductsController@purchase_items'));
 
 // Show all sale 
 Route::get('all_sale', array('as' => 'all_sale', 'uses' => 'SaleController@all_sale'));

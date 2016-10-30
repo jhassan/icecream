@@ -49,7 +49,7 @@
                     <tr>
                       <td style="width:162px; font-weight:bold;">Total Sale : {{ $TotalSale }}</td>
                       <td style="font-weight:bold;">Total Quantity : {{ $TotalQty }}</td>
-                      <td>&nbsp;</td>
+                      <td style="font-weight:bold;">Total Discount : {{ $DiscountAmount }}</td>
                       <td>&nbsp;</td>
                       <td>&nbsp;</td>
                     </tr>

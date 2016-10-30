@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLoginsTable extends Migration {
+class CreateCommisionsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,9 +12,11 @@ class CreateLoginsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('logins', function(Blueprint $table)
+		Schema::create('commisions', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('user_id');
+			$table->integer('total_count');
 			$table->timestamps();
 		});
 	}
@@ -26,7 +28,7 @@ class CreateLoginsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('logins');
+		Schema::drop('commisions');
 	}
 
 }

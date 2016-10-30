@@ -10,14 +10,25 @@
         
         <!-- /.row -->
         <div class="row" style="min-height:200px;">
-        <div class="col-md-8 noprint" style="overflow: auto; max-height: 500px;">
-          <p>
-          @foreach ($products as $product)
-            <button type="button" onclick="AddProductToSale({{ $product->id }}, '{{ $product->product_name }}',{{ $product->product_price }});" title="{{ $product->product_name }}" style="text-align:left; font-size: 14px; font-weight: bold;" class="col-md-3 m-l-5 m-t-10 btn btn-success btn-lg">{{ $product->product_name }}</button>
-         @endforeach
-          
-        </p>
-        </div>
+        <div class="col-md-8">
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <!-- Home tab icecream flavors -->
+            <div role="tabpanel" class="tab-pane active" id="home">
+              <div class="noprint" style="overflow: auto; max-height: 500px;">
+                <p>
+                @foreach ($products as $product)
+                  <button type="button" onclick="AddProductToSale({{ $product->id }}, '{{ $product->product_name }}',{{ $product->product_price }});" title="{{ $product->product_name }}" style="text-align:left; font-size: 14px; font-weight: bold;" class="col-md-3 m-l-5 m-t-10 btn btn-success btn-lg get_increment">{{ $product->product_name }}</button>
+               @endforeach
+              </p>
+              </div>
+            </div> <!-- Home tab icecream flavors -->
+
+          </div>
+
+        </div>  
+
+        
         <div class="col-md-4" id="InvoiceDiv"><?php //echo url('/img/logo1.png');?>
           <div class="text-center"><img height="35" src="{{ asset('img/logo1.png') }}" alt="Cappellos" /></div>
           <div class="bs-example" data-example-id="simple-table"> 
@@ -85,12 +96,31 @@
         </div>  
         </div>
       </div>
+
+      <div class="clear"></div>
+      <div id="SecondPrint" style="padding: 20px;" class="hide">
+       <p style="text-align: center; font-weight: bold; padding-top:10px !important; font-size: 15px;"> Date:{{ date('d-M-Y') }}  Total Cup:<span style="background-color: #000; color: #fff; font-size: 16px;" id="TotalIceCreamCup">0</span> </p>
+      </div>
+      <div id="ThirdPrint" style="padding: 20px;" class="hide">
+        <img height="35" src="{{ asset('img/logo1.png') }}" alt="Cappellos" /><br />
+        Date: {{ date("d-m-Y") }}
+        Invoice#: {{ $shop_code }}-{{ $invoice_id }}
+      </div>      
+      
     @stop
     @section('footer_scripts')
     
     <script type="text/javascript">
     
     $(document).ready(function() {
+
+      
+      //var clicks = $('#TotalIceCreamCup').html() ; $(".get_increment").click(function(){ clicks++; $('#TotalIceCreamCup').html(clicks);});
+
+     $('#myTabs a').click(function (e) {
+      e.preventDefault()
+      $(this).tab('show')
+    }); 
         var isAuth = "<?php echo Auth::check(); ?>";
     if (isAuth != 1) 
     {
@@ -171,17 +201,62 @@
           
 }); // End ready
     function printDiv() {    
+    // 1st
     var printContents = document.getElementById('InvoiceDiv').innerHTML;
     var originalContents = document.body.innerHTML;
      document.body.innerHTML = printContents;
      window.print();
      document.body.innerHTML = originalContents;
+     // 2nd
+     var printContents2 = document.getElementById('SecondPrint').innerHTML;
+     var originalContents2 = document.body.innerHTML;
+     document.body.innerHTML = printContents2;
+     window.print();
+     document.body.innerHTML = originalContents2;
+     // 3rd
+     var printContents3 = document.getElementById('ThirdPrint').innerHTML;
+     var originalContents3 = document.body.innerHTML;
+     document.body.innerHTML = printContents3;
+     window.print();
+     document.body.innerHTML = originalContents3;
+    }
+    function printDiv2() {   
+    // 1st
+    var printContents = document.getElementById('InvoiceDiv').innerHTML;
+    var originalContents = document.body.innerHTML;
+     document.body.innerHTML = printContents;
+     window.print();
+     document.body.innerHTML = originalContents;
+     // 3rd 
+    // var printContents3 = document.getElementById('SecondPrint').innerHTML;
+    //  var originalContents3 = document.body.innerHTML;
+    //  document.body.innerHTML = printContents3;
+    //  window.print();
+    //  document.body.innerHTML = originalContents3;
     }
         
         // AddProductToSale()
         function AddProductToSale(id,product_name,product_price)
         {
+          // Get Total Ice Cream Cup in this invoice
+          // Nestle water 1500 ML : 49
+          // Nestle water 500ML : 48
+          // Topping : 43
+          var myArray = [{{ $except_icecream_flavors }}];
+          if ($.inArray(id, myArray) != -1)
+          {
+            //alert('found');
+          }
+          else
+          {
+            var value = parseInt($("#TotalIceCreamCup").html());
+            value = isNaN(value) ? 0 : value;
+            value++;
+            $("#TotalIceCreamCup").html(value);
+          }
+
           
+
           var AlreadyId = $("#Product_"+id+"").closest('tr').attr('id');
           if(AlreadyId)
           {
@@ -219,11 +294,38 @@
         }
         function DeleteProduct(id,product_price)
         {
-        var ProductPrice = $("#ProductPrice_"+id+"").val(); 
-        var CurrentValue = $("#NetAmount").val();
-        var NetAmount = parseInt(CurrentValue) - parseInt(ProductPrice);
-        $("#NetAmount").val(NetAmount);  
-        $("#Product_"+id).remove();
+
+           // Nestle water 1500 ML : 49
+          // Nestle water 500ML : 48
+          // Topping : 43
+          var myArray = [{{ $except_icecream_flavors }}];
+          if ($.inArray(id, myArray) != -1)
+          { // found
+            // var value = parseInt($("#TotalIceCreamCup").html());
+            // value = isNaN(value) ? 0 : value;
+            // value++;
+            // $("#TotalIceCreamCup").html(value);
+          }
+          else
+          { // not found
+            
+            var value = parseInt($("#TotalIceCreamCup").html());
+            value = isNaN(value) ? 0 : value;
+            value = value - $("#Qty_"+id).html();
+            $("#TotalIceCreamCup").html(value);
+
+            
+          }
+
+            var ProductPrice = $("#ProductPrice_"+id+"").val(); 
+            var CurrentValue = $("#NetAmount").val();
+            var NetAmount = parseInt(CurrentValue) - parseInt(ProductPrice);
+            $("#NetAmount").val(NetAmount);  
+            $("#Product_"+id).remove();
+
+        
+
+        
         }
         
         function RemoveRougeChar(convertString)
@@ -276,8 +378,13 @@
               success: function( response ) {
                 if(response == 'done')
                 {
-                  //printDiv();
-                  window.print();
+                  if($("#TotalIceCreamCup").html() > 0)
+                    printDiv();
+                  else
+                    printDiv2();
+                  //printDiv2();
+                  //$("#SecondPrint").clone().appendTo("#InvoiceDiv");
+                  //window.print();
                   window.location.href = "/sale";
                   return false;
                 }
@@ -326,7 +433,11 @@
         .border tr th{ padding: 2px !important;
         }
         .cursor{ cursor:pointer;}
-        
+        .clear { clear: both !important;  }
+        .new_pront { padding: 15px !important; }
+        .date_print {text-align: center; font-weight: bold; padding-top:20px !important; font-size: 20px;}
+        .invoice_print{text-align: center; font-weight: bold; padding-top:10px !important; font-size: 30px;}
+
     </style>
 <style type="text/css" media="print">
 
@@ -351,5 +462,6 @@ html,body {
 }
    .noprint{ display: none !important; }
    .marquee{ display: none !important; }
+   .new_pront { padding: 15px !important; }
     }
 </style>

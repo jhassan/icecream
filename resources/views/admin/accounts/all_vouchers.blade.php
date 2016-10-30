@@ -8,7 +8,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            View All Vouchers
+            List of Transections
           </h1>
           <ol class="breadcrumb hide">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -38,7 +38,7 @@
                     	<tr id="row_{{{ $voucher->vm_id }}}">
                         <td>{{{ $voucher->vm_type }}}</td>
                         <td>{{{ $voucher->vm_date }}}</td>
-                        <td>{{{ $voucher->vm_amount }}}</td>
+                        <td>{{{ number_format($voucher->vm_amount) }}}</td>
                         <td>{{{ $voucher->shop_name }}}</td>
                         <td>{{{ $voucher->vm_desc }}}</td>
                         <td> <a id="{{ $voucher->vm_id }}" class="ShowVoucherDetails" style="cursor:pointer;">View</a>/<a id="{{ $voucher->vm_id }}" class="deleteRecord" style="cursor:pointer;">Delete</a>
@@ -60,7 +60,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">View Voucher Details</h4>
+        <h4 class="modal-title">View Transection</h4>
       </div>
       <div class="modal-body ShowData">
       </div>

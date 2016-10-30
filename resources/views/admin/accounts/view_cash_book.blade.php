@@ -58,9 +58,9 @@
 				?>
                   <td align="left" valign="top"><?php echo date('h:i:s A');?></td>
                   <td width="11%"><strong>Date From</strong></td>
-                  <td width="14%" align="left">{{ $start_date }}</td>
+                  <td width="14%" align="left">{{ date("d-M-Y",strtotime($start_date))  }}</td>
                   <td width="8%" align="left"><strong>Date To</strong></td>
-                  <td width="13%">{{ $end_date }}</td>
+                  <td width="13%">{{ date("d-M-Y",strtotime($end_date)) }}</td>
                 </tr>
                 <tr>
                   <td>&nbsp;</td>

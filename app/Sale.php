@@ -134,15 +134,21 @@ public function today_sale($shop_id = "")
             ->join('products', 'products.id', '=', 'sales_details.product_id')
             ->join('users', 'users.id', '=', 'sales.user_id')
             ->select('sales_details.*','product_name','first_name')
+            ->where('sales.return_id', '=', 0)
             ->orderBy('sales_details_id', 'desc')
             ->paginate(10);
         $sales['sum_sale'] = DB::table('sales')
             ->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
             ->join('products', 'products.id', '=', 'sales_details.product_id')
             ->select(DB::raw('SUM(sales_details.product_price) as TotalPrice, SUM(sales_details.product_qty) as TotalQty'))
+            ->where('sales.return_id', '=', 0)
             ->orderBy('sales_details_id', 'desc')
             ->get();    
         }
+        $sales['discount_amount'] = DB::table('sales')
+            ->select(DB::raw('SUM(sales.discount_amount) AS DiscountAmount'))
+            ->whereRaw('sales.return_id = 0')
+            ->get();
         return $sales;
     }
     
@@ -187,7 +193,7 @@ public function today_sale($shop_id = "")
                     ->select('sale_summery.*')
                     ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" ')
                     ->groupBy('sale_summery.current_date1','sale_summery.shop_id')
-                    ->paginate(30);
+                    ->paginate(20);
         return $arraySaleSummery;
     }
 
@@ -231,6 +237,33 @@ public function today_sale($shop_id = "")
                             ->whereRaw('coa_code = "'.$coa.'"')
                             ->get();    
     return $arrayOpBalance;
-    }                   
+    }        
+
+    // Today Flavour Sale
+    public function TodayFlavourSale($shop_id = "", $start_date = "")
+   {
+        //echo $start_date."-----".$shop_id; die;
+        if(empty($start_date))
+            $start_date = date("Y-m-d");
+       $start_date =  date("Y-m-d", strtotime($start_date));
+       if(empty($shop_id)) $shop_id = 1;
+       $sales['all_flavour'] = DB::table('sales')
+            ->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+            ->join('products', 'products.id', '=', 'sales_details.product_id')
+            ->select(DB::raw('SUM(`product_qty`) AS TotalQty, product_name, sales.`created_at`'))
+            ->whereRaw('sales.`created_at` = "'.$start_date.'" AND sales.return_id = 0 AND sales.shop_id = "'.(int)$shop_id.'" ')
+            ->orderBy('TotalQty', 'desc')
+            ->groupBy('product_id')
+            ->get();
+        $sales['all_flavour_sum'] = DB::table('sales')
+            ->join('sales_details', 'sales.sale_id', '=', 'sales_details.sale_id')
+            ->join('shops', 'shops.shop_id', '=', 'sales.shop_id')
+            ->join('products', 'products.id', '=', 'sales_details.product_id')
+            ->select(DB::raw('SUM(`product_qty`) AS TotalQty, shop_name, sales.`created_at` AS TodayDate'))
+            ->whereRaw('sales.`created_at` = "'.$start_date.'" AND sales.return_id = 0 AND sales.shop_id = "'.(int)$shop_id.'" ')
+            ->get();
+
+        return $sales;    
+   }           
 
 }

@@ -4,28 +4,53 @@
 @section('content')
 <?php //echo $start_date."******".$end_date; die; ?>
 <?php
-if(empty($shop_id)) $shop_id = 1;
+if(empty($shop_id)) $shop_id = 0;
 function PriceTypeCount($strDate = "", $nPrice = "", $shop_id)
 {
 	$PriceType = 0;
 	$arrayPrice = array();
 	if(!empty($strDate) && !empty($nPrice))
 	{
-	$arrayPrice = DB::table('sales')
-						->join('sales_details', 'sales_details.sale_id', '=', 'sales.sale_id')
+	    if($shop_id == 0)
+      {
+        $arrayPrice = DB::table('sales')
+            ->join('sales_details', 'sales_details.sale_id', '=', 'sales.sale_id')
             ->join('products', 'products.id', '=', 'sales_details.product_id')
-						->select(DB::raw('SUM(`product_qty`) AS PriceType'))
-						->whereRaw('sales.created_at = "'.$strDate.'" AND products.product_price = '.$nPrice.' AND shop_id =  '.$shop_id.'')
-						->get();
+            ->select(DB::raw('SUM(`product_qty`) AS PriceType'))
+            ->whereRaw('sales.created_at = "'.$strDate.'" AND products.product_price = '.$nPrice.'')
+            ->get();
+      } 
+      else
+      {
+        $arrayPrice = DB::table('sales')
+            ->join('sales_details', 'sales_details.sale_id', '=', 'sales.sale_id')
+            ->join('products', 'products.id', '=', 'sales_details.product_id')
+            ->select(DB::raw('SUM(`product_qty`) AS PriceType'))
+            ->whereRaw('sales.created_at = "'.$strDate.'" AND products.product_price = '.$nPrice.' AND shop_id =  '.$shop_id.'')
+            ->get();
+      }  
+         
 	}
 	elseif(!empty($nPrice))
 	{
-	$arrayPrice = DB::table('sales')
+      if($shop_id == 0)
+      {
+	       $arrayPrice = DB::table('sales')
             ->join('sales_details', 'sales_details.sale_id', '=', 'sales.sale_id')
 						->join('products', 'products.id', '=', 'sales_details.product_id')
 						->select(DB::raw('SUM(`product_qty`) AS PriceType'))
-						->whereRaw('products.product_price = '.$nPrice.' AND shop_id =  '.$shop_id.' ')
+						->whereRaw('products.product_price = '.$nPrice.' ')
 						->get();	
+      }
+      else
+      {
+        $arrayPrice = DB::table('sales')
+            ->join('sales_details', 'sales_details.sale_id', '=', 'sales.sale_id')
+            ->join('products', 'products.id', '=', 'sales_details.product_id')
+            ->select(DB::raw('SUM(`product_qty`) AS PriceType'))
+            ->whereRaw('products.product_price = '.$nPrice.' AND shop_id =  '.$shop_id.' ')
+            ->get();
+      }
 	}
 }
 $start_date = $start_date;
@@ -37,22 +62,44 @@ function TotalCount($field_name, $nPrice, $start_date, $end_date, $shop_id)
 {
   $PriceType = 0;
   $arrayPrice = array();
-  $arrayPrice = DB::table('sale_summery')
+  if($shop_id == 0)
+  {
+    $arrayPrice = DB::table('sale_summery')
+            ->select(DB::raw('SUM(`'.$field_name.'`) AS PriceType'))
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'"')
+            ->get();
+  }
+  else
+  {
+    $arrayPrice = DB::table('sale_summery')
             ->select(DB::raw('SUM(`'.$field_name.'`) AS PriceType'))
             ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" AND shop_id =  '.$shop_id.'')
-            ->get();  
-  					$PriceType = $arrayPrice[0]->PriceType;
+            ->get();
+  }
+    
+  $PriceType = $arrayPrice[0]->PriceType;
 return $PriceType;
 }
 
 // Get Discount
 function GetDiscount($start_date, $end_date, $shop_id)
 {
+  if($shop_id == 0)
+  {
+    $arrayDiscount = DB::table('sale_summery')
+            ->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'"')
+            ->get();
+  }
+  else
+  {
     $arrayDiscount = DB::table('sale_summery')
             ->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
             ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" AND shop_id =  '.$shop_id.'')
             ->get();
-            $Discount = $arrayDiscount[0]->DiscountAmount;
+  }
+    
+    $Discount = $arrayDiscount[0]->DiscountAmount;
 return $Discount;
 }
 
@@ -60,11 +107,21 @@ return $Discount;
 function GetTotalSale($start_date, $end_date, $shop_id)
 {
   //$arrayDiscount = array();
-  $arraySaleAmount = DB::table('sale_summery')
+  if($shop_id == 0)
+  {
+    $arraySaleAmount = DB::table('sale_summery')
+            ->select(DB::raw('SUM(total_sale) AS SaleAmount'))
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" ')
+            ->get();
+  }
+  else
+  {
+    $arraySaleAmount = DB::table('sale_summery')
             ->select(DB::raw('SUM(total_sale) AS SaleAmount'))
             ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" AND shop_id =  '.$shop_id.' ')
             ->get();
-            $SaleAmount = $arraySaleAmount[0]->SaleAmount; 
+  }
+    $SaleAmount = $arraySaleAmount[0]->SaleAmount; 
   return $SaleAmount;
 }
 
@@ -125,7 +182,7 @@ $sales = array();
                       <div class="dropdown">
                       <label for="shop" >Shop</label>
                         <select class="form-control" title="Select Shop..." name="shop_id">
-                            <option value="">Select</option>
+                            <option value="">Select Shop</option>
                             @foreach ($shops as $shop)
                               @if($shop_id == $shop->shop_id)
                                 <option value="{{{ $shop->shop_id}}}" selected="selected" >{{{ $shop->shop_name}}}</option>
