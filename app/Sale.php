@@ -193,6 +193,7 @@ public function today_sale($shop_id = "")
                     ->select('sale_summery.*')
                     ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" ')
                     ->groupBy('sale_summery.current_date1','sale_summery.shop_id')
+                    ->orderBy('current_date1', 'desc')
                     ->paginate(20);
         return $arraySaleSummery;
     }

@@ -166,7 +166,7 @@ Route::post('search_return_invoice', array('as' => 'search_return_invoice', 'use
 Route::group(
 	array('prefix' => 'admin/accounts','before' => 'Sentry'), function () {
 		Route::get('trial_balance', array('as' => 'trial_balance', 'uses' => 'AccountController@trial_balance'));
-		Route::post('view_trial_balance', array('as' => 'view_trial_balance', 'uses' => 'AccountController@trial_balance'));
+		Route::post('trial_balance', array('as' => 'trial_balance', 'uses' => 'AccountController@trial_balance'));
 		// Load COA 
 		Route::get('index_coa', array('as' => 'index_coa', 'uses' => 'AccountController@index'));
 		// Bank Pay Vouchers 

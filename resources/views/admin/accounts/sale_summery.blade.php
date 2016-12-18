@@ -201,15 +201,16 @@ $sales = array();
           <div class="row">
             <div class="col-xs-12">
               <div class="box">
-                <div class="box-body">
-                  <table width="991" class="table table-bordered table-hover">
+                <div class="box-body table-responsive">
+                  <table width="991" class="table table-bordered">
                     <thead>
                         <tr class="filters">
                             <th width="132">Date</th>
-                            <th colspan="2">No.CUP 150</th>
-                            <th colspan="2">No.CUP 180</th>
-                            <th colspan="2">No.CUP 200</th>
-                            <th colspan="2">No.CUP 220</th>
+                            <th colspan="2">CUP 150</th>
+                            <th colspan="2">CUP 170</th>
+                            <th colspan="2">CUP 180</th>
+                            <th colspan="2">CUP 200</th>
+                            <th colspan="2">CUP 220</th>
                             <th colspan="2">Topping(20)</th>
                             <th colspan="2">Joy Kid(100)</th>
                             <th colspan="2">Water(40)</th>
@@ -232,6 +233,8 @@ $sales = array();
 										//$product_id = $summery->product_id;
 										// For 150 Price
 										$Array150 = $summery->ice_150;
+                    // For 170 Price
+                    $Array170 = $summery->ice_170;
 										// For 180 Price
 										$Array180 = $summery->ice_180;
 										// For 200 Price
@@ -255,6 +258,8 @@ $sales = array();
                       <td>{{ date("d-M-y",strtotime($summery->current_date1)) }}</td>
                       <td width="67">{{ (int)$Array150 }}</td>
                       <td width="84">{{ number_format((int)$Array150 * 150) }}</td>
+                      <td width="67">{{ (int)$Array170 }}</td>
+                      <td width="84">{{ number_format((int)$Array170 * 170) }}</td>
                       <td width="63">{{ (int)$Array180 }}</td>
                       <td width="69">{{ number_format((int)$Array180 * 180) }}</td>
                       <td width="63">{{ (int)$Array200 }}</td>
@@ -278,6 +283,7 @@ $sales = array();
                     <tr class="filters">
                             <th width="132"></th>
                             <th colspan="2">{{ number_format(TotalCount("ice_150", 150, $start_date, $end_date, $shop_id)) }}</th>
+                            <th colspan="2">{{ number_format(TotalCount("ice_170", 170, $start_date, $end_date, $shop_id)) }}</th>
                             <th colspan="2">{{ number_format(TotalCount("ice_180",180, $start_date, $end_date, $shop_id)) }}</th>
                             <th colspan="2">{{ number_format(TotalCount("ice_200",200, $start_date, $end_date, $shop_id)) }}</th>
                             <th colspan="2">{{ number_format(TotalCount("ice_220",220, $start_date, $end_date, $shop_id)) }}</th>

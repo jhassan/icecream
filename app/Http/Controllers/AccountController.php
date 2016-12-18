@@ -477,6 +477,7 @@ class AccountController extends Controller {
 	// trial_balance
 	public function trial_balance()
 	{
+		//echo "adfadf"; die;
 		$start_date = Input::get('start_date');
 		$end_date = Input::get('end_date');
 		if(empty($start_date) && empty($end_date))

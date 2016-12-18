@@ -44,21 +44,33 @@ function get_opening_balance($coa_code, $start_date)
 	$ClosingBalance = 0;
 	if($coa_code == "511001")
 	{
+		// $arrayDetail = DB::table('vouchermaster')
+		// 			->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+		// 			->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
+		// 			->select(DB::raw('((`coa_credit`+`coa_debit`) + SUM(vd_debit)) - SUM(vd_credit) AS OpeningBalance'))
+		// 			->whereRaw('vd_coa_code = "'.$coa_code.'" AND vm_date < "'.$start_date.'" AND vouchermaster.shop_id <> 0 ')
+		// 			->get();
 		$arrayDetail = DB::table('vouchermaster')
-					->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
-					->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
-					->select(DB::raw('((`coa_credit`+`coa_debit`) + SUM(vd_debit)) - SUM(vd_credit) AS OpeningBalance'))
-					->whereRaw('vd_coa_code = "'.$coa_code.'" AND vm_date < "'.$start_date.'" AND vouchermaster.shop_id <> 0 ')
-					->get();
+                        ->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+                        ->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
+                        ->select(DB::raw('(SUM(IFNULL(coa_debit, 0) - IFNULL(coa_credit, 0)) + SUM(IFNULL(vd_debit, 0))) - SUM(IFNULL(vd_credit, 0)) AS OpeningBalance'))
+                        ->whereRaw('vd_coa_code = "'.$coa_code.'" AND vm_date < "'.$start_date.'" AND vouchermaster.shop_id <> 0 ')
+                        ->get();
 	}
 	else
 	{
+		// $arrayDetail = DB::table('vouchermaster')
+		// 			->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+		// 			->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
+		// 			->select(DB::raw('((`coa_credit`+`coa_debit`) + SUM(vd_debit)) - SUM(vd_credit) AS OpeningBalance'))
+		// 			->whereRaw('vd_coa_code = "'.$coa_code.'" AND vm_date < "'.$start_date.'" AND vouchermaster.shop_id <> 0 AND vm_type <> "JV" ')
+		// 			->get();
 		$arrayDetail = DB::table('vouchermaster')
-					->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
-					->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
-					->select(DB::raw('((`coa_credit`+`coa_debit`) + SUM(vd_debit)) - SUM(vd_credit) AS OpeningBalance'))
-					->whereRaw('vd_coa_code = "'.$coa_code.'" AND vm_date < "'.$start_date.'" AND vouchermaster.shop_id <> 0 AND vm_type <> "JV" ')
-					->get();	
+                        ->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+                        ->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
+                        ->select(DB::raw('(SUM(IFNULL(coa_debit, 0) - IFNULL(coa_credit, 0)) + SUM(IFNULL(vd_debit, 0))) - SUM(IFNULL(vd_credit, 0)) AS OpeningBalance'))
+                        ->whereRaw('vd_coa_code = "'.$coa_code.'" AND vm_date < "'.$start_date.'" AND vouchermaster.shop_id <> 0 AND vm_type <> "JV" ')
+                        ->get();	
 	}
 	
 	$ClosingBalance = $arrayDetail[0]->OpeningBalance;
@@ -125,6 +137,8 @@ function ShowTransactions($start_date, $end_date)
 	$Grand_Total_Closing = 0;
 	$Grand_Total_Closing_Debit = 0;
 	$Grand_Total_Closing_Credit = 0;
+	$sub_Total_Closing_Debit = 0;
+	$sub_Total_Closing_Credit = 0;
 	$nResult = DB::table('coa')
 	->where('parent_id', '=', 0)
 	->orderBy('coa_code', 'asc')
@@ -165,9 +179,7 @@ function ShowTransactions($start_date, $end_date)
 			$ClosingBalance = 0;
 			$OB_Debit = 0;
 			$OB_Credit = 0;
-			// Get Opening balance from coa table
-			// if($start_date == "2016-04-01" && $end_date == date("Y-m-d"))
-			// {
+			$OpBalance = 0;
 				$OB_Balance = get_opening_balance($value->coa_code, $start_date);
 				$is_Debit = "";
 				if(!empty($OB_Balance))
@@ -185,61 +197,16 @@ function ShowTransactions($start_date, $end_date)
 						$OpBalance = $OB_Balance;
 					}	
 				}
-				
-				 
-				//$OpBalance = $OB_Debit + $OB_Credit;
-			// }
-			// else
-			// {
-				// $OpBalance = get_opening_balance($value->coa_code);
-				// $is_Debit = "";
-				// $OB_Debit = 0;
-				// $OB_Credit = 0;
-				// if(!empty($OB_Balance))
-				// {
-				// 	if($OB_Balance[0]->coa_debit != 0)
-				// 	{
-				// 		$is_Debit = "Dr"; 
-				// 	}
-				// 	elseif($OB_Balance[0]->coa_credit != 0)
-				// 	{
-				// 		$is_Debit = "Cr";
-				// 	}	
-				// }
-				// $yesterday = date('Y-m-d', strtotime($start_date .' -1 day'));
-				// $arrayOpBalance = array();
-				// $coa_code = str_replace("`", "", $value->coa_code);
-				// $arrayOpBalance = DB::table('tbl_op_balance')
-				// 			->select("coa_$coa_code AS coa_credit")
-				// 			->whereRaw("$coa_code = $coa_code AND `current_date` = '".$yesterday."'")
-				// 			->get();
-				// if(!empty($arrayOpBalance))
-				// 	$ClosingBalance = $arrayOpBalance[0]->coa_credit;
-				// if($is_Debit == "Dr")
-				// 	$OB_Debit = $ClosingBalance;
-				// else
-				// 	$OB_Credit = $ClosingBalance;
-				// $OpBalance = $ClosingBalance;		
-			//}
-			
-			//$start_date = "2016-04-01";
-			//$end_date =  date("Y-m-d");
-			// Get all debit credit sum with opening balance
 			$allData = search_vouchers($value->coa_code, $start_date, $end_date, $OpBalance);
 			$Total_TR_Debit = $allData['Debit'];
 			$Total_TR_Credit = $allData['Credit'];
+			$Total_Closing_Credit = 0;
+			$Total_Closing_Debit = 0;
 			//$Total_Closing = ($OpBalance + $Total_TR_Debit) - $Total_TR_Credit;
 			if($is_Debit == "Dr")
-			{
 				$Total_Closing_Debit = ($OpBalance) + $Total_TR_Debit - $Total_TR_Credit;
-				$Total_Closing_Credit = 0;
-			}
 			else
-			{
 				$Total_Closing_Credit = ($OpBalance) + $Total_TR_Credit - $Total_TR_Debit;
-				$Total_Closing_Debit = 0;
-			}
-			//$Closing_Balance_Debit = $OB_Debit + $Total_TR_Debit;
 			echo "	<tr>";
 			echo "		<td >" . AccountName($value->coa_code, $value->coa_account) . "</td>";
 			echo "		<td><span style='text-align:left; float:left; padding-left:20px'>".number_format($OB_Debit)."</span><span style='text-align:right; float:right;'>".number_format($OB_Credit)."</span></td>";
@@ -257,10 +224,10 @@ function ShowTransactions($start_date, $end_date)
 			}
 			else
 			{
+				$Total_Closing_Credit == 0 ? 0 : $Total_Closing_Credit;
 				$sub_Total_Closing_Debit = 0;
 				$sub_Total_Closing_Credit += $Total_Closing_Credit;	
 			}
-
 			$Total_Closing_Debit += $Closing_Balance_Debit;
 		}			
 		// Sub total head
@@ -270,14 +237,12 @@ function ShowTransactions($start_date, $end_date)
 			echo "		<td><span style='text-align:left; float:left; padding-left:20px; font-weight:bold'>".number_format($sub_Total_Debit)."</span><span style='text-align:right; float:right; font-weight:bold'>".number_format($sub_Total_Credit)."</span></td>";
 			echo "		<td><span style='text-align:left; float:left; padding-left:20px; font-weight:bold'>".number_format(str_replace("-", "", $sub_Total_Closing_Debit))."</span><span style='text-align:right; float:right; font-weight:bold'>".number_format(str_replace("-", "", $sub_Total_Closing_Credit))."</span></td>";
 			echo "	</tr>";
-			
 			$Grand_Total_Debit += $Total_OB_Debit;
 			$Grand_Total_Credit += $Total_OB_Credit;
 			$Grand_TR_Total_Debit += $sub_Total_Debit;
 			$Grand_TR_Total_Credit += $sub_Total_Credit;
 			$Grand_Total_Closing_Credit += $sub_Total_Closing_Credit;
 			$Grand_Total_Closing_Debit += $sub_Total_Closing_Debit;
-		
 	}
 		// Grand total head
 			echo "	<tr>";
@@ -295,10 +260,10 @@ function ShowTransactions($start_date, $end_date)
 <div class="col-xs-12">
   <div class="box">
     <div class="box-body">
-    	<div class="box box-primary">
+    	<div class="box box-primary hide">
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form action="view_trial_balance" method="post">
+                <form action="trial_balance" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <div class="box-body col-sm-4">
                       <label for="shop_address">Start Date</label>
@@ -308,7 +273,7 @@ function ShowTransactions($start_date, $end_date)
                       <label for="shop_address">End Date</label>
                       <input type="text" class="date-pick form-control" id="end_date" placeholder="End Date" name="end_date">
                     </div>
-                  </div><!-- /.box-body -->
+                  <!-- </div> --><!-- /.box-body -->
                   <div class="box-footer">
                     <button type="submit" style="margin-top:4px;" class="btn btn-primary">Search</button>
                   </div>
