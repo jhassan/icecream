@@ -2,7 +2,48 @@
 
 {{-- Page content --}}
 @section('content') 
+<?php
+//print_r($arrayLedeger); die;
+// $coa_crdit = $OpBalance[0]->coa_credit;
+// $coa_debit = $OpBalance[0]->coa_debit;
+// if($coa_crdit != 0)
+// 	$OPeninBalance = $coa_crdit;
+// elseif($coa_debit != 0)
+// 	$OPeninBalance = $coa_debit;	 
+function GetDateWiseExpense($date)
+{
+	$arrayDetail = DB::table('vouchermaster')
+	->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+	->select(DB::raw('SUM(vd_debit) AS TotalExpense'))
+	->whereRaw('vm_date = "'.$date.'" AND vd_coa_code != 0')
+	->orderBy('vm_date', 'asc')
+	->get();	
+	return $arrayDetail[0]->TotalExpense;
+}
+	$coa_code = (!empty($arrayLedeger[0]->coa_code)) ? $arrayLedeger[0]->coa_code : '';
+	$coa_account = (!empty($arrayLedeger[0]->coa_account)) ? $arrayLedeger[0]->coa_account : '';
 
+	// Check OPBalance is Credit OR Debit
+	function get_opening_balance($coa)
+	{
+		$arrayOpBalance = array();
+		$arrayOpBalance = DB::table('coa')
+						->select('coa_debit','coa_credit','coa_type')
+						->whereRaw('coa_code = "'.$coa.'"')
+						->get();	
+		return $arrayOpBalance;
+	}
+	$CheckDebitCreditOP = get_opening_balance($coa_code);
+	//print_r($CheckDebitCreditOP); die;
+	$is_Debit = "";
+	if(!empty($CheckDebitCreditOP))
+	{
+		if($CheckDebitCreditOP[0]->coa_type == "D")
+			$is_Debit = "Dr"; 
+		elseif($CheckDebitCreditOP[0]->coa_type == "C")
+			$is_Debit = "Cr"; 
+	}												
+?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper"> 
   <!-- Content Header (Page header) -->
@@ -11,7 +52,9 @@
     <ol class="breadcrumb">
       <li><a href="/admin/users"><i class="fa fa-dashboard"></i> Home</a></li>
       <li><a href="/admin/accounts/general_ledeger">Search Ledger</a></li>
+      <li><button id="PrintContent" onclick="printDiv()" class="btn btn-primary no-print pull-right">Print</button></li>
     </ol>
+
   </section>
   
   <!-- Main content -->
@@ -20,51 +63,25 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-body">
-            <table width="100%" class="table table-bordered table-hover">
+          	<div id="heading_div2">
+              	<table>
+              	<tr class="filters">
+	                <h2 align="center" style="font-family: cursive; font-size: 37px;">Cappellos</h2>
+	                <p clas="text-center" align="center" style="font-size:16px;">3rd Floor United Mall, Abdali Road Multan</p>
+	            </tr>
+	            <tr class="filters">
+	                <h4 align="center" style="font-weight: bold; text-decoration: underline;">General Ledger</h4>
+	            </tr>
+	            <tr class="filters hide">
+	                <h4 align="left" style="font-size: 15px; text-align: center; font-weight: bold;">Date: {{ date("d-M-Y",strtotime($start_date)) }} to {{ date("d-M-Y",strtotime($end_date)) }} </h4>
+	            </tr>
+	            </table>
+            </div>
+            <table width="100%" class="table table-bordered table-hover" id="example2">
               <tbody>
-                <tr>
-                <?php
-                //print_r($arrayLedeger); die;
-                // $coa_crdit = $OpBalance[0]->coa_credit;
-                // $coa_debit = $OpBalance[0]->coa_debit;
-                // if($coa_crdit != 0)
-                // 	$OPeninBalance = $coa_crdit;
-                // elseif($coa_debit != 0)
-                // 	$OPeninBalance = $coa_debit;	 
-				function GetDateWiseExpense($date)
-				{
-					$arrayDetail = DB::table('vouchermaster')
-					->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
-					->select(DB::raw('SUM(vd_debit) AS TotalExpense'))
-					->whereRaw('vm_date = "'.$date.'" AND vd_coa_code != 0')
-					->orderBy('vm_date', 'asc')
-					->get();	
-					return $arrayDetail[0]->TotalExpense;
-				}
-                	$coa_code = (!empty($arrayLedeger[0]->coa_code)) ? $arrayLedeger[0]->coa_code : '';
-					$coa_account = (!empty($arrayLedeger[0]->coa_account)) ? $arrayLedeger[0]->coa_account : '';
 
-					// Check OPBalance is Credit OR Debit
-					function get_opening_balance($coa)
-					{
-						$arrayOpBalance = array();
-						$arrayOpBalance = DB::table('coa')
-										->select('coa_debit','coa_credit','coa_type')
-										->whereRaw('coa_code = "'.$coa.'"')
-										->get();	
-						return $arrayOpBalance;
-					}
-					$CheckDebitCreditOP = get_opening_balance($coa_code);
-					//print_r($CheckDebitCreditOP); die;
-					$is_Debit = "";
-					if(!empty($CheckDebitCreditOP))
-					{
-						if($CheckDebitCreditOP[0]->coa_type == "D")
-							$is_Debit = "Dr"; 
-						elseif($CheckDebitCreditOP[0]->coa_type == "C")
-							$is_Debit = "Cr"; 
-					}												
-				?>
+                <tr>
+                
                   <td width="7%" valign="top" align="center"><strong>{{ $coa_code }}</strong></td>
                   <td width="20%" valign="top" align="left"><strong>{{ $coa_account }}</strong></td>
                   <td width="11%"><strong>Date From</strong></td>
@@ -84,7 +101,7 @@
               </tbody>
             </table>
             <hr>
-            <table width="100%" class="table table-bordered table-hover">
+            <table width="100%" class="table table-bordered table-hover" id="heading_div">
               <tbody>
                 <tr>
                   <td width="10%" align="center"><b>Date</b></td>
@@ -148,5 +165,43 @@
 </div>
 <!-- /.content-wrapper --> 
 @stop 
-@section('footer_scripts') 
+@section('footer_scripts')
+<script type="text/javascript">
+function printDiv() {    
+    // 1st
+   var divToPrint = document.getElementById('example2');
+   var heading_div = document.getElementById('heading_div');
+   var heading_div2 = document.getElementById('heading_div2');
+    var htmlToPrint = '' +
+        '<style type="text/css">' +
+        'table th, table td {' +
+        'border: solid #000 !important;' +
+        'border-width: 0 1px 1px 0 !important;' +
+        'padding-left: 0px !important;' +
+        '}' +
+        'table {' +
+        'border: solid #000 !important;' +
+        'border-width: 1px 0 0 1px !important;' +
+        '}' +
+        'th, td span {' +
+        // 'border: solid #000 !important;' +
+        // 'border-width: 1px 0 0 1px !important;' +
+        'padding-left: 2px !important;' +
+        '}' +
+        '.main_title {' +
+        'width: 50px !important;' +
+        '}' +
+        
+        '</style>';
+    //var htmlToPrint = '';
+    htmlToPrint += heading_div2.outerHTML;
+    htmlToPrint += divToPrint.outerHTML;
+    htmlToPrint += heading_div.outerHTML;
+    newWin = window.open("");
+    newWin.document.write(htmlToPrint);
+    newWin.print();
+    newWin.close();
+ }
+</script>
+
 @stop

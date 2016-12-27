@@ -783,6 +783,7 @@
 						});
 
 						$(".date-pick").datepicker('setDate', new Date());
+            $(".date-pick2").datepicker('setDate', new Date("04/01/2016"));
 
             // Numeric only control handler
     jQuery.fn.ForceNumericOnly =
