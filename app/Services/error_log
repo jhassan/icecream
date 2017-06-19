@@ -1,0 +1,1 @@
+[02-Mar-2017 02:54:52 America/Chicago] PHP Fatal error:  Interface 'Illuminate\Contracts\Auth\Registrar' not found in /home2/jawadgee/public_html/pos/app/Services/Registrar.php on line 7

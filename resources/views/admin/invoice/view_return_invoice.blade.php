@@ -27,6 +27,7 @@
                     <tr class="filters">
                         <th>Net Amount</th>
                         <th>Return Date</th>
+                        <th>Shop Name</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,7 @@
                       <tr>
                         <td>{{ $return_id->net_amount }}</td>
                         <td>{{ $return_id->created_at }}</td>
+                        <td>{{ $return_id->shop_name }}</td>
                       </tr>
                     @endforeach
                         

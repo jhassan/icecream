@@ -81,15 +81,14 @@
                     </div>
                     <div class="clear" style="clear:both !important;"></div>
                      <div class="dropdown col-sm-4">
-                                        <label for="gender" >User Type</label>
-                       
-                                            <select class="form-control" title="Select User Type..." name="user_type">
-                                                <option value="">Select User Type</option>
-                                                <option value="2">Admin</option>
-                                                <option value="1">Client</option>
-
-                                            </select>
-                                    </div>               
+                      <label for="gender" >User Type</label>
+                        <select class="form-control" title="Select User Type..." name="user_type" id="get_user_type">
+                            <option value="">Select User Type</option>
+                            <option value="2">Admin</option>
+                            <option value="3">Sub Admin</option>
+                            <option value="1">Client</option>
+                        </select>
+                    </div>               
                     <div class="form-group col-sm-4">
                       <label for="city">City</label>
                       <input type="text" class="form-control" id="city" placeholder="City" name="city">
@@ -99,17 +98,37 @@
                       <input type="text" class="form-control" id="address" placeholder="Address" name="address">
                     </div>
                     <div class="dropdown col-sm-4">
-                                        <label for="shop" >Shop</label>
-                       
-                                            <select class="form-control" title="Select Shop..." name="shop_id">
-                                                <option value="">Select</option>
-                                                @foreach ($shops as $shop)
-                                                <option value="{{{ $shop->shop_id}}}"  >{{{ $shop->shop_name}}}</option>
-                                                @endforeach
+                    <label for="shop" >Shop</label>
+                      <select class="form-control" title="Select Shop..." name="shop_id">
+                          <option value="">Select</option>
+                          @foreach ($shops as $shop)
+                          <option value="{{{ $shop->shop_id}}}"  >{{{ $shop->shop_name}}}</option>
+                          @endforeach
+                      </select>
+                  </div> 
+                   <div class="clear"></div>
+                   <div id="permission_block" class="">
+                    <div class="form-group col-sm-3 pull-left" style=" margin-top: 20px;">
+                        <input type="checkbox" id="checkAll"/> <label style="font-size: 14px;">Check All</label>
+                      </div>
+                    <div class="clear"></div>
 
-                                            </select>
-                                    </div> 
-                    
+                    @foreach($patentPermission as $parent)
+                    <div class="form-group col-sm-12">
+                      <label style="font-size: 14px;">{{ ucfirst($parent->name) }}</label>
+                      <div class="clear"></div>
+                      @foreach($childPermission as $child)
+                        @if($child->parent_id == $parent->id)
+                        <div class="col-sm-3" style="padding-left: 0px;">
+                          <p style="padding-left: 0px;" class="text-left col-sm-9">{{ ucfirst($child->name) }}</p>
+                          <input class="checkedAll" name="permission[{{$child->id}}]" type="checkbox" value="{{ $child->id }}" id="{{ $child->id }}">
+                        </div>
+                        @endif
+                      @endforeach
+                    </div>
+                    <div class="clear"></div>
+                    @endforeach
+                    </div>
                   </div><!-- /.box-body -->
 
                   <div class="box-footer">
@@ -127,3 +146,30 @@
         </section><!-- /.content -->
       </div>
       @stop
+@section('footer_scripts')
+  <script type="text/javascript">
+  $(document).ready(function() {
+
+    // Hide permission div
+    $("#get_user_type").change(function (){
+      var value = $(this).val();
+      if(value == 1)
+        $("#permission_block").addClass('hide');
+      else
+        $("#permission_block").removeClass('hide');
+    });
+
+    $("#checkAll").change(function () {
+        $("input:checkbox.checkedAll").prop('checked', $(this).prop("checked"));
+    });
+    $(".cb-element").change(function () {
+        _tot = $(".cb-element").length              
+        _tot_checked = $(".checkedAll:checked").length;
+        
+        if(_tot != _tot_checked){
+          $("#checkAll").prop('checked',false);
+        }
+    });
+  });
+  </script>
+@endsection

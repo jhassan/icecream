@@ -80,7 +80,8 @@ class ClientController extends Controller {
 	//	echo "fail"; die;      
 
 		// validation not successful, send back to form 
-		return Redirect::to('/')->with('message', 'Register Failed');;
+		return Redirect::to('/')->with('message', 'These credentials do not match our records.');;
+		//return redirect()->route("/")->with('message','These credentials do not match our records.');
 		
 		}
 		

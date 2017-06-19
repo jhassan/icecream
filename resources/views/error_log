@@ -1,0 +1,2 @@
+[02-Mar-2017 02:57:16 America/Chicago] PHP Fatal error:  Class 'Auth' not found in /home2/jawadgee/public_html/pos/resources/views/sale.blade.php on line 124
+[02-Mar-2017 03:02:28 America/Chicago] PHP Fatal error:  Class 'Auth' not found in /home2/jawadgee/public_html/pos/resources/views/today_sale.blade.php on line 94

@@ -27,18 +27,20 @@
 
 </head>
 
-<body>
+<body  style="background-image: url('img/bg202.jpg'); background-repeat: no-repeat;">
 
     <!-- Navigation -->
     	
-     @if($errors->has())
-    @foreach ($errors->all() as $error)
-        <div>{{ $error }}</div>
-    @endforeach
-@endif
-
+    <!--  @if($errors->has())
+        @foreach ($errors->all() as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    @endif -->
+        @if (Session::has('message'))
+           <div class="alert alert-danger container" style="width:400px;">{{ Session::get('message') }}</div>
+        @endif
     <!-- Page Content -->
-        <div class="container" style="width:400px;">
+        <div class="container" style="width:400px; background-color: #fff; height: 228px; border-radius: 20px;">
 
         <!-- Page Heading -->
         <form class="form-signin" method="post" action="{{ URL::to('login') }}">

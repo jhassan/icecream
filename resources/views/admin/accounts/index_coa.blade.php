@@ -57,7 +57,9 @@ function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
 
         <!-- Main content -->
         <section class="content">
-
+          @if(session('message'))
+           <div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! session('message') !!}</em></div>
+        @endif
           <!-- Default box -->
           <div class="box">
             <div class="box-header with-border">
@@ -68,14 +70,14 @@ function COAComboWithoutTable($arrAcc, $strName, $nSelected = "")
               </div>
             </div>
             @if (count($errors) > 0)
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
              <div class="box box-primary">
                 <!-- /.box-header -->
                 <!-- form start -->

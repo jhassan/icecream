@@ -63,17 +63,9 @@ class ShopsController extends Controller {
 		$data->shop_address = Input::get('shop_address');
 		$data->shop_code = Input::get('shop_code');
 		$data->is_active = (Input::has('is_active')) ? 1 : 0;
-		//$data->shop_code = Input::get('is_active');
-		//return $data;exit;
-		//$data->image_name = $safeName;
-		//echo '<pre>';
-		//print_r($data);
-		//echo '</pre>';
 		
 		if($data->save()){
-			//echo 'i am in save';
-			return redirect()->route("shops")->with('message','Success');
-			//return redirect()->action('HomeController@index');
+			return redirect()->route("shops")->with('message','Shop added successfully!');
 		}
 		else{
 			return Redirect::back()->with('error', Lang::get('banners/message.error.create'));;
@@ -147,13 +139,6 @@ class ShopsController extends Controller {
 		$data->shop_address = Input::get('shop_address');
 		$data->shop_code = Input::get('shop_code');
 		$data->is_active = (Input::has('is_active')) ? 1 : 0;
-		//$data->shop_code = Input::get('is_active');
-		//return $data;exit;
-		//$data->image_name = $safeName;
-		//echo '<pre>';
-		//print_r($data);
-		//echo '</pre>';
-		
 		Shop::where('shop_id', $id)->update(
 			[
 			'shop_name' => $data->shop_name,
@@ -161,10 +146,7 @@ class ShopsController extends Controller {
 			'shop_code' => $data->shop_code,
 			'is_active' => $data->is_active
 			]);
-			//return Redirect::back();
-		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
-		//print_r($users);
-		return View('admin.shops.index', compact('shops'));
+		return redirect()->route("shops")->with('message','Shop update successfully!');
 	}
 
 	/**
@@ -173,9 +155,16 @@ class ShopsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	// Delete Shop
+	public function delete_shop()
 	{
-		//
+		$DelID = Input::get('DelID');
+		DB::table('shops')->where('shop_id', $DelID)->delete();
+		$ID = DB::table('shops')->where('shop_id', $DelID)->first();
+		if ($ID === null) 
+		   echo "delete"; 
+		else
+			echo "sorry";
 	}
 
 }

@@ -11,6 +11,7 @@ class Product extends Model {
 	public function all_products()
 	{
 		$arrayProducts = DB::table('products')
+		->join('shops', 'shops.shop_id', '=', 'products.shop_id')
         ->orderBy('product_name', 'asc')
         ->get();
 		return $arrayProducts;

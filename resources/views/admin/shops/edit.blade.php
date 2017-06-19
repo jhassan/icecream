@@ -8,7 +8,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Add Shop
+            Edit Shop
             <small></small>
           </h1>
           <ol class="breadcrumb">
@@ -29,7 +29,18 @@
                 <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
               </div>
             </div>
-            
+            @if (count($errors) > 0)
+              <div class="alert alert-danger">
+                  <ul>
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+              </div>
+            @endif
+            @if (Session::has('message'))
+               <div class="alert alert-info">{{ Session::get('message') }}</div>
+            @endif
              <div class="box box-primary">
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -57,7 +68,7 @@
                   </div><!-- /.box-body -->
 
                   <div class="box-footer" style="clear:both !important;">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                   </div>
                 </form>
               </div> 

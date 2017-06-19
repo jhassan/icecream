@@ -29,16 +29,19 @@
                 <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
               </div>
             </div>
-            
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if (Session::has('message'))
+               <div class="alert alert-info">{{ Session::get('message') }}</div>
+            @endif
              <div class="box box-primary">
-               @if($errors->has())
-              @foreach ($errors->all() as $error)
-                  <div style='color:red; margin-left:13px !important;'>{{ $error }}</div>
-              @endforeach
-              @endif
-              @if(Session::has('message'))
-              <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
-              @endif
                 <!-- /.box-header -->
                 <!-- form start -->
                 <form action="search_return_invoice" method="post">
@@ -63,7 +66,7 @@
                       <input type="text" class="date-pick form-control" id="return_invoice_date" placeholder="Date" name="return_invoice_date">
                     </div>
                   <div class="box-footer">
-                    <button type="submit" style='margin-top:23px;' class="btn btn-primary">Submit</button>
+                    <button type="submit" style='margin-top:23px;' class="btn btn-primary">Save</button>
                   </div>
                 </form>
               </div> 

@@ -21,7 +21,7 @@
           <div class="box box-primary">
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form action="frm_view_commision" method="post">
+                <form action="" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <div class="box-body col-sm-3">
                       <div class="dropdown">

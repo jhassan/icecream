@@ -11,6 +11,13 @@
         <!-- /.row -->
         <div class="row" style="min-height:200px;">
         <div class="col-md-8">
+          <h3 class="box-title"><strong>{{ $shop_name }} (Flavours)</strong></h3>
+          <?php if($shop_id == 1 || $shop_id == 2)
+                  $shop_button = "btn-success";
+                else
+                  $shop_button = "btn-primary";  
+
+          ?>
           <!-- Tab panes -->
           <div class="tab-content">
             <!-- Home tab icecream flavors -->
@@ -18,7 +25,7 @@
               <div class="noprint" style="overflow: auto; max-height: 500px;">
                 <p>
                 @foreach ($products as $product)
-                  <button type="button" onclick="AddProductToSale({{ $product->id }}, '{{ $product->product_name }}',{{ $product->product_price }});" title="{{ $product->product_name }}" style="text-align:left; font-size: 14px; font-weight: bold;" class="col-md-3 m-l-5 m-t-10 btn btn-success btn-lg get_increment">{{ $product->product_name }}</button>
+                  <button type="button" onclick="AddProductToSale({{ $product->id }}, '{{ $product->product_name }}',{{ $product->product_price }});" title="{{ $product->product_name }}" style="text-align:left; font-size: 14px; font-weight: bold;" class="col-md-3 m-l-5 m-t-10 btn {{$shop_button}} btn-lg get_increment">{{ $product->product_name }}</button>
                @endforeach
               </p>
               </div>
@@ -376,7 +383,9 @@
               url : '/sale_product',
               data: { 'net_amount':NetAmount, 'discount_amount': DiscountAmount, 'product_id': product_id, 'product_price': product_price, 'product_qty': product_qty},
               success: function( response ) {
-                if(response == 'done')
+                data = eval('(' + response + ')');
+                //console.log(data); return false;
+                if(data == '1')
                 {
                   if($("#TotalIceCreamCup").html() > 0)
                     printDiv();

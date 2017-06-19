@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use DB;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -30,5 +31,27 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 * @var array
 	 */
 	protected $hidden = ['password', 'remember_token'];
+
+	public function all_parent_permission()
+    {
+        $arrayParentPermission = DB::table('permissions')->whereRaw('parent_id = 0')->get();
+        return $arrayParentPermission;
+    }
+
+    public function all_child_permission()
+    {
+        $arrayChieldPerission = DB::table('permissions')->get();
+        return $arrayChieldPerission;
+    }
+
+    // Get user permissions
+    public function user_permissions($id)
+    {
+        $arrayPermission = DB::table('users')
+                    ->select('user_permission')    
+                    ->where('id', '=', $id)
+                    ->get();
+        return $arrayPermission[0]->user_permission;
+    }
 
 }

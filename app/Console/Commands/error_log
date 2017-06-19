@@ -1,0 +1,1 @@
+[02-Mar-2017 12:23:21 America/Chicago] PHP Fatal error:  Class 'Illuminate\Console\Command' not found in /home2/jawadgee/public_html/pos/app/Console/Commands/Inspire.php on line 6

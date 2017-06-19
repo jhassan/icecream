@@ -11,28 +11,27 @@ use Session;
 use App\User;
 use App\Shop;
 use Hash;
+use Auth;
 
 
 class UsersController extends Controller {
 
   public function index(){
-		//return 'user list';
 		$users = DB::table('users')->orderBy('id', 'desc')->get();
-		//print_r($users);
 		return View('admin.users.index', compact('users'));	
 	}
 				
-				public function listUers(){
-		//return 'user list';
+	public function listUers(){
 		$users = DB::table('users')->orderBy('id', 'desc')->get();
-		//print_r($users);
 		return View('admin.users.index', compact('users'));	
 	}
 	
 	public function addUsers(){
-		//return 'test';
+		$data = new User;
+        $patentPermission = $data->all_parent_permission();
+        $childPermission = $data->all_child_permission();
 		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
-		return View('admin.users.add',compact('shops'));	
+		return View('admin.users.add',compact('shops','patentPermission','childPermission'));	
 	}
 	
 	public function createUser(){
@@ -44,7 +43,6 @@ class UsersController extends Controller {
 			'login_name'  => 'required',
 			'gender'  => 'required',
 			'user_type'  => 'required',
-			//'confirm_password'  => 'required',
         );
 
         // Create a new validator instance from our validation rules
@@ -52,15 +50,14 @@ class UsersController extends Controller {
 
         // If validation fails, we'll exit the operation now.
         if ($validator->fails()) {
-            // Ooops.. something went wrong
-          //  echo "validation issues...";
 			return Redirect::back()->withInput()->withErrors($validator);
         }
-		//return 'i am here';
-		// Input::get('first_name');
-
 		$data = new User();
-		
+		$permission_checked = Input::get('permission');
+		if(!empty($permission_checked))
+        	$arrayChickList = implode(',', $permission_checked);
+		else
+			$arrayChickList = "";
 		$data->first_name = Input::get('first_name');
 		$data->last_name = Input::get('last_name');
 		$data->password = bcrypt(Input::get('password'));
@@ -71,11 +68,10 @@ class UsersController extends Controller {
 		$data->address = Input::get('address');
 		$data->shop_id = (int)Input::get('shop_id');
 		$data->user_type = (int)Input::get('user_type');
+		$data->user_permission = $arrayChickList;
 		
 		if($data->save()){
-			//echo 'i am in save';
 			return redirect()->route("users")->with('message','User added successfully!');
-			//return redirect()->action('HomeController@index');
 		}
 		else{
 			return Redirect::back()->with('error', Lang::get('banners/message.error.create'));;
@@ -84,11 +80,17 @@ class UsersController extends Controller {
 	
 	public function getEdit($id = null)
     {
-		//return $id;
 		try {
+			$data = new User;
+            $patentPermission = $data->all_parent_permission();
+            $childPermission = $data->all_child_permission();
+            $user_permission =  $data->user_permissions($id);
 			$users = DB::table('users')->where('id', $id)->first();
-			$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
-			return View('admin.users.edit', compact('users','shops'));
+			if(Auth::user()->user_type == 2)
+				$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+			else
+				$shops = DB::table('shops')->where('shop_id', Auth::user()->shop_id)->orderBy('shop_id', 'desc')->get();
+			return View('admin.users.edit', compact('users','shops','patentPermission','childPermission','user_permission'));
 		}
 		catch (TestimonialNotFoundException $e) {
 			$error = Lang::get('banners/message.error.update', compact('id'));
@@ -99,14 +101,10 @@ class UsersController extends Controller {
 	
 	public function postEdit($id = null)
     {
-		//$users = DB::table('users')->where('id', $id)->first();
-		
 		$data = new User();
-		
 		$rules = array(
             'first_name'  => 'required',
             'last_name'  => 'required',
-			//'email'  => 'required|email|unique:users',
 			'login_name'  => 'required',
 			'city'  => 'required',
 			'gender'  => 'required',
@@ -120,19 +118,23 @@ class UsersController extends Controller {
         if ($validator->fails()) {
 			return Redirect::back()->withInput()->withErrors($validator);
         }
-		// is new image uploaded?
+        $permission_checked = Input::get('permission');
+        if(!empty($permission_checked))
+        	$arrayChickList = implode(',', $permission_checked);
+        else
+        	$arrayChickList = "";
 		$data->first_name = Input::get('first_name');
 		$data->last_name = Input::get('last_name');
 		if(!empty(Input::get('password')))
 			$data->password = Hash::make(Input::get('password'));
-		//$data->password = Input::get('password');
 		$data->login_name = Input::get('login_name');
 		$data->gender = Input::get('gender');
 		$data->email = Input::get('email');
 		$data->city = Input::get('city');
 		$data->address = Input::get('address');
+		$data->shop_id = Input::get('shop_id');
 		$data->user_type = (int)Input::get('user_type');
-		//print_r($data);
+		$data->user_permission = $arrayChickList;
 		if(!empty(Input::get('password')))
 		{
 			User::where('id', $id)->update(
@@ -144,8 +146,10 @@ class UsersController extends Controller {
 			'gender' => $data->gender,
 			'email' => $data->email,
 			'city' => $data->city,
+			'shop_id' => $data->shop_id,
 			'user_type' => $data->user_type,
-			'address' => $data->address
+			'address' => $data->address,
+			'user_permission'=> $data->user_permission,
 			]);
 		}	
 		else
@@ -158,11 +162,12 @@ class UsersController extends Controller {
 			'gender' => $data->gender,
 			'email' => $data->email,
 			'city' => $data->city,
+			'shop_id' => $data->shop_id,
 			'user_type' => $data->user_type,
-			'address' => $data->address
+			'address' => $data->address,
+			'user_permission'=> $data->user_permission,
 			]);}
-			
-			return Redirect::back();
+			return redirect()->route("users")->with('message','User update successfully!');
     }
 
 	public function getModalDelete($id = null)
@@ -207,14 +212,23 @@ class UsersController extends Controller {
 	public function delete_user()
 	{
 		$DelID = Input::get('DelID');
-	
 		DB::table('users')->where('id', $DelID)->delete();
-		//$voucherdetail = DB::table('voucherdetail')->delete($DelID);
-		//$ID = VoucherMaster::where('vm_id', '=', $DelID)->first();
 		$ID = DB::table('users')->where('id', $DelID)->first();
 		if ($ID === null) 
 		   echo "delete"; 
 		else
 			echo "sorry";
 	}
+
+	// view_permissions
+    public function view_permissions()
+    {
+        $user_id = Input::get('ID');
+        $data = new User;
+        $patentPermission = $data->all_parent_permission();
+        $childPermission = $data->all_child_permission();
+        $user_permission =  $data->user_permissions($user_id);
+        $user = DB::table('users')->where('id', $user_id)->first();
+        return View('dialogs.show_permissions',compact('user','patentPermission','childPermission','user_permission'));
+    }
 }

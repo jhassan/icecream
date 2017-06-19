@@ -15,6 +15,7 @@ use App\SalesDetail;
 use App\SalesMaster;
 use App\VoucherMaster;
 use App\VoucherDetail;
+use Auth;
 
 class SaleController extends Controller {
 
@@ -25,9 +26,14 @@ class SaleController extends Controller {
 	 */
 	public function index()
 	{
-		$products = DB::table('products')->where('is_active',1)->where('category_id', 1)->orderBy('product_name', 'ASC')->get();
+		$shop_id = Auth::user()->shop_id;
+		if($shop_id == 1 || $shop_id == 2)
+			$products = DB::table('products')->where('shop_id',1)->where('is_active',1)->where('category_id', 1)->orderBy('product_name', 'ASC')->get();
+		else
+			$products = DB::table('products')->where('shop_id',3)->where('is_active',1)->where('category_id', 1)->orderBy('product_name', 'ASC')->get();
 		// Get max invoice id
 		$data = new Sale;
+		$invoice_id = 0;
 	 	$invoice_id = $data->get_invoice_id();
 		$invoice_id++;
 		// Shop code
@@ -36,25 +42,44 @@ class SaleController extends Controller {
 		$shop_name = $shop_data[0]->shop_name;
 		$except_icecream_flavors = "48, 49, 43";
 		//print_r($shop_code); die;
-		return View('sale', compact('products','invoice_id','shop_code','shop_name','except_icecream_flavors'));
+		return View('sale', compact('products','invoice_id','shop_code','shop_name','except_icecream_flavors','shop_id'));
 	}
 
 	// invoice return
 	public function return_invoice()
 	{
-		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		if(Auth::user()->user_type == 2)
+			$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		else
+			$shops = DB::table('shops')->where('shop_id', Auth::user()->shop_id)->orderBy('shop_id', 'desc')->get();
 		return View('admin/invoice/return_invoice',compact('shops'));
 	}
 
 	// Get all return invoice 
 	public function get_return_invoice()
 	{
-		//$returns = DB::table('sales')->where('return_id', 1)->orderBy('sale_id', 'desc')->paginate(10);
-		$returns = DB::table('sales')
-				//->join('shops', 'shops.shop_id', '=', 'sales.shop_id')
+		$shop_id = Auth::user()->shop_id;
+        $user_type = Auth::user()->user_type;
+        if($user_type == 2)
+        {
+        	$returns = DB::table('sales')
+                ->join('shops', 'shops.shop_id', '=', 'sales.shop_id')
+                ->select('sales.*', 'shop_name')
                 ->where('return_id', 1)
                 ->orderBy('sales.created_at', 'desc')
                 ->paginate(10);
+        }
+        else
+        {
+        	$returns = DB::table('sales')
+        	->join('shops', 'shops.shop_id', '=', 'sales.shop_id')
+        		->select('sales.*', 'shop_name')
+                ->where('return_id', 1)
+                ->where('shops.shop_id', $shop_id)
+                ->orderBy('sales.created_at', 'desc')
+                ->paginate(10);
+        }
+		
 		return View('admin/invoice/view_return_invoice',compact('returns'));
 	}
 
@@ -93,7 +118,7 @@ class SaleController extends Controller {
 				$sm_date = date("Y-m-d");
 				$sm_desc = $sm_date . " Return Sales Invoice";
 				$sm_type = "CP";
-				$shop_id = Session::get('shop_id');
+				//$shop_id = Session::get('shop_id');
 				$user_id = Session::get('user_id');
 				$arrayInsertMaster = array('vm_amount' => $sm_amount, 
 											"vm_date" => date("Y-m-d",strtotime($sm_date)),
@@ -123,7 +148,7 @@ class SaleController extends Controller {
 				$sm_date = date("Y-m-d");
 				$sm_desc = $sm_date . " Return Sales Invoice";
 				$sm_type = "CP";
-				$shop_id = Session::get('shop_id');
+				//$shop_id = Session::get('shop_id');
 				$user_id = Session::get('user_id');
 				$arrayInsertMaster = array('vm_amount' => $total_amount, 
 											"vm_date" => date("Y-m-d",strtotime($sm_date)),
@@ -162,11 +187,23 @@ class SaleController extends Controller {
 		// Get Max invoice id
 		$data = new Sale;
 		$invoice_id = $data->get_invoice_id();
+		$date_value = $data->check_date_diff();
 		$invoice_id++;
 		
 		$mytime = Carbon::now();
 		//$date = $mytime->toDateTimeString();
-		$date = date("Y-m-d H:i:s");
+		//$date = date("Y-m-d H:i:s");
+
+		$current_date = date("Y-m-d H:i:s A");
+		if($date_value == 1)
+		{
+			$date = date("Y-m-d", strtotime(date("Y-m-d").'-1 day'))." 11:55:00";
+			$new_date_time = $current_date;
+		}
+		else{
+			$date = date("Y-m-d H:i:s");
+			$new_date_time = "0000-00-00 00:00:00";
+		}
 		
 		// Insert in sale table
 		$net_amount = Input::get('net_amount');
@@ -191,74 +228,21 @@ class SaleController extends Controller {
 							"product_qty"       => Input::get("product_qty.$i"), 
 							"product_id"       => Input::get("product_id.$i"), 
 							"sale_id"    					=> $last_sale_id,
-							"created_at"    		=> $date               
+							"created_at"    		=> $date,
+							"new_date_time"	   => $new_date_time                
 						);
 			}
-			$sale = salesDetails::insert($arrData);
-			// Sales Invoice Transections
-			DB::transaction(function () {
-			// Insert in sales master table
-			$sm_amount = Input::get('net_amount');
-			$sm_date = date("Y-m-d");
-			$sm_desc = $sm_date . " Sales Invoice";
-			$sm_desc_discount = $sm_date . " Sales Invoice with Discount";
-			$sm_type = "CR";
-			$shop_id = Session::get('shop_id');
-			$user_id = Session::get('user_id');
-			$arrayInsertMaster = array('sm_amount' => $sm_amount, 
-										"sm_date" => date("Y-m-d",strtotime($sm_date)),
-										"sm_type" => $sm_type,
-										"sm_desc" => $sm_desc,
-										"shop_id" => $shop_id,
-										"sm_user_id" => (int)$user_id);
-			$last_master_id = SalesMaster::insertGetId($arrayInsertMaster);
-			if(Input::get('discount_amount') == 0)
-			{
-				// Insert in sales detail table
-				$strDebitAcc = "414002";
-				$strCreditAcc = "514001";
-				$arrTrans[] = array("coa" => $strDebitAcc, "desc" => $sm_desc,  "debit" => $sm_amount, "credit" => 0);
-				$arrTrans[] = array("coa" => $strCreditAcc, "desc" => $sm_desc,"debit" => 0, "credit" => $sm_amount);
-				foreach($arrTrans as $tran)
-				{
-					$arrayInsertDetail = array("sd_sm_id" => $last_master_id,
-								"sd_coa_code" => $tran["coa"],
-								"sd_debit" => $tran["debit"],
-								"sd_desc" => $tran["desc"],
-								"sd_credit" => $tran["credit"]);
-					$sale = SalesDetail::insert($arrayInsertDetail);
-				}
-			}
-			else
-			{
-				// Insert in sales detail table
-				$strDebitAcc = "414002";
-				$strCreditAcc = "514001";
-				$strDiscountAcc = "514002";
-				$after_discount_amount = $sm_amount - Input::get('discount_amount');
-				$arrTrans[] = array("coa" => $strDebitAcc, "desc" => $sm_desc,  "debit" => $after_discount_amount, "credit" => 0);
-				$arrTrans[] = array("coa" => $strCreditAcc, "desc" => $sm_desc,"debit" => 0, "credit" => $sm_amount);
-				$arrTrans[] = array("coa" => $strDiscountAcc, "desc" => $sm_desc_discount,"debit" => Input::get('discount_amount'), "credit" => 0);
-				foreach($arrTrans as $tran)
-				{
-					$arrayInsertDetail = array("sd_sm_id" => $last_master_id,
-								"sd_coa_code" => $tran["coa"],
-								"sd_debit" => $tran["debit"],
-								"sd_desc" => $tran["desc"],
-								"sd_credit" => $tran["credit"]);
-					$sale = SalesDetail::insert($arrayInsertDetail);
-				}
-			}
-			}); // End transections	
-			
-			
-
-			echo "done";
+			$sale_detail_id = salesDetails::insert($arrData);
+			if($last_sale_id != 0 && $sale_detail_id != 0)	
+				echo "1";
 		}
+			//}); 
+		
+		//}
 			// Redirect to sale page
 			
 			//return Redirect::to('sale');
-		});
+		}); // End transections	
 		
 		
 		
@@ -279,6 +263,9 @@ class SaleController extends Controller {
 	{
 		$start_date = Input::get('start_date');
 		$shop_id = Input::get('shop_id');
+		// if(empty($shop_id))
+		// 	$shop_id = Auth::user()->shop_id;
+		//var_dump($shop_id); die;
 		$data = new Sale;
 		$sales = $data->TodayFlavourSale($shop_id, $start_date);
 		$all_flavour = $sales['all_flavour'];
@@ -286,7 +273,10 @@ class SaleController extends Controller {
 		$flavour_sum_qty = $all_flavour_sum[0]->TotalQty;
 		$shop_name = $all_flavour_sum[0]->shop_name;
 		$today_date = $all_flavour_sum[0]->TodayDate;
-		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		if(Auth::user()->user_type == 2)
+			$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		else
+			$shops = DB::table('shops')->where('shop_id', Auth::user()->shop_id)->orderBy('shop_id', 'desc')->get();
 		return View('admin/reports/flavour_sale', compact('all_flavour','flavour_sum_qty','shop_name','shops','today_date'));
 	}
 
@@ -319,7 +309,7 @@ class SaleController extends Controller {
 	{
 		$shop_id = (int)Input::get('shop_id');
 		$TotalQty = 0;
-		$user_type = Session::get('user_type');
+		$user_type = Auth::user()->user_type;
 		$data = new Sale;
 		$sales = $data->today_sale($shop_id);
 		$detail_sale = $sales['total_sale'];
@@ -328,28 +318,15 @@ class SaleController extends Controller {
 		$TotalSale = number_format((int)$sum_sale[0]->TotalPrice);
 		$TotalQty = number_format((int)$sum_sale[0]->TotalQty);
 		$DiscountAmount = number_format((int)$discount_amount[0]->DiscountAmount);
-		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
-	//echo $user_type."-----"; die;	
-
+		if(Auth::user()->user_type == 2)
+			$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		else
+			$shops = DB::table('shops')->where('shop_id', Auth::user()->shop_id)->orderBy('shop_id', 'desc')->get();
 		if($user_type == 1)
 			return View('today_sale', compact('detail_sale','TotalSale','TotalQty','DiscountAmount'));
-		else //if($user_type == 2)
+		else 
 		{
-			// Yester day sale
-			$yesterday_sale = $sales['yesterday_sale'];
-			$YesterdaySale = number_format((int)$yesterday_sale[0]->YesterdaySale);
-			// Today Expense
-			$today_expense = $sales['today_expense'];
-			$TodayExpense = number_format((int)$today_expense[0]->TodayExpense);
-			
-			// Yesterday Expense
-			$yesterday_expense = $sales['yesterday_expense'];
-			$YesterdayExpense = number_format((int)$yesterday_expense[0]->YesterdayExpense);
-			
-		// get_opening_balance
-		//$OpBalance = $data->get_opening_balance();
-			$OpBalance = 0;
-			return View('admin/reports/today_sale', compact('detail_sale','TotalSale','TotalQty','YesterdaySale','TodayExpense','YesterdayExpense','DiscountAmount','OpBalance','shops','shop_id'));	
+			return View('admin/reports/today_sale', compact('detail_sale','TotalSale','TotalQty','DiscountAmount','shops','shop_id'));	
 		}
 	}
 	

@@ -13,13 +13,24 @@
           </h1>
           <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ URL::to('/shops/show') }}">View Vendors</a></li>
+            <li><a href="{{ URL::to('admin/vendors') }}">View Vendors</a></li>
           </ol>
         </section>
 
         <!-- Main content -->
         <section class="content">
-
+          @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if (Session::has('message'))
+               <div class="alert alert-info">{{ Session::get('message') }}</div>
+            @endif
           <!-- Default box -->
           <div class="box">
             <div class="box-header with-border">

@@ -38,8 +38,8 @@ Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 // Registration routes...
-Route::get('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
+// Route::get('auth/register', 'Auth\AuthController@getRegister');
+// Route::post('auth/register', 'Auth\AuthController@postRegister');
 /*Route::get('index', function()
 {
     return View::make('admin/index');
@@ -68,7 +68,7 @@ Route::group(
 		//Route::get('{id}', array('as' => 'banners.show', 'uses' => 'ShopsController@show'));
         Route::get('{id}/edit', array('as' => 'shops.update', 'uses' => 'ShopsController@getEdit'));
 		Route::post('{id}/edit', 'ShopsController@postEdit');
-		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ShopsController@getDelete'));
+		Route::get('delete_shop', array('as' => 'delete_shop', 'uses' => 'ShopsController@delete_shop'));
 		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/shop', 'uses' => 'ShopsController@getModalDelete'));
 	});
 // Vendors
@@ -93,6 +93,7 @@ Route::group(
 		//Route::get('{id}', array('as' => 'products.show', 'uses' => 'ProductsController@show'));
         Route::get('{id}/edit', array('as' => 'products.update', 'uses' => 'ProductsController@getEdit'));
 		Route::post('{id}/edit', 'ProductsController@postEdit');
+		Route::get('delete_product', array('as'=>'delete_product', 'uses' => 'ProductsController@delete_product'));
 		Route::get('{id}/delete', array('as' => 'delete/banner', 'uses' => 'ProductsController@getDelete'));
 		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete/user', 'uses' => 'ProductsController@getModalDelete'));
 	});
@@ -156,7 +157,7 @@ Route::post('save_commision', array('as' => 'save_commision', 'uses' => 'Employe
 Route::get('view_commision', array('as' => 'view_commision', 'uses' => 'EmployeeCommision@show'));
 
 // show all commision 
-Route::post('frm_view_commision', array('as' => 'frm_view_commision', 'uses' => 'EmployeeCommision@show'));
+Route::post('view_commision', array('as' => 'view_commision', 'uses' => 'EmployeeCommision@show'));
 
 // Search Return Invoice
 Route::post('search_return_invoice', array('as' => 'search_return_invoice', 'uses' => 'SaleController@search_return_invoice'));		
@@ -165,7 +166,7 @@ Route::post('search_return_invoice', array('as' => 'search_return_invoice', 'use
 // account routs
 Route::group(
 	array('prefix' => 'admin/accounts','before' => 'Sentry'), function () {
-		Route::get('trial_balance', array('as' => 'trial_balance', 'uses' => 'AccountController@trial_balance'));
+		Route::get('frm_trial_balance', array('as' => 'frm_trial_balance', 'uses' => 'AccountController@frm_trial_balance'));
 		Route::post('trial_balance', array('as' => 'trial_balance', 'uses' => 'AccountController@trial_balance'));
 		// Load COA 
 		Route::get('index_coa', array('as' => 'index_coa', 'uses' => 'AccountController@index'));

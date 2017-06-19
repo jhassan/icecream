@@ -33,6 +33,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                      <?php
+                      if(Auth::check())
+                      {
+                        $user_permission = Auth::user()->user_permission;
+                        $array_permission = explode(',',$user_permission);
+                      } 
+                      ?>
                     @foreach ($arrayCOA as $coa)
                     	<tr id="row_{{{ $coa->coa_id }}}">
                         <td>{{{ $coa->coa_code }}}</td>
@@ -40,8 +47,11 @@
                         <td>{{{ number_format($coa->coa_debit) }}}</td>
                         <td>{{{ number_format($coa->coa_credit) }}}</td>
 								        <td> 
+                          <?php if ( in_array("28", $array_permission)) { ?>
                           <a href="{{ route('coa.update', $coa->coa_id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
+                          <?php } if ( in_array("29", $array_permission)) { ?>
                           <a id="{{ $coa->coa_id }}" class="deleteRecord" style="cursor:pointer;"><img src="{{asset("dist/img/delete.png")}}" ></a>
+                          <?php } ?>
                             </td>
             			</tr>
                     @endforeach

@@ -44,12 +44,12 @@ function get_opening_balance($coa_code, $start_date)
 	$ClosingBalance = 0;
 	if($coa_code == "511001")
 	{
-		// $arrayDetail = DB::table('vouchermaster')
-		// 			->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
-		// 			->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
-		// 			->select(DB::raw('((`coa_credit`+`coa_debit`) + SUM(vd_debit)) - SUM(vd_credit) AS OpeningBalance'))
-		// 			->whereRaw('vd_coa_code = "'.$coa_code.'" AND vm_date < "'.$start_date.'" AND vouchermaster.shop_id <> 0 ')
-		// 			->get();
+		$arrayDetail = DB::table('vouchermaster')
+					->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+					->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
+					->select(DB::raw('((`coa_credit`+`coa_debit`) + SUM(vd_debit)) - SUM(vd_credit) AS OpeningBalance'))
+					->whereRaw('vd_coa_code = "'.$coa_code.'" AND vm_date < "'.$start_date.'" AND vouchermaster.shop_id <> 0 ')
+					->get();
 		$arrayDetail = DB::table('vouchermaster')
                         ->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
                         ->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
@@ -59,12 +59,12 @@ function get_opening_balance($coa_code, $start_date)
 	}
 	else
 	{
-		// $arrayDetail = DB::table('vouchermaster')
-		// 			->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
-		// 			->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
-		// 			->select(DB::raw('((`coa_credit`+`coa_debit`) + SUM(vd_debit)) - SUM(vd_credit) AS OpeningBalance'))
-		// 			->whereRaw('vd_coa_code = "'.$coa_code.'" AND vm_date < "'.$start_date.'" AND vouchermaster.shop_id <> 0 AND vm_type <> "JV" ')
-		// 			->get();
+		$arrayDetail = DB::table('vouchermaster')
+					->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
+					->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
+					->select(DB::raw('((`coa_credit`+`coa_debit`) + SUM(vd_debit)) - SUM(vd_credit) AS OpeningBalance'))
+					->whereRaw('vd_coa_code = "'.$coa_code.'" AND vm_date < "'.$start_date.'" AND vouchermaster.shop_id <> 0 AND vm_type <> "JV" ')
+					->get();
 		$arrayDetail = DB::table('vouchermaster')
                         ->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
                         ->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
@@ -74,6 +74,8 @@ function get_opening_balance($coa_code, $start_date)
 	}
 	
 	$ClosingBalance = $arrayDetail[0]->OpeningBalance;
+	//$ClosingBalance = "";
+	//echo $ClosingBalance;
 	 if(empty($ClosingBalance))
 	 {
 	 	$arrayOpBalance = array();
@@ -102,7 +104,7 @@ function search_vouchers($coa, $start_date, $end_date, $OpBalance)
 					->join('voucherdetail', 'voucherdetail.vd_vm_id', '=', 'vouchermaster.vm_id')
 					->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
 					->select('vouchermaster.*','voucherdetail.*','coa.*')
-					->whereRaw('vd_coa_code = '.$coa.' AND vm_date >= "'.$start_date.'" AND vm_date <= "'.$end_date.'" AND vouchermaster.shop_id <> 0 ')
+					->whereRaw('vd_coa_code = '.$coa.' AND vm_date >= "'.$start_date.'" AND vm_date <= "'.$end_date.'" AND vouchermaster.shop_id = 1 ')
 					->orderBy('vm_date', 'asc')
 					->get();
 	if(count($arrayVoucher) > 0)
@@ -197,6 +199,7 @@ function ShowTransactions($start_date, $end_date)
 						$OpBalance = $OB_Balance;
 					}	
 				}
+
 			$allData = search_vouchers($value->coa_code, $start_date, $end_date, $OpBalance);
 			$Total_TR_Debit = $allData['Debit'];
 			$Total_TR_Credit = $allData['Credit'];
@@ -260,7 +263,7 @@ function ShowTransactions($start_date, $end_date)
 <div class="col-xs-12">
   <div class="box">
     <div class="box-body">
-    	<div class="box box-primary">
+    	<div class="box box-primary hide">
                 <!-- /.box-header -->
                 <!-- form start -->
                 <form action="trial_balance" method="post">

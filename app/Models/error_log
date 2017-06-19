@@ -1,0 +1,2 @@
+[02-Mar-2017 02:49:00 America/Chicago] PHP Fatal error:  Class 'Illuminate\Database\Eloquent\Model' not found in /home2/jawadgee/public_html/pos/app/Models/User.php on line 9
+[02-Mar-2017 02:49:32 America/Chicago] PHP Fatal error:  Class 'Illuminate\Database\Eloquent\Model' not found in /home2/jawadgee/public_html/pos/app/Models/Shops.php on line 5

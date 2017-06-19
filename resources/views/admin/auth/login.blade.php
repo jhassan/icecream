@@ -24,21 +24,33 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body class="hold-transition login-page">
+  <body class="hold-transition login-page" style="background-image: url('img/bg300.jpg'); background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;">
     <div class="login-box">
       <div class="login-logo">
-        <a href="#"><b>Cappellos.pk</a>
+        <a href="#" style="color: #000;"><b>Cappellos</a>
       </div><!-- /.login-logo -->
-      <div class="login-box-body">
-        <p class="login-box-msg">Sign in to start your session</p>
+      <div class="login-box-body" style="border-radius: 20px;">
+        <p class="login-box-msg">Login admin panel!</p>
         <form action="/auth/login" method="post">
         	<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+          @if ($errors->has('email'))
+              <span class="help-block">
+                  <strong style="color: red;">{{ $errors->first('email') }}</strong>
+              </span>
+          @endif
           <div class="form-group has-feedback">
             <input type="email" name="email" class="form-control" placeholder="Email">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
             <input type="password" name="password" class="form-control" placeholder="Password">
+            @if ($errors->has('password'))
+                <span class="help-block">
+                    <strong style="color: red;">{{ $errors->first('password') }}</strong>
+                </span>
+            @endif
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="row">
@@ -50,7 +62,7 @@
               </div>
             </div><!-- /.col -->
             <div class="col-xs-4">
-              <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+              <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
             </div><!-- /.col -->
           </div>
         </form>

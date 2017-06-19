@@ -7,10 +7,8 @@
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>
-            View Today Sale
-          </h1>
-          <ol class="breadcrumb">
+          <h1>Today Sale</h1>
+          <ol class="breadcrumb hide">
             <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
           </ol>
         </section>
@@ -20,6 +18,8 @@ $OpBalance = 0;
 $OpeningBalance = number_format($OpBalance);
 function PriceTypeCount($strDate,$nPrice,$shop_id)
 {
+  if($shop_id == 0)
+    $shop_id = Auth::user()->shop_id;
   $PriceType = array();
   $user_id = Session::get('user_id');
   $arrayPrice = DB::table('sales')
@@ -35,6 +35,8 @@ return $PriceType;
 function GetDiscount($strDate,$shop_id)
 {
   //$arrayDiscount = array();
+  if($shop_id == 0)
+    $shop_id = Auth::user()->shop_id;
   $user_id = Session::get('user_id');
   $arrayDiscount = DB::table('sales')
             ->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
@@ -56,11 +58,7 @@ return $Discount;
                         <select class="form-control" title="Select Shop..." name="shop_id">
                             <option value="">Select</option>
                             @foreach ($shops as $shop)
-                              @if($shop_id == $shop->shop_id)
-                                <option value="{{{ $shop->shop_id}}}" selected="selected">{{{ $shop->shop_name}}}</option>
-                              @else
                                 <option value="{{{ $shop->shop_id}}}"  >{{{ $shop->shop_name}}}</option>  
-                              @endif  
                             @endforeach
                         </select>
                       </div>
@@ -75,17 +73,6 @@ return $Discount;
 
               <div class="box">
                 <div class="box-body">
-                  <?php $OpeningBalance = 0; ?>
-                <div class="col-xs-3">Opening Balance : {{ $OpeningBalance }}</div>
-                <div class="col-xs-3">Today Expense : {{ $TodayExpense }}</div>
-                <div class="col-xs-3">Today Sale : {{ $TotalSale }}</div>
-                <?php
-                          $OpeningBalance = str_replace(",","",$OpeningBalance);
-                                          $TotalSale = str_replace(",","",$TotalSale);
-                                          $TodayExpense = str_replace(",","",$TodayExpense);
-                                          $TodaySaleTotal = (((int)$OpeningBalance + (int)$TotalSale) - ((int)($TodayExpense)));
-                                ?>
-                <div class="col-xs-3">Total : <?php echo number_format($TodaySaleTotal); ?></div>
                   <table class="table table-bordered table-hover">
                     <thead>
                         <tr class="filters">
@@ -94,16 +81,27 @@ return $Discount;
                             <th>Product Name</th>
                             <th>Date</th>
                             <th>Employee</th>
+                            <th>Shop</th>
                         </tr>
                     </thead>
                     <tbody>
                     @foreach($detail_sale as $detail)
+                    <?php //$date = date("d-M-Y H:i A",strtotime($detail->created_at)); 
+                        //$last_date = date("Y-m-d",strtotime($detail->created_at)); 
+                        // $today_date = date("Y-m-d"." 11:55 AM");
+                        //echo $last_date;
+                        if($detail->new_date_time == "0000-00-00 00:00:00")
+                          $date = date("d-M-Y H:i A",strtotime($detail->created_at));
+                        else
+                          $date = date("d-M-Y H:i A",strtotime($detail->new_date_time));
+                  ?>
                     <tr>
                       <td>{{ $detail->product_price }}</td>
                       <td>{{ $detail->product_qty }}</td>
                       <td>{{ $detail->product_name }}</td>
-                      <td>{{ date("d-M-Y H:i A",strtotime($detail->created_at)) }}</td>
+                      <td>{{ $date }}</td>
                       <td>{{ $detail->first_name }}</td>
+                      <td>{{ $detail->shop_code }}</td>
                     </tr>
                     @endforeach
                         
@@ -112,12 +110,13 @@ return $Discount;
                   
                   
                   <table class="table table-striped m-b-0">
-                    <?php if($shop_id == 0) $shop_id = 1 ; ?>
+                    <?php //if($shop_id == 0) $shop_id = 1 ; ?>
                   <thead>
                     <tr>
                   <td width="146" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,20,$shop_id) }}/20</td>
                   <td width="112" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,100,$shop_id) }}/100</td>
                   <td width="91" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,150,$shop_id) }}/150</td>
+                  <td width="91" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,170,$shop_id) }}/170</td>
                   <td width="105" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,180,$shop_id) }}/180</td>
                   <td width="198" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,200,$shop_id) }}/200</td>
                   <td width="198" style="font-weight:bold;">{{ (int)PriceTypeCount($TodayDate,220,$shop_id) }}/220</td>
@@ -128,7 +127,7 @@ return $Discount;
                 </tr>
                 <tr>
                   <td colspan="2" style="width:200px; font-weight:bold;">Discount Amount : {{ (int)GetDiscount($TodayDate,$shop_id) }}</td>
-                  <td colspan="2" style="width:200px; font-weight:bold;">Total Quantity : {{ $TotalQty }}</td>
+                  <td colspan="2" style="width:200px; font-weight:bold;">Total Quantity : {{ number_format((int)$TotalQty) }}</td>
                   <td colspan="2" style="width:200px; font-weight:bold;">Total Sale : <?php echo number_format((int)$AllTotal);?></td>
                   <td style="width:200px; font-weight:bold;"></td>
                   <td style="width:162px; font-weight:bold;"></td>

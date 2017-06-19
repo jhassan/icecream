@@ -1,0 +1,1 @@
+[06-Mar-2017 20:01:21 America/Chicago] PHP Fatal error:  Class 'Auth' not found in /home2/jawadgee/public_html/pos/resources/views/admin/vendors/index.blade.php on line 41

@@ -23,12 +23,10 @@ class VendorController extends Controller {
 	 */
 	public function index()
 	{
-		echo "adfads"; die;
 		return View('admin.vendors.index');
 	}
 
 	public function addVendors(){
-		//return 'test';
 		return View('admin.vendors.add');	
 	}
 	/**
@@ -73,7 +71,7 @@ class VendorController extends Controller {
 								 "supplier_id" => $supplier_id
 								 );
 			$last_sale_id = COA::insertGetId($arrayInsert);	
-			return redirect()->route("vendors")->with('message','Success');
+			return redirect()->route("vendors")->with('message','Vendor added successfully!');
 		}
 		else{
 			return Redirect::back()->with('error', Lang::get('banners/message.error.create'));;
@@ -126,8 +124,9 @@ class VendorController extends Controller {
 			'is_active' => $data->is_active
 			]);
 			//return Redirect::back();
-		$vendors = DB::table('vendors')->orderBy('vendor_id', 'desc')->get();
-		return View('admin.vendors.index', compact('vendors'));
+		//$vendors = DB::table('vendors')->orderBy('vendor_id', 'desc')->get();
+		//return View('admin.vendors.index', compact('vendors'));
+		return redirect()->route("vendors")->with('message','Vendor update successfully!');
 	}
 
 	public function delete_vendor()

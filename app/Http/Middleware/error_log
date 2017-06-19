@@ -1,0 +1,1 @@
+[02-Mar-2017 13:47:41 America/Chicago] PHP Fatal error:  Class 'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken' not found in /home2/jawadgee/public_html/pos/app/Http/Middleware/VerifyCsrfToken.php on line 6

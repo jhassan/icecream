@@ -18,7 +18,18 @@
 
         <!-- Main content -->
         <section class="content">
-
+          @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if (Session::has('message'))
+               <div class="alert alert-info">{{ Session::get('message') }}</div>
+            @endif
           <!-- Default box -->
           <div class="box">
             <div class="box-header with-border">
@@ -30,11 +41,11 @@
             </div>
             
              <div class="box box-primarry">
-             	<div class="has-error">
+             	<!-- <div class="has-error">
                   {!! $errors->first('product_name', '<span class="help-block">:message</span>') !!}
                   {!! $errors->first('product_price', '<span class="help-block">:message</span>') !!}
                  
-              </div>
+              </div> -->
                 <!-- /.box-header -->
                 <!-- form start -->
                 <form role="form" action="" method="POST">
@@ -63,6 +74,15 @@
                       <label for="login_name">Product Price  *</label>
                       <input type="text" class="form-control" id="product_price" placeholder="Product Price" name="product_price" value="{{{ Input::old('product_price') }}}">
                     </div>
+                    <div class="dropdown col-sm-4">
+                    <label for="shop" >Shop</label>
+                      <select class="form-control" title="Select Shop..." name="shop_id">
+                          <option value="">Select</option>
+                          @foreach ($shops as $shop)
+                          <option value="{{{ $shop->shop_id}}}"  >{{{ $shop->shop_name}}}</option>
+                          @endforeach
+                      </select>
+                  </div>
                     <div class="clear"></div>
                     <div class="form-group col-sm-4">
                     <div class="checkbox">

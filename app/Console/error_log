@@ -1,0 +1,1 @@
+[02-Mar-2017 02:51:01 America/Chicago] PHP Fatal error:  Class 'Illuminate\Foundation\Console\Kernel' not found in /home2/jawadgee/public_html/pos/app/Console/Kernel.php on line 6

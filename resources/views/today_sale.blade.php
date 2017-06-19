@@ -18,12 +18,21 @@
               <tbody>
               
                 	@foreach($detail_sale as $detail)
+                  <?php //$date = date("d-M-Y H:i A",strtotime($detail->created_at)); 
+                        //$last_date = date("Y-m-d",strtotime($detail->created_at)); 
+                        // $today_date = date("Y-m-d"." 11:55 AM");
+                        //echo $last_date;
+                        if($detail->new_date_time == "0000-00-00 00:00:00")
+                          $date = date("d-M-Y H:i A",strtotime($detail->created_at));
+                        else
+                          $date = date("d-M-Y H:i A",strtotime($detail->new_date_time));
+                  ?>
                 <tr>
                   <td>{{ $detail->product_price }}</td>
                   <td>{{ $detail->product_qty }}</td>
                   <td>{{ $detail->product_name }}</td>
                   <td>{{ $detail->shop_code }}-{{ $detail->invoice_id }}</td>
-                  <td>{{ date("d-M-Y H:i A",strtotime($detail->created_at)) }}</td>
+                  <td>{{ $date }}</td>
                   <td>{{ $detail->first_name }}</td>
                 </tr>
 																@endforeach

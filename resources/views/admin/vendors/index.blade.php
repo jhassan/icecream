@@ -20,6 +20,9 @@
         <section class="content">
           <div class="row">
             <div class="col-xs-12">
+              @if(session('message'))
+                 <div class="alert alert-success"><span class="glyphicon glyphicon-ok"></span><em> {!! session('message') !!}</em></div>
+              @endif
               <div class="box">
                 <div class="box-body">
                   <table id="example2" class="table table-bordered table-hover">
@@ -34,6 +37,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                      <?php
+                      if(Auth::check())
+                      {
+                        $user_permission = Auth::user()->user_permission;
+                        $array_permission = explode(',',$user_permission);
+                      } 
+                      ?>
                     @foreach ($vendors as $vendor)
                     	<tr id="row_{{{ $vendor->vendor_id }}}">
                     		<td>{{{ $vendor->vendor_name }}}</td>
@@ -41,8 +51,12 @@
                 				<td>{{{ $vendor->vendor_phone }}}</td>
                 				<td>@if($vendor->is_active == 0) {{ 'Disable' }} @else {{ 'Enable' }} @endif</td> 
                         <td>{{{ $vendor->created_at }}}</td> 
-                				<td><a href="{{ route('vendors.update', $vendor->vendor_id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
-                						<a id="{{ $vendor->vendor_id }}" class="deleteRecord" style="cursor:pointer;"><img src="{{asset("dist/img/delete.png")}}" ></a>
+                				<td>
+                          <?php if ( in_array("13", $array_permission)) { ?>
+                          <a href="{{ route('vendors.update', $vendor->vendor_id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
+                          <?php } if ( in_array("14", $array_permission)) { ?>
+                					<a id="{{ $vendor->vendor_id }}" class="deleteRecord" style="cursor:pointer;"><img src="{{asset("dist/img/delete.png")}}" ></a>
+                          <?php } ?>
                         </td>
             			</tr>
                     @endforeach

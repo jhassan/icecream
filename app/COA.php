@@ -34,13 +34,25 @@ class COA extends Model {
 					return $arrayCoa;
 	}
 	// View All Vouchers
-	public function all_vouchers()
+	public function all_vouchers($shop_id, $start_date, $end_date)
 	{
-				$arrayVouchers = DB::table('vouchermaster')
+		if(empty($shop_id)){
+			$arrayVouchers = DB::table('vouchermaster')
 				->join('shops', 'shops.shop_id', '=', 'vouchermaster.shop_id')
                 ->orderBy('vm_date', 'desc')
                 ->paginate(10);
-					return $arrayVouchers;
+		}
+		else
+		{
+			//echo $start_date; //die;
+			$arrayVouchers = DB::table('vouchermaster')
+				->join('shops', 'shops.shop_id', '=', 'vouchermaster.shop_id')
+				->whereRaw('vm_date >= "'.$start_date.'" AND vm_date <= "'.$end_date.'"')
+				//->whereRaw('vm_amount = "'.$str.'"')
+                ->orderBy('vm_date', 'desc')
+                ->paginate(10);
+		}
+		return $arrayVouchers;
 	}
 	// Select Voucher
 	public function seleted_voucher($id)
@@ -64,7 +76,7 @@ class COA extends Model {
 						->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
 						->select('vouchermaster.*','voucherdetail.*','coa.*')
 						->whereRaw('vd_coa_code = '.$coa.' AND vm_date >= "'.$start_date.'" AND vm_date <= "'.$end_date.'" AND vouchermaster.shop_id <= "'.$shop_id.'" AND vouchermaster.shop_id <> 0 ')
-						->orderBy('vd_id', 'desc')
+						->orderBy('vm_date', 'asc')
 						->get();
 		}
 		else
@@ -74,7 +86,7 @@ class COA extends Model {
 						->join('coa', 'coa.coa_code', '=', 'voucherdetail.vd_coa_code')
 						->select('vouchermaster.*','voucherdetail.*','coa.*')
 						->whereRaw('vd_coa_code = '.$coa.' AND vm_date >= "'.$start_date.'" AND vm_date <= "'.$end_date.'" AND vouchermaster.shop_id <= "'.$shop_id.'" AND vouchermaster.shop_id <> 0 AND vm_type <> "JV" ')
-						->orderBy('vd_id', 'desc')
+						->orderBy('vm_date', 'asc')
 						->get();
 		}	
 		

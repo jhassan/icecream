@@ -34,7 +34,8 @@ class ProductsController extends Controller {
 	 */
 	public function create()
 	{
-		return View('admin.products.add');
+		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		return View('admin.products.add', compact('shops'));
 	}
 
 	/**
@@ -48,6 +49,7 @@ class ProductsController extends Controller {
 		$rules = array(
             'product_name'  => 'required',
             'category_id'  => 'required',
+            'shop_id'		=> 'required',
             'product_price'  => 'required');
 			//print_r($rules);
 
@@ -63,10 +65,11 @@ class ProductsController extends Controller {
 		$data->product_name = Input::get('product_name');
 		$data->category_id = Input::get('category_id');
 		$data->product_code = Input::get('product_code');
+		$data->shop_id = Input::get('shop_id');
 		$data->product_price = Input::get('product_price');
 		$data->is_active 	= (Input::has('is_active')) ? 1 : 0;
 		if($data->save()){
-			return redirect()->route("products")->with('message','Success');
+			return redirect()->route("products")->with('message','Product added successfully!');
 		}
 		else{
 			return Redirect::back()->with('error', Lang::get('banners/message.error.create'));;
@@ -88,8 +91,9 @@ class ProductsController extends Controller {
     {
 		//return $id;
 		try {
+			$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
 			$products = DB::table('products')->where('id', $id)->first();
-			return View('admin.products.edit', compact('products'));
+			return View('admin.products.edit', compact('products','shops'));
 		}
 		catch (TestimonialNotFoundException $e) {
 			$error = Lang::get('banners/message.error.update', compact('id'));
@@ -119,6 +123,7 @@ class ProductsController extends Controller {
 		$data->product_name = Input::get('product_name');
 		//$data->category_id = Input::get('category_id');
 		$data->product_code = Input::get('product_code');
+		$data->shop_id = Input::get('shop_id');
 		$data->product_price = Input::get('product_price');
 		$data->is_active 	= (Input::has('is_active')) ? 1 : 0;
 		
@@ -127,6 +132,7 @@ class ProductsController extends Controller {
 			'product_name' => $data->product_name,
 			//'category_id' => $data->category_id,
 			'product_code' => $data->product_code,
+			'shop_id' => $data->shop_id,
 			'product_price' => $data->product_price,
 			'is_active' => $data->is_active
 			]);
@@ -134,7 +140,8 @@ class ProductsController extends Controller {
 		$products = DB::table('products')->orderBy('id', 'desc')->get();
 		//print_r($users);
 		//return View('admin.products.index', compact('products'));
-		return Redirect::to('admin/products');
+		//return Redirect::to('admin/products');
+		return redirect()->route("products")->with('message','product update successfully!');
 	}
 
 	/**
@@ -166,6 +173,18 @@ class ProductsController extends Controller {
 		$str = json_encode($products);
 		$str = preg_replace('/"([^"]+)"\s*:\s*/', '$1:', $str);
 		echo $str;
+	}
+
+	// Delete Product
+	public function delete_product()
+	{
+		$DelID = Input::get('DelID');
+		DB::table('products')->where('id', $DelID)->delete();
+		$ID = DB::table('products')->where('id', $DelID)->first();
+		if ($ID === null) 
+		   echo "delete"; 
+		else
+			echo "sorry";
 	}
 
 }

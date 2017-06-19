@@ -1,0 +1,1 @@
+[02-Mar-2017 12:02:05 America/Chicago] PHP Fatal error:  Class 'Illuminate\Foundation\Http\FormRequest' not found in /home2/jawadgee/public_html/pos/app/Http/Requests/Request.php on line 5

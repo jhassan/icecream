@@ -66,14 +66,14 @@ function GetDateWiseExpense($date)
           	<div id="heading_div2">
               	<table>
               	<tr class="filters">
-	                <h2 align="center" style="font-family: cursive; font-size: 37px;">Cappellos</h2>
-	                <p clas="text-center" align="center" style="font-size:16px;">3rd Floor United Mall, Abdali Road Multan</p>
+	                <h2 align="center" style="margin-top: 0px;font-family: cursive; font-size: 37px; margin-bottom: 0px;">Cappellos</h2>
+	                <p clas="text-center" align="center" style="font-size:16px; margin-bottom: 0px;">3rd Floor United Mall, Abdali Road Multan</p>
 	            </tr>
 	            <tr class="filters">
-	                <h4 align="center" style="font-weight: bold; text-decoration: underline;">General Ledger</h4>
+	                <h4 align="center" style=" margin-top: 0px;font-weight: bold; text-decoration: underline; margin-bottom: 0px;">General Ledger</h4>
 	            </tr>
 	            <tr class="filters hide">
-	                <h4 align="left" style="font-size: 15px; text-align: center; font-weight: bold;">Date: {{ date("d-M-Y",strtotime($start_date)) }} to {{ date("d-M-Y",strtotime($end_date)) }} </h4>
+	                <h4 align="left" style=" margin-top: 0px;font-size: 15px; text-align: center; font-weight: bold; margin-bottom: 0px;">Date: {{ date("d-M-Y",strtotime($start_date)) }} to {{ date("d-M-Y",strtotime($end_date)) }} </h4>
 	            </tr>
 	            </table>
             </div>
@@ -84,23 +84,22 @@ function GetDateWiseExpense($date)
                 
                   <td width="7%" valign="top" align="center"><strong>{{ $coa_code }}</strong></td>
                   <td width="20%" valign="top" align="left"><strong>{{ $coa_account }}</strong></td>
-                  <td width="11%"><strong>Date From</strong></td>
-                  <td width="14%" align="left">{{ date("d-M-Y",strtotime($start_date))  }}</td>
-                  <td width="8%" align="left"><strong>Date To</strong></td>
-                  <td width="13%">{{ date("d-M-Y",strtotime($end_date))  }}</td>
+                  <td width="11%" style="padding-top: 0px;"><strong>Date From</strong></td>
+                  <td width="14%" style="padding-top: 0px;" align="left">{{ date("d-M-Y",strtotime($start_date))  }}</td>
+                  <td width="8%" style="padding-top: 0px;" align="left"><strong>Date To</strong></td>
+                  <td width="13%" style="padding-top: 0px;">{{ date("d-M-Y",strtotime($end_date))  }}</td>
                 </tr>
                 <tr>
-                  <td colspan="2">&nbsp;</td>
-                  <td colspan="3"><strong>Opening Balance</strong></td>
-                  <td>{{ number_format($OpBalance) }}   
+                  <td colspan="2" style="padding-top: 0px;">&nbsp;</td>
+                  <td colspan="3" style="padding-top: 0px;"><strong>Opening Balance</strong></td>
+                  <td style="padding-top: 0px;">{{ number_format($OpBalance) }}   
                   	@if(!empty($is_Debit))
-                  	<strong style="padding-left:10px">({{ $is_Debit }})</strong>
+                  	<strong style="padding-left:10px; padding-top: 0px;">({{ $is_Debit }})</strong>
                   	@endif
                   </td>
                 </tr>
               </tbody>
             </table>
-            <hr>
             <table width="100%" class="table table-bordered table-hover" id="heading_div">
               <tbody>
                 <tr>
@@ -127,7 +126,7 @@ function GetDateWiseExpense($date)
 							$OpBalance = ($OpBalance + $rstRow->vd_credit) - $rstRow->vd_debit;	
 						
 						echo "	<tr>";
-						echo "		<td align=center>" . $rstRow->vm_date . "</td>";
+						echo "		<td align=center>" . date("d-m-Y", strtotime($rstRow->vm_date)) . "</td>";
 						echo "		<td >" . $rstRow->vd_desc . "</td>";
 						echo "		<td align=center>" . $rstRow->vm_type . "</td>";
 						echo "		<td align=right>" . number_format($rstRow->vd_debit, 0) . "</td>";
@@ -178,6 +177,7 @@ function printDiv() {
         'border: solid #000 !important;' +
         'border-width: 0 1px 1px 0 !important;' +
         'padding-left: 0px !important;' +
+        'font-size: 12px !important;' +
         '}' +
         'table {' +
         'border: solid #000 !important;' +
@@ -190,6 +190,10 @@ function printDiv() {
         '}' +
         '.main_title {' +
         'width: 50px !important;' +
+        '}' +
+        'h2 {' +
+        'margin-bottom: 0px !important;' +
+        'margin-top: 0px !important;' +
         '}' +
         
         '</style>';

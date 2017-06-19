@@ -8,7 +8,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Edit Products
+            Edit Product
             <small></small>
           </h1>
           <ol class="breadcrumb">
@@ -54,6 +54,18 @@
                       <label for="login_name">Product Price  *</label>
                       <input type="text" class="form-control" id="product_price" placeholder="Product Price" name="product_price" value="{{{ $products->product_price }}}">
                     </div>
+                    <div class="dropdown col-sm-4">
+                      <label for="shop" >Shop</label>
+                                        
+                          <select class="form-control" title="Select Shop..." name="shop_id">
+                              <option value="">Select</option>
+                              @foreach ($shops as $shop)
+                              <?php if($products->shop_id == $shop->shop_id) $selected = "selected"; else $selected = ""; ?>
+                              <option value="{{{ $shop->shop_id}}}" <?php echo $selected; ?>>{{{ $shop->shop_name}}}</option>
+                              @endforeach
+
+                          </select>
+                  </div>
                     <div class="form-group col-sm-4">
                     <div class="checkbox">
                       <label>

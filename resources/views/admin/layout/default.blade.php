@@ -104,7 +104,7 @@
 
           <!-- mini logo for sidebar mini 50x50 pixels -->
 
-          <span class="logo-mini"><b>A</b>LT</span>
+          <span class="logo-mini"><b>C</b>app</span>
 
           <!-- logo for regular state and mobile devices -->
 
@@ -297,8 +297,8 @@
               <li>
 
               <div class="pull-right" style="margin:10px 20px 0px 0px !important;">
-
-                      <a href="{{ URL::to('auth/logout') }}" class="btn btn-default btn-flat">Sign out</a>
+                      <label style="color: #fff;">Login User: {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</label>
+                      <a href="{{ URL::to('auth/logout') }}" class="btn btn-default btn-flat hide">Sign out</a>
 
                     </div>
 
@@ -400,7 +400,13 @@
 
       </header>
 
-
+<?php
+if(Auth::check())
+{
+  $user_permission = Auth::user()->user_permission;
+  $array_permission = explode(',',$user_permission);
+} 
+?>
 
 
 
@@ -473,7 +479,7 @@
               </ul>
 
             </li>
-
+            <?php if ( in_array("2", $array_permission) || in_array("3", $array_permission) || in_array("4", $array_permission) || in_array("5", $array_permission) ){ ?>
             <li class="treeview {{ Request::is('admin/users/add') ? 'active' : '' }} {{ Request::is('admin/users') ? 'active' : '' }}">
 
               <a href="#">
@@ -483,15 +489,16 @@
               </a>
 
               <ul class="treeview-menu">
-
+                <?php if ( in_array("2", $array_permission)) { ?>
                 <li class=""><a href="{{ URL::to('admin/users/add') }}"><i class="fa fa-circle-o"></i> Add User</a></li>
-
+                <?php } if ( in_array("5", $array_permission)) { ?>
                 <li><a href="{{ URL::to('admin/users') }}"><i class="fa fa-circle-o"></i> View Users</a></li>
-
+                <?php } ?>
               </ul>
 
             </li>  
-
+            <?php } ?>
+            <?php if ( in_array("7", $array_permission) || in_array("8", $array_permission) || in_array("9", $array_permission) || in_array("10", $array_permission) ){ ?>
             <li class="treeview {{ Request::is('admin/shops/add') ? 'active' : '' }} {{ Request::is('admin/shops') ? 'active' : '' }}">
 
               <a href="#">
@@ -501,15 +508,16 @@
               </a>
 
               <ul class="treeview-menu">
-
+                <?php if ( in_array("7", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/shops/add') }}"><i class="fa fa-circle-o"></i> Add Shop</a></li>
-
+                <?php } if ( in_array("10", $array_permission)) { ?>
                 <li><a href="{{ URL::to('admin/shops') }}"><i class="fa fa-circle-o"></i> View Shops</a></li>
-
+                <?php } ?>
               </ul>
 
             </li>
-
+            <?php } ?>
+            <?php if ( in_array("12", $array_permission) || in_array("13", $array_permission) || in_array("14", $array_permission) || in_array("15", $array_permission) ){ ?>
             <li class="treeview {{ Request::is('admin/vendors/add') ? 'active' : '' }} {{ Request::is('admin/vendors') ? 'active' : '' }}">
 
               <a href="#">
@@ -519,15 +527,16 @@
               </a>
 
               <ul class="treeview-menu">
-
+                <?php if ( in_array("12", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/vendors/add') }}"><i class="fa fa-circle-o"></i> Add Vendor</a></li>
-
+                <?php } if ( in_array("15", $array_permission)) { ?>
                 <li><a href="{{ URL::to('admin/vendors') }}"><i class="fa fa-circle-o"></i> View Vendors</a></li>
-
+                <?php } ?>
               </ul>
 
             </li>
-
+            <?php } ?>
+            <?php if ( in_array("17", $array_permission) || in_array("18", $array_permission) || in_array("19", $array_permission) || in_array("20", $array_permission) ){ ?>
             <li class="treeview {{ Request::is('admin/products/add') ? 'active' : '' }} {{ Request::is('admin/products') ? 'active' : '' }}">
 
               <a href="#">
@@ -537,16 +546,17 @@
               </a>
 
               <ul class="treeview-menu">
-
+                <?php if ( in_array("17", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/products/add') }}"><i class="fa fa-circle-o"></i> Add Products</a></li>
-
+                <?php } if ( in_array("20", $array_permission)) { ?>
                 <li><a href="{{ URL::to('admin/products') }}"><i class="fa fa-circle-o"></i> View Products</a></li>
-
+                <?php } ?>
               </ul>
 
             </li>
-
-            <li class="treeview {{ Request::is('admin/reports/all_sale') ? 'active' : '' }} {{ Request::is('admin/accounts/purchased_items_details') ? 'active' : '' }} {{ Request::is('admin/accounts/frm_purchased_items_details') ? 'active' : '' }} {{ Request::is('admin/reports/today_sale') ? 'active' : '' }}">
+            <?php } ?>
+            <?php if ( in_array("22", $array_permission) || in_array("23", $array_permission) || in_array("24", $array_permission) || in_array("25", $array_permission) ){ ?>
+            <li class="treeview {{ Request::is('admin/reports/all_sale') ? 'active' : '' }} {{ Request::is('admin/accounts/purchased_items_details') ? 'active' : '' }} {{ Request::is('admin/accounts/frm_purchased_items_details') ? 'active' : '' }} {{ Request::is('admin/reports/today_sale') ? 'active' : '' }} {{ Request::is('admin/reports/flavour_sale') ? 'active' : '' }}">
 
               <a href="#">
 
@@ -555,17 +565,20 @@
               </a>
 
               <ul class="treeview-menu">
-
+                <?php if ( in_array("22", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/reports/all_sale') }}"><i class="fa fa-circle-o"></i> All Sale Report</a></li>
-
+                <?php } if ( in_array("23", $array_permission)) { ?>
                 <li><a href="{{ URL::to('admin/reports/today_sale') }}"><i class="fa fa-circle-o"></i> Today Sale</a></li>
+                <?php } if ( in_array("24", $array_permission)) { ?>
                 <li><a href="{{ URL::to('admin/accounts/purchased_items_details') }}"><i class="fa fa-circle-o"></i> Purchase Items</a></li>
+                <?php } if ( in_array("25", $array_permission)) { ?>
                 <li><a href="{{ URL::to('admin/reports/flavour_sale') }}"><i class="fa fa-circle-o"></i> Today Flavor Sale</a></li>
-
+                <?php } ?>
               </ul>
 
             </li>
-
+            <?php } ?>
+            <?php if ( in_array("27", $array_permission) || in_array("28", $array_permission) || in_array("29", $array_permission) || in_array("30", $array_permission) ){ ?>
             <li class="treeview {{ Request::is('admin/accounts/index_coa') ? 'active' : '' }} {{ Request::is('admin/accounts/show_coa') ? 'active' : '' }}">
 
               <a href="#">
@@ -575,16 +588,17 @@
               </a>
 
               <ul class="treeview-menu">
-
+                <?php if ( in_array("27", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/accounts/index_coa') }}"><i class="fa fa-circle-o"></i> Add COA</a></li>
-
+                <?php } if ( in_array("30", $array_permission)) { ?>
                 <li><a href="{{ URL::to('admin/accounts/show_coa') }}"><i class="fa fa-circle-o"></i> View COA</a></li>
-
+                <?php } ?>
               </ul>
 
             </li>
-
-            <li class="treeview {{ Request::is('admin/accounts/bank_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/bank_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/trial_balance') ? 'active' : '' }} {{ Request::is('admin/accounts/all_vouchers') ? 'active' : '' }} {{ Request::is('admin/accounts/sale_summery') ? 'active' : '' }} {{ Request::is('admin/accounts/general_voucher') ? 'active' : '' }} {{ Request::is('admin/accounts/view_cash_book') ? 'active' : '' }} {{ Request::is('admin/accounts/view_ledger') ? 'active' : '' }} {{ Request::is('admin/accounts/payment_voucher') ? 'active' : '' }} {{ Request::is('admin/accounts/purchase_voucher') ? 'active' : '' }}"> 
+            <?php } ?>
+            <?php if ( in_array("32", $array_permission) || in_array("33", $array_permission) || in_array("34", $array_permission) || in_array("35", $array_permission) || in_array("36", $array_permission) || in_array("37", $array_permission) || in_array("38", $array_permission) ){ ?>
+            <li class="treeview {{ Request::is('admin/accounts/bank_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/bank_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_receipt') ? 'active' : '' }} {{ Request::is('admin/accounts/cash_pay') ? 'active' : '' }} {{ Request::is('admin/accounts/trial_balance') ? 'active' : '' }} {{ Request::is('admin/accounts/all_vouchers') ? 'active' : '' }} {{ Request::is('admin/accounts/sale_summery') ? 'active' : '' }} {{ Request::is('admin/accounts/general_voucher') ? 'active' : '' }} {{ Request::is('admin/accounts/view_cash_book') ? 'active' : '' }} {{ Request::is('admin/accounts/view_ledger') ? 'active' : '' }} {{ Request::is('admin/accounts/payment_voucher') ? 'active' : '' }} {{ Request::is('admin/accounts/purchase_voucher') ? 'active' : '' }} {{ Request::is('admin/accounts/general_ledeger') ? 'active' : '' }} {{ Request::is('admin/accounts/frm_cash_book') ? 'active' : '' }} "> 
 
               <a href="#">
 
@@ -601,31 +615,28 @@
                 <li class="active hide"><a href="{{ URL::to('admin/accounts/cash_pay') }}"><i class="fa fa-circle-o"></i> Cash Pay Voucher</a></li>
 
                 <li class="active hide"><a href="{{ URL::to('admin/accounts/payment_voucher') }}"><i class="fa fa-circle-o"></i> Payment Voucher</a></li>
-
+                <?php if ( in_array("32", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/accounts/purchase_voucher') }}"><i class="fa fa-circle-o"></i> Purchase Voucher</a></li>
-
+                <?php } ?>
                 <li class="active hide"><a href="{{ URL::to('admin/accounts/cash_receipt') }}"><i class="fa fa-circle-o"></i> Cash Receipt Voucher</a></li>
-
-                <li class="active"><a href="{{ URL::to('admin/accounts/trial_balance') }}"><i class="fa fa-circle-o"></i> Trial Balance</a></li>
-
+                <?php if ( in_array("33", $array_permission)) { ?>
+                <li class="active"><a href="{{ URL::to('admin/accounts/frm_trial_balance') }}"><i class="fa fa-circle-o"></i> Trial Balance</a></li>
+                <?php } if ( in_array("34", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/accounts/all_vouchers') }}"><i class="fa fa-circle-o"></i> List of Transections</a></li>
-
+                <?php } if ( in_array("35", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/accounts/sale_summery') }}"><i class="fa fa-circle-o"></i> Sale Summery</a></li>
-
+                <?php } if ( in_array("36", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/accounts/general_ledeger') }}"><i class="fa fa-circle-o"></i> Journal Ledger</a></li>
-
+                <?php } if ( in_array("37", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/accounts/frm_cash_book') }}"><i class="fa fa-circle-o"></i> Cash Book</a></li>
-
+                <?php } if ( in_array("38", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/accounts/general_voucher') }}"><i class="fa fa-circle-o"></i> General Voucher</a></li>
-
-                
-
-                
-
+                <?php } ?>
               </ul>
 
             </li>
-
+            <?php } ?>
+            <?php if ( in_array("40", $array_permission) || in_array("41", $array_permission) ){ ?>
             <li class="treeview {{ Request::is('admin/invoice/return_invoice') ? 'active' : '' }} {{ Request::is('admin/invoice/view_return_invoice') ? 'active' : '' }}">
 
               <a href="#">
@@ -635,15 +646,16 @@
               </a>
 
               <ul class="treeview-menu">
-
+                <?php if ( in_array("40", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/invoice/return_invoice') }}"><i class="fa fa-circle-o"></i> Return Invoice</a></li>
-
+                <?php } if ( in_array("41", $array_permission)) { ?>
                 <li><a href="{{ URL::to('admin/invoice/view_return_invoice') }}"><i class="fa fa-circle-o"></i> View Return Invoice</a></li>
-
+                <?php } ?>
               </ul>
 
             </li>
-
+            <?php } ?>
+            <?php if ( in_array("43", $array_permission) || in_array("44", $array_permission) ){ ?>
             <li class="treeview {{ Request::is('admin/commision/add_commision') ? 'active' : '' }} {{ Request::is('admin/commision/view_commision') ? 'active' : '' }} {{ Request::is('admin/commision/frm_view_commision') ? 'active' : '' }}">
 
               <a href="#">
@@ -653,15 +665,15 @@
               </a>
 
               <ul class="treeview-menu">
-
+                <?php if ( in_array("43", $array_permission)) { ?>
                 <li class="active"><a href="{{ URL::to('admin/commision/add_commision') }}"><i class="fa fa-circle-o"></i> Add Commision</a></li>
-
+                <?php } if ( in_array("44", $array_permission)) { ?>
                 <li><a href="{{ URL::to('admin/commision/view_commision') }}"><i class="fa fa-circle-o"></i> View Commision</a></li>
-
+                <?php } ?>
               </ul>
-
             </li>
-
+            <?php } ?>
+            <li class="active"><a href="{{ URL::to('auth/logout') }}"><i class="fa fa-circle-o"></i>Sign out</a></li>
           </ul>
 
         </section>

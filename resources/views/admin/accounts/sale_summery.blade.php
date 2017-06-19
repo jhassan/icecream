@@ -2,9 +2,12 @@
 
 {{-- Page content --}}
 @section('content')
-<?php //echo $start_date."******".$end_date; die; ?>
+<?php //echo $start_date."******".$end_date; die;
+
+ ?>
 <?php
 if(empty($shop_id)) $shop_id = 0;
+var_dump($shop_id);
 function PriceTypeCount($strDate = "", $nPrice = "", $shop_id)
 {
 	$PriceType = 0;
@@ -64,9 +67,10 @@ function TotalCount($field_name, $nPrice, $start_date, $end_date, $shop_id)
   $arrayPrice = array();
   if($shop_id == 0)
   {
+    $shop_id = Auth::user()->shop_id;
     $arrayPrice = DB::table('sale_summery')
             ->select(DB::raw('SUM(`'.$field_name.'`) AS PriceType'))
-            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'"')
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" AND shop_id =  '.$shop_id.'')
             ->get();
   }
   else
@@ -86,9 +90,10 @@ function GetDiscount($start_date, $end_date, $shop_id)
 {
   if($shop_id == 0)
   {
+    $shop_id = Auth::user()->shop_id;
     $arrayDiscount = DB::table('sale_summery')
             ->select(DB::raw('SUM(discount_amount) AS DiscountAmount'))
-            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'"')
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" AND shop_id =  '.$shop_id.'')
             ->get();
   }
   else
@@ -109,16 +114,17 @@ function GetTotalSale($start_date, $end_date, $shop_id)
   //$arrayDiscount = array();
   if($shop_id == 0)
   {
+    $shop_id = Auth::user()->shop_id;
     $arraySaleAmount = DB::table('sale_summery')
             ->select(DB::raw('SUM(total_sale) AS SaleAmount'))
-            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" ')
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" AND shop_id =  '.$shop_id.'')
             ->get();
   }
   else
   {
     $arraySaleAmount = DB::table('sale_summery')
             ->select(DB::raw('SUM(total_sale) AS SaleAmount'))
-            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" AND shop_id =  '.$shop_id.' ')
+            ->whereRaw('current_date1 BETWEEN "'.$start_date.'" AND "'.$end_date.'" AND shop_id =  '.$shop_id.'')
             ->get();
   }
     $SaleAmount = $arraySaleAmount[0]->SaleAmount; 
@@ -255,7 +261,7 @@ $sales = array();
 										//$nToalClosing  += $summery->NetAmount - GetDiscount($CurrentDate);
 										 ?>
                     				<tr>
-                      <td>{{ date("d-M-y",strtotime($summery->current_date1)) }}</td>
+                      <td>{{ date("d-M",strtotime($summery->current_date1)) }}</td>
                       <td width="67">{{ (int)$Array150 }}</td>
                       <td width="84">{{ number_format((int)$Array150 * 150) }}</td>
                       <td width="67">{{ (int)$Array170 }}</td>

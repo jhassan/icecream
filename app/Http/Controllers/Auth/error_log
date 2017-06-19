@@ -1,0 +1,1 @@
+[06-Mar-2017 19:48:45 America/Chicago] PHP Fatal error:  Class 'App\Http\Controllers\Controller' not found in /home2/jawadgee/public_html/pos/app/Http/Controllers/Auth/AuthController.php on line 8

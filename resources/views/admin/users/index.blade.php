@@ -48,6 +48,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <?php
+                    if(Auth::check())
+                    {
+                      $user_permission = Auth::user()->user_permission;
+                      $array_permission = explode(',',$user_permission);
+                    } 
+                    ?>  
                     @foreach ($users as $user)
                     	<tr id="row_{{{ $user->id }}}">
                             <td>{{{ $user->id }}}</td>
@@ -56,9 +63,13 @@
             				<td>{{{ $user->email }}}</td>
             				<td>{{{ $user->city }}}</td>
             				<td>{{{ $user->created_at }}}</td> 
-            				<td> <a href="{{ route('users.update', $user->id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
-							<a id="{{ $user->id }}" class="deleteRecord" style="cursor:pointer;"><img src="{{asset("dist/img/delete.png")}}" ></a>
-                            </td>
+            				<td> 
+                      <?php if ( in_array("3", $array_permission)) { ?>
+                      <a href="{{ route('users.update', $user->id) }}"><img src="{{asset("dist/img/edit.gif")}}" ></a>
+                      <?php } if ( in_array("4", $array_permission)) { ?>
+							        <a id="{{ $user->id }}" class="deleteRecord" style="cursor:pointer;"><img src="{{asset("dist/img/delete.png")}}" ></a>
+                      <?php } ?>
+                    </td>
             			</tr>
                     @endforeach
                     <input type="hidden" value="<?php echo csrf_token(); ?>" name="_token">
@@ -79,12 +90,10 @@
       @stop
 
       @section('footer_scripts')
-     <script src="{{asset('../../plugins/datatables/jquery.dataTables.min.js')}}"></script>
-      <script src="{{asset('../../plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> 
       <script src="{{asset('../../dist/js/jquery.ui.dialog.js')}}"></script>
-      <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/ui-lightness/jquery-ui.css" />
-      <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-      
+      <script src="{{asset('../../plugins/datatables/jquery.dataTables.min.js')}}"></script>
+      <script src="{{asset('../../plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
       <script>
       $(function () {
         //$("#example1").DataTable();
@@ -109,7 +118,7 @@
                 height:170,
                 width: 400,
                 modal: true,
-                title: 'Delete Voucher',
+                title: 'Delete User',
                 buttons: {
                   Delete: function() {
                     jQuery(this).dialog('close');

@@ -14,6 +14,9 @@ use App\User;
 use Carbon\Carbon;
 use Session;
 use Validator;
+use Auth;
+use Response;
+use View;
 
 class AccountController extends Controller {
 
@@ -43,15 +46,16 @@ class AccountController extends Controller {
 		
 		$coa_code = COA::where('coa_code', '=', Input::get('coa_code'))->first();
 		if ($coa_code === null) {
-					// Insert in COA table
-					$arrayInsert = array('coa_account' => Input::get('coa_account'), 
-										 "coa_code" => Input::get('coa_code'),
-										 "coa_credit" => Input::get('coa_credit'),
-										 "coa_debit" => Input::get('coa_debit')
-										 );
-					$last_sale_id = COA::insertGetId($arrayInsert);
-					// Redrect to sale page
-					return Redirect::to('admin/accounts/index_coa'); 
+			// Insert in COA table
+			$arrayInsert = array('coa_account' => Input::get('coa_account'), 
+								 "coa_code" => Input::get('coa_code'),
+								 "coa_credit" => Input::get('coa_credit'),
+								 "coa_debit" => Input::get('coa_debit')
+								 );
+			$last_sale_id = COA::insertGetId($arrayInsert);
+			// Redrect to sale page
+			//return Redirect::to('admin/accounts/index_coa'); 
+			return redirect()->route("admin/accounts/show_coa")->with('message','COA added successfully!');
 		}
 		else 
 		return Redirect::to('admin/accounts/index_coa')->withErrors('message', 'Register Failed'); //die;
@@ -72,8 +76,11 @@ class AccountController extends Controller {
 		$data = new coa;
 		// Debit array
 	 $arrayDebit = $data->all_coa();
-	 $shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
-		return View('admin/accounts/general_voucher',compact('arrayDebit','shops'));	
+	 if(Auth::user()->user_type == 2)
+		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+	else
+		$shops = DB::table('shops')->where('shop_id', Auth::user()->shop_id)->orderBy('shop_id', 'desc')->get();
+	return View('admin/accounts/general_voucher',compact('arrayDebit','shops'));	
 	}
 
 	// General Ledeger
@@ -82,7 +89,10 @@ class AccountController extends Controller {
 		$data = new coa;
 		// Debit array
 	 $arrayDebit = $data->all_coa();
-	 $shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+	 if(Auth::user()->user_type == 2)
+			$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		else
+			$shops = DB::table('shops')->where('shop_id', Auth::user()->shop_id)->orderBy('shop_id', 'desc')->get();
 		return View('admin/accounts/general_ledeger',compact('arrayDebit','shops'));	
 	}
 	
@@ -90,8 +100,11 @@ class AccountController extends Controller {
 	{
 		$data = new coa;
 		// Debit array
-	 $arrayDebit = $data->all_coa();
-	 $shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		 $arrayDebit = $data->all_coa();
+		 if(Auth::user()->user_type == 2)
+			$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		else
+			$shops = DB::table('shops')->where('shop_id', Auth::user()->shop_id)->orderBy('shop_id', 'desc')->get();
 		return View('admin/accounts/frm_cash_book',compact('arrayDebit','shops'));	
 	}
 	
@@ -157,7 +170,10 @@ class AccountController extends Controller {
 	 $arrayDebit = $data->all_coa();
 		// Credit array
 	 $arrayCredit = $data->all_coa();
-	 $shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+	 if(Auth::user()->user_type == 2)
+			$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		else
+			$shops = DB::table('shops')->where('shop_id', Auth::user()->shop_id)->orderBy('shop_id', 'desc')->get();
 	 $vendors = DB::table('vendors')->orderBy('vendor_id', 'desc')->get();
 		return View('admin/accounts/payment_voucher',compact('arrayDebit','arrayCredit','shops','vendors'));
 	}
@@ -170,7 +186,10 @@ class AccountController extends Controller {
 		$arrayDebit = $data->all_coa();
 		// Credit array
 		$arrayCredit = $data->all_coa();
-		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		if(Auth::user()->user_type == 2)
+			$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		else
+			$shops = DB::table('shops')->where('shop_id', Auth::user()->shop_id)->orderBy('shop_id', 'desc')->get();
 		$vendors = DB::table('vendors')->orderBy('vendor_id', 'desc')->get();
 		return View('admin/accounts/purchase_voucher',compact('arrayDebit','arrayCredit','shops','vendors'));
 	}
@@ -282,7 +301,10 @@ class AccountController extends Controller {
 		$start_date 	= date("2016-04-01");
 		$end_date 		= date("Y-m-d");
 	 	$arraySummery = $data->get_sale_summery($start_date, $end_date);
-	 	$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+	 	if(Auth::user()->user_type == 2)
+			$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		else
+			$shops = DB::table('shops')->where('shop_id', Auth::user()->shop_id)->orderBy('shop_id', 'desc')->get();
 		return View('admin/accounts/sale_summery',compact('arraySummery','start_date','end_date','shops'));
 	}
 	
@@ -492,13 +514,61 @@ class AccountController extends Controller {
 		}
 		return View('admin/accounts/trial_balance',compact('start_date','end_date'));	
 	}
+
+	public function frm_trial_balance()
+	{
+		//echo "adfadf"; die;
+		// $start_date = Input::get('start_date');
+		// $end_date = Input::get('end_date');
+		// if(empty($start_date) && empty($end_date))
+		// {
+		// 	$start_date = "2016-04-01";
+		// 	$end_date =  date("Y-m-d");
+		// }
+		// else
+		// {
+		// 	$start_date = date("Y-m-d",strtotime($start_date));
+		// 	$end_date = date("Y-m-d",strtotime($end_date));
+		// }
+		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		return View('admin/accounts/frm_trial_balance',compact('shops'));	
+	}
 	
 	// all_vouchers
-	public function all_vouchers()
+	public function all_vouchers(Request $request)
 	{
+		//var_dump(stripcslashes($request->get('start_date')));
+		// echo "jawad is here"; die;
+		//print_r($request);
 		$data = new coa;
-	 $arrayVouchers = $data->all_vouchers();
-		return View('admin/accounts/all_vouchers',compact('arrayVouchers'));
+	 	//$arrayVouchers = $data->all_vouchers();
+	 	$start_date = stripcslashes($request->get('start_date'));
+	 	$end_date   = stripcslashes($request->get('end_date'));
+	 	$shop_id = $request->get('shop_id');
+	 	$start_date = date("Y-m-d", strtotime($start_date));
+	 	$end_date = date("Y-m-d", strtotime($end_date));
+	 	//var_dump($start_date); //die;
+		// return View('admin/accounts/all_vouchers',compact('arrayVouchers'));
+		$shops = DB::table('shops')->orderBy('shop_id', 'desc')->get();
+		if($request->ajax()){
+            if(!empty($shop_id)){
+                $arrayVouchers = $data->all_vouchers($shop_id, $start_date, $end_date);
+            }
+            //$posts = Post::whereRaw('user_id != 0 '.$search.'')->paginate(1);
+            return Response::json(view('admin.tables.all_vouchers_table', compact('arrayVouchers','shops'))->render());
+        } else {
+            // $posts = Post::paginate(1);
+            // if(!strpos(url()->current(), 'dashboard')){
+            //     return View::make('blog', compact('posts'));
+            // } else {
+            //     return View::make('admin.posts.index', compact('posts'));
+            // }
+            $data = new coa;
+	 		$arrayVouchers = $data->all_vouchers($shop_id, $start_date, $end_date);
+            //return Response::json(view('admin.tables.all_vouchers_table', compact('arrayVouchers'))->render());
+            //return View('admin/tables/all_vouchers_table',compact('arrayVouchers'));
+            return View::make('admin/accounts/all_vouchers', compact('arrayVouchers','shops'));
+        }
 	}
 	// view_vouchers
 	public function view_vouchers()
