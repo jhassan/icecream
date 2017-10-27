@@ -40,7 +40,7 @@ class COA extends Model {
 			$arrayVouchers = DB::table('vouchermaster')
 				->join('shops', 'shops.shop_id', '=', 'vouchermaster.shop_id')
                 ->orderBy('vm_date', 'desc')
-                ->paginate(10);
+                ->paginate(20);
 		}
 		else
 		{
@@ -50,7 +50,7 @@ class COA extends Model {
 				->whereRaw('vm_date >= "'.$start_date.'" AND vm_date <= "'.$end_date.'"')
 				//->whereRaw('vm_amount = "'.$str.'"')
                 ->orderBy('vm_date', 'desc')
-                ->paginate(10);
+                ->paginate(20);
 		}
 		return $arrayVouchers;
 	}
